@@ -1,4 +1,4 @@
-package de.lightplugins.lighteconomy.master;
+package de.lightplugins.lighteconomyv5.master;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
