@@ -1,7 +1,5 @@
 package de.lightplugins.lighteconomyv5.commands;
 
-import de.lightplugins.lighteconomyv5.commands.main.Help;
-import de.lightplugins.lighteconomyv5.commands.main.Status;
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
@@ -10,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
