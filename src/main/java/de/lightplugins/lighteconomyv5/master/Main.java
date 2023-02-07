@@ -3,12 +3,17 @@ package de.lightplugins.lighteconomyv5.master;
 import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.lighteconomyv5.commands.MainCommandManager;
 import de.lightplugins.lighteconomyv5.commands.MainTabCompletion;
+import de.lightplugins.lighteconomyv5.commands.MoneyCommandManager;
 import de.lightplugins.lighteconomyv5.database.DatabaseConnection;
 import de.lightplugins.lighteconomyv5.database.tables.CreateTable;
+import de.lightplugins.lighteconomyv5.events.NewPlayer;
+import de.lightplugins.lighteconomyv5.files.FileManager;
 import de.lightplugins.lighteconomyv5.hooks.VaultHook;
 import de.lightplugins.lighteconomyv5.implementer.EconomyImplementer;
+import de.lightplugins.lighteconomyv5.utils.ColorTranslation;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
@@ -18,11 +23,19 @@ import java.util.logging.Level;
 public class Main extends JavaPlugin {
 
     public static Main getInstance;
+    public static String currencyName;
+
     public EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
     public Economy econ;
+
     public HikariDataSource ds;
     public DatabaseConnection hikari;
+
+    public static ColorTranslation colorTranslation;
+
+    public static FileManager settings;
+    public static FileManager messages;
 
     public void onLoad() {
 
@@ -30,31 +43,59 @@ public class Main extends JavaPlugin {
 
         getInstance = this;
 
+        /*  Setup Economy Implemention & hook Vault  */
+
         economyImplementer = new EconomyImplementer();
         vaultHook = new VaultHook();
         vaultHook.hook();
+
+        /*  Utility setup like FileManager & Color Translation  */
+
+        colorTranslation = new ColorTranslation();
+
+        settings = new FileManager(this, "settings.yml");
+        messages = new FileManager(this, "messages.yml");
+
+        currencyName = settings.getConfig().getString("settings.currency-name");
+
         Bukkit.getLogger().log(Level.INFO, "Successfully loaded " + this.getName());
     }
 
     public void onEnable() {
 
+        /*  Initalize Database and connect driver  */
+
         this.hikari = new DatabaseConnection(this);
         Bukkit.getLogger().log(Level.INFO, "Use MySQL Connection ...");
         hikari.connectToDataBaseViaMariaDB();
 
+        /*  Creating needed Database-Tables  */
+
         Bukkit.getLogger().log(Level.INFO, "Creating Database ...");
         CreateTable createTable = new CreateTable(this);
-        createTable.create();
+        createTable.createMoneyTable();
+
+        /*  Register required Commands & TabCompletion  */
 
         Bukkit.getLogger().log(Level.INFO, "Register Commands and TabCompletion ...");
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
+        this.getCommand("money").setExecutor(new MoneyCommandManager(this));
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new NewPlayer(this), this);
+
         Bukkit.getLogger().log(Level.INFO, "Successfully started " + this.getName());
     }
 
     public void onDisable() {
+
+        /*  Unhook Vaut Service Provider  */
+
         vaultHook.unhook();
+
+        /*  Closing Database connection  */
 
         try {
             if(ds != null) {

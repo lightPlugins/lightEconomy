@@ -4,10 +4,10 @@ import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import org.bukkit.entity.Player;
 
-public class MainSubCommand extends SubCommand {
+public class Status extends SubCommand {
 
     public Main plugin;
-    public MainSubCommand(Main plugin) {this.plugin = plugin; }
+    public Status(Main plugin) {this.plugin = plugin; }
 
 
     @Override

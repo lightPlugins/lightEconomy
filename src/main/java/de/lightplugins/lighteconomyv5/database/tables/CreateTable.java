@@ -13,19 +13,24 @@ public class CreateTable {
         this.plugin = plugin;
     }
 
-    public void create() {
+    public void createMoneyTable() {
 
         TableStatements tableStatements = new TableStatements(plugin);
         String statement =
-                "CREATE TABLE IF NOT EXISTS BankTable (" +
-                        "id INTEGER NOT NULL AUTO_INCREMENT, " +
-                        "accountName VARCHAR(100), " +
-                        "accountOwner VARCHAR(100), " +
+                "CREATE TABLE IF NOT EXISTS MoneyTable (" +
+                        "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                        "uuid VARCHAR(100), " +
+                        "name VARCHAR(100), " +
                         "money DOUBLE, " +
-                        "PRIMARY KEY (id))";
+                        "isPlayer BOOL" +
+                        ")";
 
         tableStatements.createTableStatement(statement).thenAccept(resultSet -> {
-            Bukkit.getLogger().log(Level.INFO, "Successfully created MoneyTable!");
+            if(resultSet) {
+                Bukkit.getLogger().log(Level.INFO, "Successfully created MoneyTable!");
+            } else {
+                Bukkit.getLogger().log(Level.SEVERE, "Something went wrong!");
+            }
         });
     }
 }

@@ -15,3 +15,19 @@
 #               Pluginversion 5.0
 #               Developer: lightPlugins
 #
+version: 5.0
+mysql:
+  # if disabled, the plugin will use automatically sqlite for single server setup
+  enable: false
+  host: localhost
+  port: 3306
+  database: lightEconomy
+  user: user
+  password: password
+  ssl: false
+settings:
+  # Debug Messages in the log
+  debug: true
+  date-format: 'dd:mm:yyyy'
+  pay-command-delay: 10
+  currency-name: 'EUR'

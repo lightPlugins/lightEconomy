@@ -16,6 +16,7 @@ public class MainTabCompletion implements TabCompleter {
         if(args.length == 1) {
             List<String> arguments = new ArrayList<>();
             arguments.add("status");
+            arguments.add("help");
 
             return arguments;
         }
