@@ -29,8 +29,6 @@ public class MoneyCommandManager implements CommandExecutor {
     public Main plugin;
     public MoneyCommandManager(Main plugin) {
         this.plugin = plugin;
-        subCommands.add(new Status(plugin));
-        subCommands.add(new Help());
     }
 
     @Override
