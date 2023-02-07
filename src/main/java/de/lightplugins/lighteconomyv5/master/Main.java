@@ -44,12 +44,9 @@ public class Main extends JavaPlugin {
 
         Bukkit.getLogger().log(Level.INFO, "Creating Database ...");
         CreateTable createTable = new CreateTable(this);
+        createTable.create();
 
-        createTable.create().thenAccept(resultSet -> {
-           Bukkit.getLogger().log(Level.INFO, "Successfully created Database! Status:" + resultSet.toString());
-        });
-
-
+        Bukkit.getLogger().log(Level.INFO, "Register Commands and TabCompletion ...");
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
