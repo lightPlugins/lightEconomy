@@ -2,7 +2,12 @@
 <module version="4">
   <component name="FacetManager">
     <facet type="minecraft" name="Minecraft">
-      <configuration />
+      <configuration>
+        <autoDetectTypes>
+          <platformType>SPIGOT</platformType>
+          <platformType>BUKKIT</platformType>
+        </autoDetectTypes>
+      </configuration>
     </facet>
   </component>
 </module>
