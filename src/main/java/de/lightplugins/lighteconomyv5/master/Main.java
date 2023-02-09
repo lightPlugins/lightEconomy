@@ -11,6 +11,7 @@ import de.lightplugins.lighteconomyv5.files.FileManager;
 import de.lightplugins.lighteconomyv5.hooks.VaultHook;
 import de.lightplugins.lighteconomyv5.implementer.EconomyImplementer;
 import de.lightplugins.lighteconomyv5.utils.ColorTranslation;
+import de.lightplugins.lighteconomyv5.utils.Util;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -27,12 +28,13 @@ public class Main extends JavaPlugin {
 
     public EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
-    public Economy econ;
+    public static Economy econ;
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
 
     public static ColorTranslation colorTranslation;
+    public static Util util;
 
     public static FileManager settings;
     public static FileManager messages;
@@ -52,6 +54,7 @@ public class Main extends JavaPlugin {
         /*  Utility setup like FileManager & Color Translation  */
 
         colorTranslation = new ColorTranslation();
+        util = new Util();
 
         settings = new FileManager(this, "settings.yml");
         messages = new FileManager(this, "messages.yml");

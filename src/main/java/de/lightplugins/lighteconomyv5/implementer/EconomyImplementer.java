@@ -39,12 +39,12 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public String currencyNamePlural() {
-        return null;
+        return "EUR";
     }
 
     @Override
     public String currencyNameSingular() {
-        return null;
+        return "EUR";
     }
 
     @Override

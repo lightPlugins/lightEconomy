@@ -10,6 +10,10 @@ public enum MessagePath {
     Help("helpCommand"),
     PlayerNotFound("playerNotFound"),
     MoneyBalance("moneyBalance"),
+    NotANumber("notNumber"),
+    NotZero("notZero"),
+    OnlyPositivNumbers("onlyPostiv"),
+    MoneyAddPlayer("moneyAddPlayer"),
     ;
 
     private final String path;

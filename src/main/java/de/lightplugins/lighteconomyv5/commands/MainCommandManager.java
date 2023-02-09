@@ -1,7 +1,7 @@
 package de.lightplugins.lighteconomyv5.commands;
 
-import de.lightplugins.lighteconomyv5.commands.main.Help;
-import de.lightplugins.lighteconomyv5.commands.main.Status;
+import de.lightplugins.lighteconomyv5.commands.main.HelpCommand;
+import de.lightplugins.lighteconomyv5.commands.main.StatusCommand;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import org.bukkit.Bukkit;
@@ -25,8 +25,8 @@ public class MainCommandManager implements CommandExecutor {
     public Main plugin;
     public MainCommandManager(Main plugin) {
         this.plugin = plugin;
-        subCommands.add(new Status(plugin));
-        subCommands.add(new Help());
+        subCommands.add(new StatusCommand(plugin));
+        subCommands.add(new HelpCommand());
     }
 
     @Override

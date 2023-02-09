@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class Help extends SubCommand {
+public class HelpCommand extends SubCommand {
     @Override
     public String getName() {
         return "help";
@@ -31,9 +31,8 @@ public class Help extends SubCommand {
         if(args.length == 1) {
             FileConfiguration messages = Main.messages.getConfig();
             Bukkit.getLogger().log(Level.WARNING, "INFO: " + MessagePath.Help.getPath());
-            for(String s : messages.getStringList("helpCommand")) {
-                player.sendMessage(Main.colorTranslation.hexTranslation(s));
-            }
+
+            Main.util.sendMessageList(player, messages.getStringList("helpCommand"));
         }
 
         return false;
