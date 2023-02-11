@@ -43,6 +43,7 @@ moneyAddPlayer: '&7You added &c#amount# &7#currency# to player &c#target#. &7Now
 moneyAddNonPlayer: '&7You added &c#amount# &7#currency# to nonPlayerAccount &c#target#. &7Now it have &c#balance# &7#currency#'
 moneySetPlayer: '&7You set the money from Player &c#target# &7to &c#amount# &7#currency#'
 moneySetNonPlayer: '&7You set the money from NonPlayer &c#target# &7to &c#amount# &7#currency#'
+moneyRemovePlayer: '&7You removed &c#amount# &7#currency# from &c#target#&7!'
 # ●
 payToggleEnabled: '&7You &aenabled &7payments from other players.'
 payToggleDisabled: '&7You &cdisabled &7payments from other players.'

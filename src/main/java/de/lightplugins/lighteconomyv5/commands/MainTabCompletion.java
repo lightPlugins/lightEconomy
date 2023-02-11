@@ -21,8 +21,6 @@ public class MainTabCompletion implements TabCompleter {
             return arguments;
         }
 
-
-
         return null;
     }
 }

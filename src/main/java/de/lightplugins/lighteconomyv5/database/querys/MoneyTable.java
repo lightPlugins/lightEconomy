@@ -129,14 +129,18 @@ public class MoneyTable {
         });
     }
 
-    public CompletableFuture<Boolean> addMoney(String playername, double amount) {
+    public CompletableFuture<Boolean> setMoney(String playerName, double amount) {
 
         return CompletableFuture.supplyAsync(() -> {
 
             Connection connection = null;
             PreparedStatement ps = null;
 
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playername);
+            double fixedAmount = Main.util.fixDouble(amount);
+
+            Bukkit.getLogger().log(Level.WARNING, "TEST - " + fixedAmount);
+
+            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
 
             try {
 
@@ -148,9 +152,9 @@ public class MoneyTable {
                     ps.setString(2, offlinePlayer.getUniqueId().toString());
                 } else {
                     ps = connection.prepareStatement("UPDATE MoneyTable SET money=? WHERE name=?");
-                    ps.setString(2, playername);
+                    ps.setString(2, playerName);
                 }
-                ps.setDouble(1, amount);
+                ps.setDouble(1, fixedAmount);
                 ps.execute();
                 ps.close();
                 return true;

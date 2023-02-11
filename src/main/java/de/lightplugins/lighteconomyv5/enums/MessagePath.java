@@ -14,6 +14,7 @@ public enum MessagePath {
     NotZero("notZero"),
     OnlyPositivNumbers("onlyPostiv"),
     MoneyAddPlayer("moneyAddPlayer"),
+    MoneyRemovePlayer("moneyRemovePlayer"),
     ;
 
     private final String path;

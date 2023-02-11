@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.lighteconomyv5.commands.MainCommandManager;
 import de.lightplugins.lighteconomyv5.commands.MainTabCompletion;
 import de.lightplugins.lighteconomyv5.commands.MoneyCommandManager;
+import de.lightplugins.lighteconomyv5.commands.MoneyTabCompletion;
 import de.lightplugins.lighteconomyv5.database.DatabaseConnection;
 import de.lightplugins.lighteconomyv5.database.tables.CreateTable;
 import de.lightplugins.lighteconomyv5.events.NewPlayer;
@@ -26,9 +27,9 @@ public class Main extends JavaPlugin {
     public static Main getInstance;
     public static String currencyName;
 
-    public EconomyImplementer economyImplementer;
+    public static EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
-    public static Economy econ;
+    public Economy econ;    // current null!!!
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
@@ -84,7 +85,9 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
-        this.getCommand("money").setExecutor(new MoneyCommandManager(this));
+        Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
+        Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
+
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new NewPlayer(this), this);

@@ -1,5 +1,7 @@
 package de.lightplugins.lighteconomyv5.commands;
 
+import de.lightplugins.lighteconomyv5.commands.money.MoneyAddCommand;
+import de.lightplugins.lighteconomyv5.commands.money.MoneyRemoveCommand;
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
@@ -25,7 +27,10 @@ public class MoneyCommandManager implements CommandExecutor {
 
     public Main plugin;
     public MoneyCommandManager(Main plugin) {
+
         this.plugin = plugin;
+        subCommands.add(new MoneyAddCommand());
+        subCommands.add(new MoneyRemoveCommand(plugin));
     }
 
     @Override
@@ -54,10 +59,10 @@ public class MoneyCommandManager implements CommandExecutor {
                 moneyTable.getSinglePlayer(player.getName()).thenAccept(result -> {
                     if(result != null) {
                         try {
-                            Double currentBalance = result.getDouble("money");
+                            double currentBalance = result.getDouble("money");
                             player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
                                             + MessagePath.MoneyBalance.getPath())
-                                    .replace("#balance#", String.valueOf(currentBalance))
+                                    .replace("#balance#", Main.util.formatDouble(currentBalance))
                                     .replace("#currency#", Main.currencyName));
                         } catch (SQLException e) {
                             e.printStackTrace();

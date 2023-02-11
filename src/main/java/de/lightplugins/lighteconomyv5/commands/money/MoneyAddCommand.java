@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MoneyAddCommand extends SubCommand {
     @Override
@@ -35,6 +34,11 @@ public class MoneyAddCommand extends SubCommand {
 
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
 
+        if(offlinePlayer == null) {
+            Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
+            return true;
+        }
+
         try {
 
             double amount = Double.parseDouble(args[2]);
@@ -42,7 +46,7 @@ public class MoneyAddCommand extends SubCommand {
             if(amount == 0) {
                 Main.util.sendMessage(player, MessagePath.NotZero.getPath()
                         .replace("#min-amount#", "0.01")
-                        .replace("#currency#", Main.econ.currencyNameSingular()));
+                        .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
                 return true;
             }
 
@@ -57,29 +61,29 @@ public class MoneyAddCommand extends SubCommand {
 
             moneyTable.getSinglePlayer(args[1]).thenAccept(result -> {
 
-                try {
-
-                    assert result != null;
                     try {
                         double currentBalance = result.getDouble("money");
                         double newBalance = currentBalance + amount;
 
-                        moneyTable.addMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
+                        moneyTable.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
 
                             Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
-                                    .replace("#amount#", String.valueOf(amount))
-                                    .replace("#currency#", Main.econ.currencyNameSingular())
-                                    .replace("#target#", args[1]));
+                                            .replace("#amount#", Main.util.formatDouble(amount))
+                                            .replace("#target#", args[1])
+                                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                                            .replace("#balance#", Main.util.formatDouble(newBalance))
+                                    );
 
                         });
+                        /*
+                        .replace("#amount#", String.valueOf(amount))
+                                .replace("#currency#", Main.econ.currencyNameSingular())
+                                .replace("#target#", args[1])
+                            */
 
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
-                } catch (AssertionError aError) {
-                    Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
-                }
             });
 
         } catch (NumberFormatException notANumber) {
