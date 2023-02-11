@@ -37,58 +37,54 @@ public class MoneyRemoveCommand extends SubCommand {
 
         if(args.length != 3) {  return true; }
 
+        OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
+
+        if(offlinePlayer == null) {
+            Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
+            return true;
+        }
+
         try {
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
+            double amount = Double.parseDouble(args[2]);
 
-            if(offlinePlayer == null) {
-                Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
+            if(amount == 0) {
+                Main.util.sendMessage(player, MessagePath.NotZero.getPath());
                 return true;
             }
 
-            try {
-                double amount = Double.parseDouble(args[2]);
+            if(amount < 0) {
+                Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
+                return true;
+            }
 
-                if(amount == 0) {
-                    Main.util.sendMessage(player, MessagePath.NotZero.getPath());
-                    return true;
-                }
+            MoneyTable moneyTable = new MoneyTable(plugin);
 
-                if(amount < 0) {
-                    Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
-                    return true;
-                }
+            moneyTable.getSinglePlayer(args[1]).thenAccept(result -> {
 
-                MoneyTable moneyTable = new MoneyTable(plugin);
+                try {
+                    double currentBalance = result.getDouble("money");
+                    double newBalance = currentBalance - amount;
 
-                moneyTable.getSinglePlayer(args[1]).thenAccept(result -> {
-
-                    try {
-                        double currentBalance = result.getDouble("money");
-                        double newBalance = currentBalance - amount;
-
-                        if(newBalance < 0) {
-                            newBalance = 0;
-                        }
-
-                        moneyTable.setMoney(args[1], newBalance).thenAccept(success -> {
-                            Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
-                                    .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                    .replace("#target#", args[1])
-                                    .replace("#amount#", Main.util.formatDouble(amount))
-                            );
-                        });
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    if(newBalance < 0) {
+                        newBalance = 0;
                     }
-                });
 
-            } catch (NumberFormatException e) {
-                Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
-                return true;
-            }
+                    moneyTable.setMoney(args[1], newBalance).thenAccept(success -> {
+                        Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                                .replace("#target#", args[1])
+                                .replace("#amount#", Main.util.formatDouble(amount))
+                        );
+                    });
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
         } catch (NumberFormatException e) {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
+            return true;
         }
 
 
