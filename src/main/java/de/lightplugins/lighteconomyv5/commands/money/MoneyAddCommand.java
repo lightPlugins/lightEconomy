@@ -59,7 +59,7 @@ public class MoneyAddCommand extends SubCommand {
 
 
 
-            moneyTable.getSinglePlayer(args[1]).thenAccept(result -> {
+            moneyTable.getPlayerData(args[1]).thenAccept(result -> {
 
                     try {
                         double currentBalance = result.getDouble("money");

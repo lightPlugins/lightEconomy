@@ -22,7 +22,7 @@ public class FileManager {
     private final Main plugin;
     private FileConfiguration dataConfig = null;
     private File configFile = null;
-    private String configName;
+    private final String configName;
 
     public FileManager(Main plugin, String configName) {
         this.plugin = plugin;

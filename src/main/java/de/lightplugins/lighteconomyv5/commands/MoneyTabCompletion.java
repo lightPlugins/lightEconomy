@@ -16,6 +16,7 @@ public class MoneyTabCompletion implements TabCompleter {
             List<String> arguments = new ArrayList<>();
             arguments.add("add");
             arguments.add("remove");
+            arguments.add("set");
 
             return arguments;
         }

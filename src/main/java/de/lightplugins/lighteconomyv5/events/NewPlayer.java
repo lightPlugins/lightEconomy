@@ -24,7 +24,7 @@ public class NewPlayer implements Listener {
         Player player = event.getPlayer();
 
         MoneyTable moneyTable = new MoneyTable(plugin);
-        moneyTable.getSinglePlayer(player.getName()).thenAccept(resultSet -> {
+        moneyTable.getPlayerData(player.getName()).thenAccept(resultSet -> {
 
             if(resultSet != null) {
                 try {

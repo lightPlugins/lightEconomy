@@ -2,6 +2,7 @@ package de.lightplugins.lighteconomyv5.commands;
 
 import de.lightplugins.lighteconomyv5.commands.money.MoneyAddCommand;
 import de.lightplugins.lighteconomyv5.commands.money.MoneyRemoveCommand;
+import de.lightplugins.lighteconomyv5.commands.money.MoneySetCommand;
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
@@ -31,6 +32,7 @@ public class MoneyCommandManager implements CommandExecutor {
         this.plugin = plugin;
         subCommands.add(new MoneyAddCommand());
         subCommands.add(new MoneyRemoveCommand(plugin));
+        subCommands.add(new MoneySetCommand(plugin));
     }
 
     @Override
@@ -56,7 +58,7 @@ public class MoneyCommandManager implements CommandExecutor {
                 }
             } else {
                 MoneyTable moneyTable = new MoneyTable(plugin);
-                moneyTable.getSinglePlayer(player.getName()).thenAccept(result -> {
+                moneyTable.getPlayerData(player.getName()).thenAccept(result -> {
                     if(result != null) {
                         try {
                             double currentBalance = result.getDouble("money");

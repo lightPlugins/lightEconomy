@@ -51,7 +51,7 @@ public class DatabaseConnection {
 
     public void connectToDatabaseViaSQLite() {
 
-        String database = "database.db";
+        String database = "lightEconomy.db";
 
         File dataFolder = new File(plugin.getDataFolder(), database);
 

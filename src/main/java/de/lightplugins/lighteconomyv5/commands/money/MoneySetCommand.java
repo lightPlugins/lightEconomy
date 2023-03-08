@@ -10,32 +10,32 @@ import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 
-public class MoneyRemoveCommand extends SubCommand {
+public class MoneySetCommand extends SubCommand {
 
-    public Main plugin;
-    public MoneyRemoveCommand(Main plugin) { this.plugin = plugin; }
+    Main plugin;
+    public MoneySetCommand(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public String getName() {
-        return "remove";
+        return "set";
     }
 
     @Override
     public String getDescription() {
-        return "Remove a specified amount of money";
+        return "set a specified amount of Money to the targets Account";
     }
 
     @Override
     public String getSyntax() {
-        return "/money remove [playerName] [amount]";
+        return "/money set [playername]";
     }
 
     @Override
-    public boolean perform(Player player, String[] args)  {
-
+    public boolean perform(Player player, String[] args) {
 
         if(args.length != 3) {  return true; }
-
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
 
         if(offlinePlayer == null) {
@@ -45,11 +45,6 @@ public class MoneyRemoveCommand extends SubCommand {
 
         try {
             double amount = Double.parseDouble(args[2]);
-
-            if(amount == 0) {
-                Main.util.sendMessage(player, MessagePath.NotZero.getPath());
-                return true;
-            }
 
             if(amount < 0) {
                 Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
@@ -62,17 +57,12 @@ public class MoneyRemoveCommand extends SubCommand {
 
                 try {
                     double currentBalance = result.getDouble("money");
-                    double newBalance = currentBalance - amount;
 
-                    if(newBalance < 0) {
-                        newBalance = 0;
-                    }
-
-                    moneyTable.setMoney(args[1], newBalance).thenAccept(success -> {
-                        Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
+                    moneyTable.setMoney(args[1], currentBalance).thenAccept(success -> {
+                        Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular())
                                 .replace("#target#", args[1])
-                                .replace("#amount#", Main.util.formatDouble(amount))
+                                .replace("#amount#", Main.util.formatDouble(currentBalance))
                         );
                     });
 
@@ -85,7 +75,6 @@ public class MoneyRemoveCommand extends SubCommand {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
             return true;
         }
-
 
         return false;
     }

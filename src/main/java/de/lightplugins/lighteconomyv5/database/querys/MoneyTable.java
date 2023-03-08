@@ -19,27 +19,27 @@ public class MoneyTable {
         this.plugin = plugin;
     }
 
-    private final String tablename = "MoneyTable";
+    private final String tableName = "MoneyTable";
 
-    public CompletableFuture<ResultSet> getSinglePlayer(String playername) {
+    public CompletableFuture<ResultSet> getPlayerData(String playerName) {
 
         return CompletableFuture.supplyAsync(() -> {
 
             Connection connection = null;
             PreparedStatement ps = null;
 
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playername);
+            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
 
             try {
 
                 connection = plugin.ds.getConnection();
 
                 if(offlinePlayer != null) {
-                    ps = connection.prepareStatement("SELECT * FROM "+ tablename +" WHERE uuid=?");
+                    ps = connection.prepareStatement("SELECT * FROM "+ tableName +" WHERE uuid=?");
                     ps.setString(1, offlinePlayer.getUniqueId().toString());
                 } else {
-                    ps = connection.prepareStatement("SELECT * FROM "+ tablename +" WHERE name=?");
-                    ps.setString(1, playername);
+                    ps = connection.prepareStatement("SELECT * FROM "+ tableName +" WHERE name=?");
+                    ps.setString(1, playerName);
                 }
 
                 ResultSet rs = ps.executeQuery();
@@ -74,16 +74,16 @@ public class MoneyTable {
         });
     }
 
-    public CompletableFuture<Boolean> createNewPlayer(String playername) {
+    public CompletableFuture<Boolean> createNewPlayer(String playerName) {
 
         return CompletableFuture.supplyAsync(() -> {
 
             Connection connection = null;
             PreparedStatement ps = null;
 
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playername);
+            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
 
-            Bukkit.getLogger().log(Level.INFO, "New User found. Creating Database entry for " + playername);
+            Bukkit.getLogger().log(Level.INFO, "New User found. Creating Database entry for " + playerName);
 
             try {
 
@@ -98,7 +98,7 @@ public class MoneyTable {
                     ps.setString(1, uuid.toString());
                     ps.setBoolean(4, false);
                 }
-                ps.setString(2, playername);
+                ps.setString(2, playerName);
                 ps.setDouble(3, 0.0);
                 ps.execute();
                 ps.close();

@@ -9,11 +9,11 @@ import java.util.logging.Level;
 
 public class VaultHook {
 
-    private Main plugin = Main.getInstance;
+    private final Main plugin = Main.getInstance;
     private Economy provider;
 
     public void hook() {
-        provider = plugin.economyImplementer;
+        provider = Main.economyImplementer;
         Bukkit.getServicesManager().register(Economy.class, this.provider, this.plugin, ServicePriority.Highest);
         Bukkit.getLogger().log(Level.INFO,
                 "Vault successfully hooked with highest priority into " + plugin.getName());
