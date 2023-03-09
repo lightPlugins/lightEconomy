@@ -1,6 +1,6 @@
 package de.lightplugins.lighteconomyv5.commands.money;
 
-import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
+import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
@@ -55,17 +55,17 @@ public class MoneyAddCommand extends SubCommand {
                 return true;
             }
 
-            MoneyTable moneyTable = new MoneyTable(Main.getInstance);
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
 
 
-            moneyTable.getPlayerData(args[1]).thenAccept(result -> {
+            moneyTableAsync.getPlayerData(args[1]).thenAccept(result -> {
 
                     try {
                         double currentBalance = result.getDouble("money");
                         double newBalance = currentBalance + amount;
 
-                        moneyTable.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
+                        moneyTableAsync.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
 
                             Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
                                             .replace("#amount#", Main.util.formatDouble(amount))

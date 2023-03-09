@@ -3,7 +3,7 @@ package de.lightplugins.lighteconomyv5.commands;
 import de.lightplugins.lighteconomyv5.commands.money.MoneyAddCommand;
 import de.lightplugins.lighteconomyv5.commands.money.MoneyRemoveCommand;
 import de.lightplugins.lighteconomyv5.commands.money.MoneySetCommand;
-import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
+import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
@@ -57,8 +57,8 @@ public class MoneyCommandManager implements CommandExecutor {
                     }
                 }
             } else {
-                MoneyTable moneyTable = new MoneyTable(plugin);
-                moneyTable.getPlayerData(player.getName()).thenAccept(result -> {
+                MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
+                moneyTableAsync.getPlayerData(player.getName()).thenAccept(result -> {
                     if(result != null) {
                         try {
                             double currentBalance = result.getDouble("money");

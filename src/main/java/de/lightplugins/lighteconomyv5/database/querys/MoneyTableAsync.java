@@ -12,10 +12,10 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
-public class MoneyTable {
+public class MoneyTableAsync {
 
     public Main plugin;
-    public MoneyTable(Main plugin) {
+    public MoneyTableAsync(Main plugin) {
         this.plugin = plugin;
     }
 

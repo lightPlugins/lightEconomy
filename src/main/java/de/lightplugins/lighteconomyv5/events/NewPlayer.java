@@ -1,6 +1,6 @@
 package de.lightplugins.lighteconomyv5.events;
 
-import de.lightplugins.lighteconomyv5.database.querys.MoneyTable;
+import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.master.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,8 +23,8 @@ public class NewPlayer implements Listener {
 
         Player player = event.getPlayer();
 
-        MoneyTable moneyTable = new MoneyTable(plugin);
-        moneyTable.getPlayerData(player.getName()).thenAccept(resultSet -> {
+        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
+        moneyTableAsync.getPlayerData(player.getName()).thenAccept(resultSet -> {
 
             if(resultSet != null) {
                 try {
@@ -34,7 +34,7 @@ public class NewPlayer implements Listener {
                     throw new RuntimeException(e);
                 }
             } else {
-                moneyTable.createNewPlayer(player.getName()).thenAccept(success -> {
+                moneyTableAsync.createNewPlayer(player.getName()).thenAccept(success -> {
                     if(success) {
                         Bukkit.getLogger().log(Level.INFO, "New Player was putting in database!");
                     }

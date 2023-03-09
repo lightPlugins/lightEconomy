@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
 
     public static FileManager settings;
     public static FileManager messages;
+    public static FileManager mainMenu;
 
     public void onLoad() {
 
@@ -59,6 +60,7 @@ public class Main extends JavaPlugin {
 
         settings = new FileManager(this, "settings.yml");
         messages = new FileManager(this, "messages.yml");
+        mainMenu = new FileManager(this, "main-menu.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
