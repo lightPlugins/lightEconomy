@@ -12,6 +12,7 @@ import de.lightplugins.lighteconomyv5.files.FileManager;
 import de.lightplugins.lighteconomyv5.hooks.VaultHook;
 import de.lightplugins.lighteconomyv5.implementer.EconomyImplementer;
 import de.lightplugins.lighteconomyv5.utils.ColorTranslation;
+import de.lightplugins.lighteconomyv5.utils.ProgressionBar;
 import de.lightplugins.lighteconomyv5.utils.Util;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -35,6 +36,7 @@ public class Main extends JavaPlugin {
     public DatabaseConnection hikari;
 
     public static ColorTranslation colorTranslation;
+    public static ProgressionBar progressionBar;
     public static Util util;
 
     public static FileManager settings;
@@ -73,7 +75,8 @@ public class Main extends JavaPlugin {
 
         this.hikari = new DatabaseConnection(this);
         Bukkit.getLogger().log(Level.INFO, "Use MySQL Connection ...");
-        hikari.connectToDataBaseViaMariaDB();
+        //hikari.connectToDataBaseViaMariaDB();
+        hikari.connectToDatabaseViaSQLite();
 
         /*  Creating needed Database-Tables  */
 

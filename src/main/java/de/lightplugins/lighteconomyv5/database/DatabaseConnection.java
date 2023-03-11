@@ -66,9 +66,18 @@ public class DatabaseConnection {
             Bukkit.getLogger().log(Level.WARNING, "SQLite file already exists -> skipping");
         }
 
-        plugin.ds = new HikariDataSource();
-        plugin.ds.setPoolName("SQLite");
-        plugin.ds.setJdbcUrl("jdbc:sqlite:" + dataFolder);
+        HikariConfig config = new HikariConfig();
+        config.setPoolName("SQLite");
+        config.setJdbcUrl("jdbc:sqlite:" + dataFolder.getAbsolutePath());
+        config.setAutoCommit(false);
+        config.setConnectionTimeout(5000);
+        config.setIdleTimeout(600000);
+        config.setMaxLifetime(1800000);
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(1);
+        plugin.ds = new HikariDataSource(config);
+
+        Bukkit.getLogger().log(Level.WARNING, dataFolder.toString());
 
         Bukkit.getLogger().log(Level.INFO, "Successfully connected to SQLite !");
 
