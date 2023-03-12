@@ -57,7 +57,10 @@ public class DatabaseConnection {
 
         if (!dataFolder.exists()) {
             try {
-                dataFolder.createNewFile();
+                if(!dataFolder.createNewFile()) {
+                    plugin.getLogger().log(Level.SEVERE, "Cannot create " + database);
+                    return;
+                }
             } catch (IOException e) {
                 plugin.getLogger().log(Level.SEVERE, "Cannot create " + database);
                 e.printStackTrace();
@@ -69,13 +72,9 @@ public class DatabaseConnection {
         HikariConfig config = new HikariConfig();
         config.setPoolName("SQLite");
         config.setJdbcUrl("jdbc:sqlite:" + dataFolder.getAbsolutePath());
-        config.setAutoCommit(false);
-        config.setConnectionTimeout(5000);
-        config.setIdleTimeout(600000);
-        config.setMaxLifetime(1800000);
         config.setMaximumPoolSize(10);
-        config.setMinimumIdle(1);
         plugin.ds = new HikariDataSource(config);
+
 
         Bukkit.getLogger().log(Level.WARNING, dataFolder.toString());
 

@@ -22,8 +22,10 @@ public class TableStatements {
         try {
 
             connection = plugin.ds.getConnection();
+
             ps = connection.prepareStatement(statement);
-            ps.execute();
+            ps.executeUpdate();
+            //connection.commit();
             ps.close();
 
         } catch (SQLException e) {

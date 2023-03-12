@@ -17,24 +17,13 @@ public class CreateTable {
 
         TableStatements tableStatements = new TableStatements(plugin);
         String statement =
-                "CREATE TABLE MoneyTable (" +
+                "CREATE TABLE IF NOT EXISTS MoneyTable (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "uuid VARCHAR(100), " +
-                        "name VARCHAR(100), " +
+                        "uuid TEXT, " +
+                        "name TEXT, " +
                         "money DOUBLE, " +
                         "isPlayer BOOL" +
                         ")";
-
-        /*
-        "CREATE TABLE MoneyTable (" +
-                        "id INTEGER, " +
-                        "uuid VARCHAR(100), " +
-                        "name VARCHAR(100), " +
-                        "money DOUBLE, " +
-                        "isPlayer BOOL, " +
-                        "PRIMARY KEY (id))" +
-                        ")";
-         */
 
 
         tableStatements.createTableStatement(statement);

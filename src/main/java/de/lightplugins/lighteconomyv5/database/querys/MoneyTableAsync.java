@@ -45,9 +45,9 @@ public class MoneyTableAsync {
                 ResultSet rs = ps.executeQuery();
 
                 if(rs.next()) {
-                    ps.close();
                     return rs;
                 }
+
                 return null;
 
             } catch (SQLException e) {
