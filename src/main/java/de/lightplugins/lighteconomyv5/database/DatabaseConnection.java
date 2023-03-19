@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.lighteconomyv5.master.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +20,14 @@ public class DatabaseConnection {
     public void connectToDataBaseViaMariaDB() {
 
 
-        String host = "db.beamplex.de";
-        String port = "3306";
-        String database = "s5_lighteconomy";
-        String user = "u5_33mL9lqTH3";
-        String password = "Tu709Tawbt3=ihGR.TlUTF3g";
+        FileConfiguration config = Main.settings.getConfig();
+
+
+        String host = config.getString("mysql.host");
+        String port = config.getString("mysql.port");
+        String database = config.getString("mysql.database");
+        String user = config.getString("mysql.user");
+        String password = config.getString("mysql.password");
         Boolean ssl = false;
         int connectionPoolSize = 10;
 

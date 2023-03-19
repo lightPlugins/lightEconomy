@@ -75,8 +75,8 @@ public class Main extends JavaPlugin {
 
         this.hikari = new DatabaseConnection(this);
         Bukkit.getLogger().log(Level.INFO, "Use MySQL Connection ...");
-        //hikari.connectToDataBaseViaMariaDB();
-        hikari.connectToDatabaseViaSQLite();
+        //hikari.connectToDatabaseViaSQLite();
+        hikari.connectToDataBaseViaMariaDB();
 
         /*  Creating needed Database-Tables  */
 

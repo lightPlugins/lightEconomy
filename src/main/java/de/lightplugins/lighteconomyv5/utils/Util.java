@@ -27,7 +27,7 @@ public class Util {
 
     public double fixDouble(double numberToFix) {
         BigDecimal bd = new BigDecimal(numberToFix).setScale(2, RoundingMode.HALF_UP);
-        return bd.scale();
+        return bd.doubleValue();
     }
 
     public String formatDouble(double numberToFormat) {

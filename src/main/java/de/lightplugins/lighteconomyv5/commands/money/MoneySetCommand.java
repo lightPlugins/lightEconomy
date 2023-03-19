@@ -58,11 +58,11 @@ public class MoneySetCommand extends SubCommand {
                 try {
                     double currentBalance = result.getDouble("money");
 
-                    moneyTableAsync.setMoney(args[1], currentBalance).thenAccept(success -> {
+                    moneyTableAsync.setMoney(args[1], amount).thenAccept(success -> {
                         Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular())
                                 .replace("#target#", args[1])
-                                .replace("#amount#", Main.util.formatDouble(currentBalance))
+                                .replace("#amount#", Main.util.formatDouble(amount))
                         );
                     });
 

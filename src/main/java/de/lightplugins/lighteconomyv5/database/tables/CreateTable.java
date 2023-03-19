@@ -18,11 +18,11 @@ public class CreateTable {
         TableStatements tableStatements = new TableStatements(plugin);
         String statement =
                 "CREATE TABLE IF NOT EXISTS MoneyTable (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "uuid TEXT, " +
-                        "name TEXT, " +
-                        "money DOUBLE, " +
-                        "isPlayer BOOL" +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, " +
+                        "uuid TEXT NOT NULL, " +
+                        "name TEXT NOT NULL, " +
+                        "money DOUBLE NOT NULL, " +
+                        "isPlayer BOOL NOT NULL" +
                         ")";
 
 
