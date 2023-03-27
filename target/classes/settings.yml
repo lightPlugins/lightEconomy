@@ -12,18 +12,18 @@
 #           \______/                                                                                    \______/
 #
 #
-#               Pluginversion 5.0
+#               Plugin version 5.0
 #               Developer: lightPlugins
 #
 version: 5.0
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
-  enable: false
-  host: localhost
+  enable: true
+  host: 136.243.208.18
   port: 3306
   database: lightEconomy
-  user: user
-  password: password
+  user: lightEconomy
+  password: KPCDrfYC2uPrIlc9X3V4X0LIV9aQZRbu
   ssl: false
 settings:
   # Debug Messages in the log
