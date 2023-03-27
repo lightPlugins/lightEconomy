@@ -53,22 +53,15 @@ public class MoneySetCommand extends SubCommand {
 
             MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
 
-            moneyTableAsync.getPlayerData(args[1]).thenAccept(result -> {
+            moneyTableAsync.playerBalance(args[1]).thenAccept(result -> {
 
-                try {
-                    double currentBalance = result.getDouble("money");
-
-                    moneyTableAsync.setMoney(args[1], amount).thenAccept(success -> {
-                        Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                .replace("#target#", args[1])
-                                .replace("#amount#", Main.util.formatDouble(amount))
-                        );
-                    });
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                moneyTableAsync.setMoney(args[1], amount).thenAccept(success -> {
+                    Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#target#", args[1])
+                            .replace("#amount#", Main.util.formatDouble(amount))
+                    );
+                });
             });
 
         } catch (NumberFormatException e) {

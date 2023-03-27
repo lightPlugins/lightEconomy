@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
@@ -21,7 +23,7 @@ public class MoneyTableAsync {
 
     private final String tableName = "MoneyTable";
 
-    public CompletableFuture<ResultSet> getPlayerData(String playerName) {
+    public CompletableFuture<Double> playerBalance(String playerName) {
 
         return CompletableFuture.supplyAsync(() -> {
 
@@ -45,7 +47,7 @@ public class MoneyTableAsync {
                 ResultSet rs = ps.executeQuery();
 
                 if(rs.next()) {
-                    return rs;
+                    return rs.getDouble("money");
                 }
 
                 return null;

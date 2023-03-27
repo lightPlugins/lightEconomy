@@ -1,11 +1,13 @@
 package de.lightplugins.lighteconomyv5.implementer;
 
+import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.master.Main;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EconomyImplementer implements Economy {
 
@@ -49,6 +51,13 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean hasAccount(String s) {
+
+        /*
+
+            TODO: Synchrony database query's here !
+
+         */
+
         return false;
     }
 

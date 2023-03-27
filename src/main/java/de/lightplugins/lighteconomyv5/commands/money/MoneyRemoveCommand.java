@@ -58,27 +58,22 @@ public class MoneyRemoveCommand extends SubCommand {
 
             MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
 
-            moneyTableAsync.getPlayerData(args[1]).thenAccept(result -> {
+            moneyTableAsync.playerBalance(args[1]).thenAccept(balance -> {
 
-                try {
-                    double currentBalance = result.getDouble("money");
-                    double newBalance = currentBalance - amount;
+                double currentBalance = balance;
+                double newBalance = currentBalance - amount;
 
-                    if(newBalance < 0) {
-                        newBalance = 0;
-                    }
-
-                    moneyTableAsync.setMoney(args[1], newBalance).thenAccept(success -> {
-                        Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                .replace("#target#", args[1])
-                                .replace("#amount#", Main.util.formatDouble(amount))
-                        );
-                    });
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if(newBalance < 0) {
+                    newBalance = 0;
                 }
+
+                moneyTableAsync.setMoney(args[1], newBalance).thenAccept(success -> {
+                    Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#target#", args[1])
+                            .replace("#amount#", Main.util.formatDouble(amount))
+                    );
+                });
             });
 
         } catch (NumberFormatException e) {

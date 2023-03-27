@@ -58,17 +58,13 @@ public class MoneyCommandManager implements CommandExecutor {
                 }
             } else {
                 MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
-                moneyTableAsync.getPlayerData(player.getName()).thenAccept(result -> {
-                    if(result != null) {
-                        try {
-                            double currentBalance = result.getDouble("money");
-                            player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
-                                            + MessagePath.MoneyBalance.getPath())
-                                    .replace("#balance#", Main.util.formatDouble(currentBalance))
-                                    .replace("#currency#", Main.currencyName));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                moneyTableAsync.playerBalance(player.getName()).thenAccept(balance -> {
+                    if(balance != null) {
+                        double currentBalance = balance;
+                        player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
+                                        + MessagePath.MoneyBalance.getPath())
+                                .replace("#balance#", Main.util.formatDouble(currentBalance))
+                                .replace("#currency#", Main.currencyName));
                     } else {
                         player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
                                 + MessagePath.PlayerNotFound.getPath()));
@@ -77,7 +73,6 @@ public class MoneyCommandManager implements CommandExecutor {
                 });
             }
         }
-
         return false;
     }
 

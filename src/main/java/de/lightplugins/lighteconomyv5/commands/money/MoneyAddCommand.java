@@ -57,33 +57,21 @@ public class MoneyAddCommand extends SubCommand {
 
             MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
+            moneyTableAsync.playerBalance(args[1]).thenAccept(balance -> {
 
+                double currentBalance = balance;
+                double newBalance = currentBalance + amount;
 
-            moneyTableAsync.getPlayerData(args[1]).thenAccept(result -> {
+                moneyTableAsync.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
 
-                    try {
-                        double currentBalance = result.getDouble("money");
-                        double newBalance = currentBalance + amount;
+                    Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
+                            .replace("#amount#", Main.util.formatDouble(amount))
+                            .replace("#target#", args[1])
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#balance#", Main.util.formatDouble(newBalance))
+                    );
 
-                        moneyTableAsync.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
-
-                            Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
-                                            .replace("#amount#", Main.util.formatDouble(amount))
-                                            .replace("#target#", args[1])
-                                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                            .replace("#balance#", Main.util.formatDouble(newBalance))
-                                    );
-
-                        });
-                        /*
-                        .replace("#amount#", String.valueOf(amount))
-                                .replace("#currency#", Main.econ.currencyNameSingular())
-                                .replace("#target#", args[1])
-                            */
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                });
             });
 
         } catch (NumberFormatException notANumber) {

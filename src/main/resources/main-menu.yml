@@ -2,29 +2,26 @@ inventory:
   title: "&c&b&llight&8Economy &8| Main Menu"
   slots:
     profile:
-      material: "RAW_GOLD"
-      row: 2
-      slot: 4
-      name: "&cPocket"
+      material: "GOLD_INGOT"
+      slot: 13
+      name: "Mein Profil"
       lore:
-        - "&8&l*########## &c&llight&7Pocket &8&l##########*"
-        - " "
-        - "&7Geldbeutel: #poket-balance-graph# &8- &c#poket-balance#"
-        - "&7Kontostand: #bank-balance-graph# &8- #bank-balance# &8/ &c#bank-balance-limit#"
-        - "&7Banklevel: &c#bank-level-current# &8/ &c#bank-level-max#"
-        - ""
-        - "&cTIPP &8- &7Wenn du dein Bankkonto Levelst, kannst du mehr"
-        - "         &7auf der Bank ablegen."
+        - "Geldbeutel: #poketBalance#"
+        - "Kontostand: #bankBalance#"
+        - "Kredite am laufen: #credits#"
+        - "Kredite insgesamt: #creditAmountOverall#"
+        - "Kredit Tilgungen gesamt: #timeRepayments#"
+        - "Dein Trust Factor: #trustFactor#"
+    credits:
+      material: "BOOK"
+      slot: 14
+      name: "Meine Kredite"
+      lore:
+        - "Manage deine gesamten Kredite"
     bank:
-      material: "NETHERITE_SCRAP"
-      row: 2
-      slot: 6
+      material: "DIAMOND"
+      slot: 15
       name: "Meine Bankkonto"
       lore:
-        - "&8&l*########## &c&llight&7Pocket &8&l##########*"
-        - " "
-        - "&8- &7Deposit & Withdraw"
-        - "&8- &7Account Sharing"
-        - "&8- &7Transaktionen"
-        - "&8- &7Bank Leveling"
+        - "Manage dein Bankkonto"
 

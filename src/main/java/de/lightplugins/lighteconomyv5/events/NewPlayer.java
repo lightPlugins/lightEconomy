@@ -19,20 +19,21 @@ public class NewPlayer implements Listener {
     }
 
     @EventHandler
-    public void onjoin(PlayerJoinEvent event) {
+    public void onJoin(PlayerJoinEvent event) {
+
+        /*
+
+            TODO: Rename feature before create Player !!!
+
+         */
 
         Player player = event.getPlayer();
 
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
-        moneyTableAsync.getPlayerData(player.getName()).thenAccept(resultSet -> {
+        moneyTableAsync.playerBalance(player.getName()).thenAccept(balance -> {
 
-            if(resultSet != null) {
-                try {
-                    String newUser = resultSet.getString("name");
-                    Bukkit.getLogger().log(Level.INFO, "User already existing in Database.... " + newUser);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+            if(balance != null) {
+                Bukkit.getLogger().log(Level.INFO, "User already existing in Database.... ");
             } else {
                 moneyTableAsync.createNewPlayer(player.getName()).thenAccept(success -> {
                     if(success) {

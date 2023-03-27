@@ -15,17 +15,25 @@ public class CreateTable {
 
     public void createMoneyTable() {
 
+
         TableStatements tableStatements = new TableStatements(plugin);
         String statement =
                 "CREATE TABLE IF NOT EXISTS MoneyTable (" +
-                        "id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, " +
-                        "uuid TEXT NOT NULL, " +
-                        "name TEXT NOT NULL, " +
+                        "uuid TEXT, " +
+                        "name TEXT, " +
                         "money DOUBLE NOT NULL, " +
                         "isPlayer BOOL NOT NULL" +
                         ")";
 
+        String tableName = "MoneyTable";
+        String update = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                + "uuid TEXT,"
+                + "name TEXT,"
+                + "money DOUBLE,"
+                + "isPlayer BOOL,"
+                + "PRIMARY KEY (uuid))";
 
-        tableStatements.createTableStatement(statement);
+
+        tableStatements.createTableStatement(update);
     }
 }

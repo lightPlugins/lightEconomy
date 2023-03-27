@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="lightEconomyV5:jar">
-    <output-path>$USER_HOME$/Documents/development/Development/java-mc</output-path>
+    <output-path>$USER_HOME$/Desktop/Programmieren/test server/plugins</output-path>
     <root id="archive" name="lightEconomyV5.jar">
       <element id="module-output" name="lightEconomyV5" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mariadb/jdbc/mariadb-java-client/3.0.5/mariadb-java-client-3.0.5.jar" path-in-jar="/" />
