@@ -30,4 +30,5 @@ settings:
   debug: true
   date-format: 'dd:mm:yyyy'
   pay-command-delay: 10
-  currency-name: 'EUR'
+  currency-name-plural: 'EUR'
+  currency-name-singular: 'EURs'

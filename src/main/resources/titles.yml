@@ -2,20 +2,16 @@ titles:
   deposit-wallet:
     enable: true
     counter:
-      upper-line: "&cDeposit to wallet"
+      upper-line: "&7Deposit &cto &7wallet"
       lower-line: "&a+ &7#amount#"
-      sound-on-count: "BLOCK_NOTE_BLOCK_HAT"
     final:
       upper-line: "&a+ &7#amount#"
       lower-line: "&7You received a deposit"
-      sound-on-final: "ENTITY_DRAGON_FIREBALL_EXPLODE"
   withdraw-wallet:
     enable: true
     counter:
-      upper-line: "&Withdraw from wallet"
+      upper-line: "&7Withdraw &cfrom &7wallet"
       lower-line: "&c- &7#amount#"
-      sound-on-count: "BLOCK_NOTE_BLOCK_HAT"
     final:
       upper-line: "&c- &7#amount#"
-      lower-line: "&7You made a deposit"
-      sound-on-final: "ENTITY_DRAGON_FIREBALL_EXPLODE"
+      lower-line: "&7You made a purchase"

@@ -3,6 +3,7 @@ package de.lightplugins.lighteconomyv5.hooks;
 import de.lightplugins.lighteconomyv5.master.Main;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
 import java.util.logging.Level;
@@ -13,7 +14,7 @@ public class VaultHook {
     private Economy provider;
 
     public void hook() {
-        provider = Main.economyImplementer;
+        this.provider = Main.economyImplementer;
         Bukkit.getServicesManager().register(Economy.class, this.provider, this.plugin, ServicePriority.Highest);
         Bukkit.getLogger().log(Level.INFO,
                 "Vault successfully hooked with highest priority into " + plugin.getName());
