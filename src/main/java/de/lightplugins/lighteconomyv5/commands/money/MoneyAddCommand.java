@@ -55,6 +55,7 @@ public class MoneyAddCommand extends SubCommand {
                 return true;
             }
 
+
             MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
             moneyTableAsync.playerBalance(args[1]).thenAccept(balance -> {
