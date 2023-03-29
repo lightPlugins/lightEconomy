@@ -52,7 +52,7 @@ public class MoneySetConsole extends SubCommand {
                     CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(target, amount);
 
                     if(completableFuture.get()) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getLogger().log(Level.INFO,
                                 "Successfully set " + args[2] + " " + currency + " to " + target);
                         return true;
                     }

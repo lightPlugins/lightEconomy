@@ -16,6 +16,7 @@ public enum MessagePath {
     MoneyAddPlayer("moneyAddPlayer"),
     MoneyRemovePlayer("moneyRemovePlayer"),
     MoneySetPlayer("moneySetPlayer"),
+    OnlyConsole("noPlayer"),
     ;
 
     private final String path;

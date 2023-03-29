@@ -45,7 +45,7 @@ public class MoneyAddConsole extends SubCommand {
                     EconomyResponse economyResponse = Main.economyImplementer.depositPlayer(target, amount);
 
                     if(economyResponse.transactionSuccess()) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getLogger().log(Level.INFO,
                                 "Successfully added " + target + " " + args[2] + " " + currency);
                         return true;
 

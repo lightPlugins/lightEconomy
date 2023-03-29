@@ -48,7 +48,7 @@ public class MoneyRemoveConsole extends SubCommand {
                     EconomyResponse economyResponse = Main.economyImplementer.withdrawPlayer(target, amount);
 
                     if(economyResponse.transactionSuccess()) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getLogger().log(Level.INFO,
                                 "Successfully removed " + args[2] + " " + currency + " from " + target);
                         return true;
 

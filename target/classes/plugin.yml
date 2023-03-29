@@ -7,5 +7,6 @@ depend: [Vault]
 loadbefore: [Essentials]
 commands: {
             le:,
-            money:
+            money:,
+            eco:,
 }

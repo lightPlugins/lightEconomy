@@ -1,6 +1,6 @@
 Aktuelle Aufgaben:
 
-    - Console Commands
+[x]    - Console Commands
     - Lose money on die
     - pay commands (cooldowns)
     - placeholderapi placeholder
