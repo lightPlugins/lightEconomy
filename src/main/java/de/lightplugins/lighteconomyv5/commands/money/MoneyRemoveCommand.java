@@ -4,6 +4,7 @@ import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -56,25 +57,21 @@ public class MoneyRemoveCommand extends SubCommand {
                 return true;
             }
 
-            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
+            double currentBalance = Main.economyImplementer.getBalance(args[1]);
 
-            moneyTableAsync.playerBalance(args[1]).thenAccept(balance -> {
+            if(amount >= currentBalance) {
+                amount = currentBalance;
+            }
 
-                double currentBalance = balance;
-                double newBalance = currentBalance - amount;
+            EconomyResponse moneyRemove = Main.economyImplementer.withdrawPlayer(args[1], amount);
+            if(moneyRemove.transactionSuccess()) {
+                Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
+                        .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                        .replace("#target#", args[1])
+                        .replace("#amount#", Main.util.formatDouble(amount)));
+                return true;
 
-                if(newBalance < 0) {
-                    newBalance = 0;
-                }
-
-                moneyTableAsync.setMoney(args[1], newBalance).thenAccept(success -> {
-                    Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                            .replace("#target#", args[1])
-                            .replace("#amount#", Main.util.formatDouble(amount))
-                    );
-                });
-            });
+            }
 
         } catch (NumberFormatException e) {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());

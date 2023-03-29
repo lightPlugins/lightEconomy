@@ -4,6 +4,7 @@ import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -56,24 +57,18 @@ public class MoneyAddCommand extends SubCommand {
             }
 
 
-            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+            EconomyResponse moneyAdd = Main.economyImplementer.depositPlayer(args[1], amount);
+            if(moneyAdd.transactionSuccess()) {
+                Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
+                        .replace("#amount#", Main.util.formatDouble(amount))
+                        .replace("#target#", args[1])
+                        .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                        .replace("#balance#", Main.util.formatDouble(amount))); // TODO: richtige Zahl ausgeben
+                return true;
 
-            moneyTableAsync.playerBalance(args[1]).thenAccept(balance -> {
+            }
 
-                double currentBalance = balance;
-                double newBalance = currentBalance + amount;
-
-                moneyTableAsync.setMoney(offlinePlayer.getName(), newBalance).thenAccept(success -> {
-
-                    Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
-                            .replace("#amount#", Main.util.formatDouble(amount))
-                            .replace("#target#", args[1])
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                            .replace("#balance#", Main.util.formatDouble(newBalance))
-                    );
-
-                });
-            });
+            // TODO: insert error message here, if something went wrong
 
         } catch (NumberFormatException notANumber) {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
