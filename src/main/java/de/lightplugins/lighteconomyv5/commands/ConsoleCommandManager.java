@@ -8,12 +8,12 @@ import de.lightplugins.lighteconomyv5.commands.main.StatusCommand;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -36,7 +36,7 @@ public class ConsoleCommandManager implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
 
 
         if(sender instanceof ConsoleCommandSender) {

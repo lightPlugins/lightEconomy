@@ -94,6 +94,8 @@ public class Main extends JavaPlugin {
 
         //  Console commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("eco")).setExecutor(new ConsoleCommandManager(this));
+        // Pay Commands not require TabCompletion
+        Objects.requireNonNull(this.getCommand("pay")).setExecutor(new PayCommandMaster());
 
 
         PluginManager pluginManager = Bukkit.getPluginManager();

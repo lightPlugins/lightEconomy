@@ -32,6 +32,15 @@ public class Util {
         return bd.doubleValue();
     }
 
+    public boolean isNumber(String number) {
+        try {
+            Double dummy = Double.parseDouble(number);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public String formatDouble(double numberToFormat) {
         return String.format("%,.2f", numberToFormat);
     }

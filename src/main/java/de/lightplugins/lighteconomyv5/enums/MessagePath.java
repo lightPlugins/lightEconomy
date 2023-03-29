@@ -17,6 +17,11 @@ public enum MessagePath {
     MoneyRemovePlayer("moneyRemovePlayer"),
     MoneySetPlayer("moneySetPlayer"),
     OnlyConsole("noPlayer"),
+    PaySenderSuccess("paySenderOnSuccess"),
+    PayTargetSuccess("payTargetOnSuccess"),
+    PayFailed("payTransactionFailed"),
+    PayCooldown("payCooldown"),
+    NotYourself("notYourself"),
     ;
 
     private final String path;
