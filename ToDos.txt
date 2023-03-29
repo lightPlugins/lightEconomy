@@ -1,0 +1,14 @@
+Aktuelle Aufgaben:
+
+    - Console Commands
+    - Lose money on die
+    - pay commands (cooldowns)
+    - placeholderapi placeholder
+    - max pocket balance in settings.yml
+    - giveall command (Einmal für alle online Spieler, und einmal für alle in der Database)
+    - Transaction logs
+    - changing name on connecting
+    - permissions
+    - baltop command
+    - start money (mit Firstjoin message)
+    - bank system

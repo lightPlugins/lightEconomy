@@ -107,7 +107,6 @@ public class EconomyImplementer implements Economy {
 
 
         try {
-            Bukkit.getLogger().log(Level.WARNING, "TEST " + balance.get());
             return balance.get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

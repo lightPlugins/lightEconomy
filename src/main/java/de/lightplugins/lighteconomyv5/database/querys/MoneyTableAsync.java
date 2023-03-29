@@ -141,8 +141,6 @@ public class MoneyTableAsync {
 
             double fixedAmount = Main.util.fixDouble(amount);
 
-            Bukkit.getLogger().log(Level.WARNING, "TEST - " + fixedAmount);
-
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
 
             try {

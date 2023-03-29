@@ -1,10 +1,7 @@
 package de.lightplugins.lighteconomyv5.master;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.lightplugins.lighteconomyv5.commands.MainCommandManager;
-import de.lightplugins.lighteconomyv5.commands.MainTabCompletion;
-import de.lightplugins.lighteconomyv5.commands.MoneyCommandManager;
-import de.lightplugins.lighteconomyv5.commands.MoneyTabCompletion;
+import de.lightplugins.lighteconomyv5.commands.*;
 import de.lightplugins.lighteconomyv5.database.DatabaseConnection;
 import de.lightplugins.lighteconomyv5.database.tables.CreateTable;
 import de.lightplugins.lighteconomyv5.events.NewPlayer;
@@ -94,6 +91,9 @@ public class Main extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
+
+        //  Console commands not require TabCompletion
+        Objects.requireNonNull(this.getCommand("eco")).setExecutor(new ConsoleCommandManager(this));
 
 
         PluginManager pluginManager = Bukkit.getPluginManager();
