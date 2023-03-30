@@ -48,7 +48,7 @@ moneyRemovePlayer: '&7You removed &c#amount# &7#currency# from &c#target#&7!'
 payToggleEnabled: '&7You &aenabled &7payments from other players.'
 payToggleDisabled: '&7You &cdisabled &7payments from other players.'
 paySenderOnSuccess: '&7You successfully sended &c#amount# &7#currency# to &c#target#'
-payTargetOnSuccess: '&7You receive &c#amount# &7#currency# from &c#target#'
+payTargetOnSuccess: '&7You receive &c#amount# &7#currency# from &c#sender#'
 payTransactionFailed: '&cPay Transaction failed cause by: &7#reason#'
 payCooldown: '&cPlease wait a few seconds, before you can pay again &7!'
 # ●
