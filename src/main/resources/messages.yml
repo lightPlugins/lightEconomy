@@ -44,6 +44,15 @@ moneyAddNonPlayer: '&7You added &c#amount# &7#currency# to nonPlayerAccount &c#t
 moneySetPlayer: '&7You set the money from Player &c#target# &7to &c#amount# &7#currency#'
 moneySetNonPlayer: '&7You set the money from NonPlayer &c#target# &7to &c#amount# &7#currency#'
 moneyRemovePlayer: '&7You removed &c#amount# &7#currency# from &c#target#&7!'
+moneyTopHeader:
+  - '&7&m-----&r&c●&7&m-----&r &c&l&olight&7Economy &7&m-----&r&c●&7&m-----&r'
+  - ' &7Top 10 Players with the largest'
+  - '     &7balance on the server'
+  - ' '
+moneyTopFormat: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
+moneyTopFooter:
+  - ' '
+  - '&7&m-----&r&c●&7&m-----&r &7&m-----&r&c●&7⏺&c●&7&m-----&r &7&m-----&r&c●&7&m-----&r'
 # ●
 payToggleEnabled: '&7You &aenabled &7payments from other players.'
 payToggleDisabled: '&7You &cdisabled &7payments from other players.'

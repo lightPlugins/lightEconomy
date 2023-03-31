@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -52,6 +53,57 @@ public class MoneyTableAsync {
                 }
 
                 return null;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+
+            } finally {
+                if(connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            Connection connection = null;
+            PreparedStatement ps = null;
+
+            try {
+
+                connection = plugin.ds.getConnection();
+
+                ps = connection.prepareStatement("SELECT * FROM "+ tableName);
+
+                HashMap<String, Double> playerList = new HashMap<>();
+
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()) {
+
+                    OfflinePlayer offlinePlayer = Bukkit.getPlayer(rs.getString("name"));
+
+                    if(offlinePlayer != null) {
+                        playerList.put(rs.getString("name"), rs.getDouble("money"));
+                    }
+                }
+                return playerList;
 
             } catch (SQLException e) {
                 e.printStackTrace();
