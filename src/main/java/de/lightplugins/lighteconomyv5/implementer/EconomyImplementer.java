@@ -238,6 +238,9 @@ public class EconomyImplementer implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
 
+        FileConfiguration settings = Main.settings.getConfig();
+        double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
+
         if(!hasAccount(s)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The Player does not have an account");
@@ -248,7 +251,7 @@ public class EconomyImplementer implements Economy {
                     "[lightEconomy] Cant deposit negative numbers");
         }
 
-        if(v > 999999999999.99) {
+        if(v > maxPocketBalance) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The deposit value is to big");
         }
@@ -256,7 +259,7 @@ public class EconomyImplementer implements Economy {
         double currentBalance = getBalance(s);
         currentBalance += v;
 
-        if(currentBalance > 999999999999.99) {
+        if(currentBalance > maxPocketBalance) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The player reached the max balance for his pocket");
         }

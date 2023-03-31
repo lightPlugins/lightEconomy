@@ -39,6 +39,7 @@ public class PayCommandMaster implements CommandExecutor {
                 }
                 if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
+                    return false;
 
                 }
                 if(cooldown.contains(sender.getName())) {
@@ -87,6 +88,21 @@ public class PayCommandMaster implements CommandExecutor {
 
                     return false;
                 }
+
+                if(withdrawExecutor.transactionSuccess() &! depositTarget.transactionSuccess() ) {
+                    EconomyResponse moneyRedo = Main.economyImplementer.depositPlayer(sender.getName(), amount);
+
+                    if(moneyRedo.transactionSuccess()) {
+                        Main.util.sendMessage((Player) sender, MessagePath.PayFailed.getPath()
+                                .replace("#reason#", depositTarget.errorMessage));
+                        return false;
+                    }
+
+                    Main.util.sendMessage((Player) sender, MessagePath.NotHappening.getPath());
+                    return false;
+
+                }
+
                 return false;
             }
         }

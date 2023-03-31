@@ -22,6 +22,7 @@ public enum MessagePath {
     PayFailed("payTransactionFailed"),
     PayCooldown("payCooldown"),
     NotYourself("notYourself"),
+    NotHappening("payNotHappening"),
     ;
 
     private final String path;

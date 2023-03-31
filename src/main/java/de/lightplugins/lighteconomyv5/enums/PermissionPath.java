@@ -2,7 +2,19 @@ package de.lightplugins.lighteconomyv5.enums;
 
 public enum PermissionPath {
 
-    dummy("lighteconomy.dummy.dummy"),
+    /*
+        Admin Command Perissions
+     */
+
+    MoneyAdd("lighteconomy.admin.command.moneyadd"),
+    MoneyRemove("lighteconomy.admin.command.moneyremove"),
+    MoneySet("lighteconomy.admin.command.moneyset"),
+
+    /*
+        User Command Perissions
+     */
+
+    PayCommand("lighteconomy.user.command.pay")
     ;
 
     private final String path;

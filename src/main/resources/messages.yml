@@ -51,6 +51,7 @@ paySenderOnSuccess: '&7You successfully sended &c#amount# &7#currency# to &c#tar
 payTargetOnSuccess: '&7You receive &c#amount# &7#currency# from &c#sender#'
 payTransactionFailed: '&cPay Transaction failed cause by: &7#reason#'
 payCooldown: '&cPlease wait a few seconds, before you can pay again &7!'
+payNotHappening: '&cThat should not have happened. You lose the money due pay command. Please contact an Admin!'
 # ●
 convertSuccessful: '&7You converted &c#amount# &7#currency# from your Balance to a physical voucher'
 convertNotEnough: '&cYou do not have enough money for this convert &7!'
