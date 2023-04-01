@@ -187,6 +187,53 @@ public class MoneyTableAsync {
         });
     }
 
+    public CompletableFuture<Boolean> updatePlayerName(String playerName) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            Connection connection = null;
+            PreparedStatement ps = null;
+
+            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+
+            if(offlinePlayer == null) {
+                return false;
+            }
+
+            try {
+
+                connection = plugin.ds.getConnection();
+
+                ps = connection.prepareStatement("UPDATE MoneyTable SET name=? WHERE uuid=?");
+                ps.setString(1, offlinePlayer.getName());
+                ps.setString(2, offlinePlayer.getUniqueId().toString());
+                ps.execute();
+                return true;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+
+            } finally {
+                if(connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     public CompletableFuture<Boolean> setMoney(String playerName, double amount) {
 
         return CompletableFuture.supplyAsync(() -> {
