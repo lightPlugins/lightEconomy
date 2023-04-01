@@ -1,6 +1,8 @@
 package de.lightplugins.lighteconomyv5.commands.money;
 
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
+import de.lightplugins.lighteconomyv5.enums.MessagePath;
+import de.lightplugins.lighteconomyv5.enums.PermissionPath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.Sorter;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
@@ -32,6 +34,11 @@ public class MoneyTopCommand extends SubCommand {
 
         if(args.length == 1) {
             if(args[0].equalsIgnoreCase("top")) {
+
+                if(!player.hasPermission(PermissionPath.MoneyTop.getPerm())) {
+                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+                    return false;
+                }
 
                 FileConfiguration settings = Main.settings.getConfig();
                 FileConfiguration message = Main.messages.getConfig();

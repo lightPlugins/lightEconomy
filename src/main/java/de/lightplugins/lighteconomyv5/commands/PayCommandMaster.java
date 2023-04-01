@@ -1,6 +1,7 @@
 package de.lightplugins.lighteconomyv5.commands;
 
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
+import de.lightplugins.lighteconomyv5.enums.PermissionPath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -26,6 +27,12 @@ public class PayCommandMaster implements CommandExecutor {
 
         if(sender instanceof Player) {
             if(args.length == 2) {
+
+                if(!sender.hasPermission(PermissionPath.PayCommand.getPerm())) {
+                    Main.util.sendMessage((Player) sender, MessagePath.NoPermission.getPath());
+                    return false;
+                }
+
                 String target = args[0];
                 double amount = Double.parseDouble(args[1]);
 

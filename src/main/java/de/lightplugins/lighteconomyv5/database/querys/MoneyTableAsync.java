@@ -3,6 +3,7 @@ package de.lightplugins.lighteconomyv5.database.querys;
 import de.lightplugins.lighteconomyv5.master.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -137,6 +138,8 @@ public class MoneyTableAsync {
             PreparedStatement ps = null;
 
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+            FileConfiguration settings = Main.settings.getConfig();
+            double startBalance = settings.getDouble("settings.start-balance");
 
             Bukkit.getLogger().log(Level.INFO, "New User found. Creating Database entry for " + playerName);
 
@@ -154,7 +157,7 @@ public class MoneyTableAsync {
                     ps.setBoolean(4, false);
                 }
                 ps.setString(2, playerName);
-                ps.setDouble(3, 0.0);
+                ps.setDouble(3, startBalance);
                 ps.execute();
                 ps.close();
                 Bukkit.getLogger().log(Level.INFO, "Successfully added new Player to database!");

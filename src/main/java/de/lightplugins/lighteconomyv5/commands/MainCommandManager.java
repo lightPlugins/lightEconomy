@@ -1,6 +1,7 @@
 package de.lightplugins.lighteconomyv5.commands;
 
 import de.lightplugins.lighteconomyv5.commands.main.HelpCommand;
+import de.lightplugins.lighteconomyv5.commands.main.ReloadCommand;
 import de.lightplugins.lighteconomyv5.commands.main.StatusCommand;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
@@ -27,6 +28,7 @@ public class MainCommandManager implements CommandExecutor {
         this.plugin = plugin;
         subCommands.add(new StatusCommand(plugin));
         subCommands.add(new HelpCommand());
+        subCommands.add(new ReloadCommand());
     }
 
     @Override

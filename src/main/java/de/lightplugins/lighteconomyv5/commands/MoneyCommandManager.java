@@ -63,10 +63,9 @@ public class MoneyCommandManager implements CommandExecutor {
                 moneyTableAsync.playerBalance(player.getName()).thenAccept(balance -> {
                     if(balance != null) {
                         double currentBalance = balance;
-                        player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
-                                        + MessagePath.MoneyBalance.getPath())
-                                .replace("#balance#", Main.util.formatDouble(currentBalance))
-                                .replace("#currency#", Main.currencyName));
+                        Main.util.sendMessage(player, MessagePath.MoneyBalance.getPath()
+                                .replace("#balance#", String.valueOf(Main.util.fixDouble(currentBalance)))
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
                     } else {
                         player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
                                 + MessagePath.PlayerNotFound.getPath()));

@@ -8,6 +8,7 @@ public enum MessagePath {
     Prefix("prefix"),
     NoPermission("noPermission"),
     Help("helpCommand"),
+    Reload("reload"),
     PlayerNotFound("playerNotFound"),
     MoneyBalance("moneyBalance"),
     NotANumber("notNumber"),

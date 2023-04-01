@@ -28,6 +28,8 @@ mysql:
 settings:
   # Debug Messages in the log
   debug: true
+  start-balance: 200.00
+  enable-first-join-message: true
   date-format: 'dd:mm:yyyy'
   pay-command-delay: 10
   currency-name-plural: 'EUR'

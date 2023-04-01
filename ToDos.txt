@@ -9,6 +9,6 @@ Aktuelle Aufgaben:
     - Transaction logs
     - changing name on connecting
     - permissions
-    - baltop command
+[x]    - baltop command
     - start money (mit Firstjoin message)
     - bank system

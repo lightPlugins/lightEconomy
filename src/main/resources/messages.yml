@@ -36,6 +36,7 @@ maxMoneyPocket: '&cYou reached the max balance you are allowed to have in your P
 maxMoneyBank: '&cYou reached the max balance you are allowed to have in your Bank &7!'
 negativeNumber: '&cYou cant use negative Numbers&7!'
 transactionFailed: '&7The Transaction faile, caused by: &c#reason#'
+firstJoinMessage: '&7You are new on ower Server. Your start balance is &c#startbalance# &7#currency#'
 # ●
 moneyBalance: '&7You have &c#balance# &7#currency#'
 moneyBalanceOther: '&7The Player &c#target# &7have &c#balance# &7#currency#'

@@ -36,6 +36,7 @@ maxMoneyPocket: '&cYou reached the max balance you are allowed to have in your P
 maxMoneyBank: '&cYou reached the max balance you are allowed to have in your Bank &7!'
 negativeNumber: '&cYou cant use negative Numbers&7!'
 transactionFailed: '&7The Transaction faile, caused by: &c#reason#'
+firstJoinMessage: '&7You are new on ower Server. Your start balance is &c#startbalance# &7#currency#'
 # ●
 moneyBalance: '&7You have &c#balance# &7#currency#'
 moneyBalanceOther: '&7The Player &c#target# &7have &c#balance# &7#currency#'
@@ -44,6 +45,15 @@ moneyAddNonPlayer: '&7You added &c#amount# &7#currency# to nonPlayerAccount &c#t
 moneySetPlayer: '&7You set the money from Player &c#target# &7to &c#amount# &7#currency#'
 moneySetNonPlayer: '&7You set the money from NonPlayer &c#target# &7to &c#amount# &7#currency#'
 moneyRemovePlayer: '&7You removed &c#amount# &7#currency# from &c#target#&7!'
+moneyTopHeader:
+  - '&7&m-----&r&c●&7&m-----&r &c&l&olight&7Economy &7&m-----&r&c●&7&m-----&r'
+  - ' &7Top 10 Players with the largest'
+  - '     &7balance on the server'
+  - ' '
+moneyTopFormat: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
+moneyTopFooter:
+  - ' '
+  - '&7&m-----&r&c●&7&m-----&r &7&m-----&r&c●&7⏺&c●&7&m-----&r &7&m-----&r&c●&7&m-----&r'
 # ●
 payToggleEnabled: '&7You &aenabled &7payments from other players.'
 payToggleDisabled: '&7You &cdisabled &7payments from other players.'
@@ -51,6 +61,7 @@ paySenderOnSuccess: '&7You successfully sended &c#amount# &7#currency# to &c#tar
 payTargetOnSuccess: '&7You receive &c#amount# &7#currency# from &c#sender#'
 payTransactionFailed: '&cPay Transaction failed cause by: &7#reason#'
 payCooldown: '&cPlease wait a few seconds, before you can pay again &7!'
+payNotHappening: '&cThat should not have happened. You lose the money due pay command. Please contact an Admin!'
 # ●
 convertSuccessful: '&7You converted &c#amount# &7#currency# from your Balance to a physical voucher'
 convertNotEnough: '&cYou do not have enough money for this convert &7!'

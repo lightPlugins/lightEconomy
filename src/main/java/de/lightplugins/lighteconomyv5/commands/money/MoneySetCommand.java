@@ -2,6 +2,7 @@ package de.lightplugins.lighteconomyv5.commands.money;
 
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
+import de.lightplugins.lighteconomyv5.enums.PermissionPath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -42,6 +43,11 @@ public class MoneySetCommand extends SubCommand {
         if(offlinePlayer == null) {
             Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
             return true;
+        }
+
+        if(!player.hasPermission(PermissionPath.MoneySet.getPerm())) {
+            Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+            return false;
         }
 
         try {
