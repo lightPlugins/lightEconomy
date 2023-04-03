@@ -389,20 +389,20 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean createPlayerAccount(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
-
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
-        CompletableFuture<Boolean> completableFuture = moneyTableAsync.createNewPlayer(offlinePlayer.getName());
+        CompletableFuture<Boolean> completableFuture = moneyTableAsync.createNewPlayer(s);
 
         try {
             return completableFuture.get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
+        return createPlayerAccount(offlinePlayer.getName());
+
     }
 
     @Override

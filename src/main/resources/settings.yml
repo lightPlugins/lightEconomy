@@ -25,6 +25,12 @@ mysql:
   user: lightEconomy
   password: KPCDrfYC2uPrIlc9X3V4X0LIV9aQZRbu
   ssl: false
+  advanced:
+    connectionPoolSize: 10
+    prepStmtCacheSize: 250
+    prepStmtCacheSqlLimit: 2048
+    cachePrepStmts: true
+    useServerPrepStmts: true
 settings:
   # Debug Messages in the log
   debug: true
