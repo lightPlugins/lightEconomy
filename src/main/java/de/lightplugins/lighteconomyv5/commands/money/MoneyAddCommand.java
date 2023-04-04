@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.logging.Level;
+
 
 public class MoneyAddCommand extends SubCommand {
     @Override
@@ -71,6 +73,12 @@ public class MoneyAddCommand extends SubCommand {
                 return true;
 
             }
+
+            /*
+                ERROR Message if something Wrong !
+             */
+
+            Bukkit.getLogger().log(Level.WARNING, "ERROR: " + moneyAdd.errorMessage);
 
             // TODO: insert error message here, if something went wrong
 

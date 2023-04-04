@@ -132,6 +132,9 @@ public class MoneyTableAsync {
 
     public CompletableFuture<Boolean> createNewPlayer(String playerName) {
 
+        Bukkit.getLogger().log(Level.SEVERE, "CREATING ACCOUNT FOR: " + playerName);
+
+
         return CompletableFuture.supplyAsync(() -> {
 
             Connection connection = null;
@@ -155,6 +158,7 @@ public class MoneyTableAsync {
                     UUID uuid = UUID.randomUUID();
                     ps.setString(1, uuid.toString());
                     ps.setBoolean(4, false);
+                    startBalance = 0.0;
                 }
                 ps.setString(2, playerName);
                 ps.setDouble(3, startBalance);
