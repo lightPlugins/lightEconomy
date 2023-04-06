@@ -10,6 +10,7 @@ public enum MessagePath {
     Help("helpCommand"),
     Reload("reload"),
     PlayerNotFound("playerNotFound"),
+    PlayerNotExists("playerNotExists"),
     MoneyBalance("moneyBalance"),
     NotANumber("notNumber"),
     NotZero("notZero"),
@@ -24,6 +25,8 @@ public enum MessagePath {
     PayCooldown("payCooldown"),
     NotYourself("notYourself"),
     NotHappening("payNotHappening"),
+    WrongCommand("wrongCommand"),
+    MoneyBalanceOther("moneyBalanceOther"),
     ;
 
     private final String path;

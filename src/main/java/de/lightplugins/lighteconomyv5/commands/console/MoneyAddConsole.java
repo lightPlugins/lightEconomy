@@ -1,5 +1,6 @@
 package de.lightplugins.lighteconomyv5.commands.console;
 
+import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -35,6 +36,12 @@ public class MoneyAddConsole extends SubCommand {
                 try {
                     double amount = Double.parseDouble(args[2]);
                     String currency = Main.economyImplementer.currencyNameSingular();
+
+                    if(amount < 0) {
+                        Bukkit.getLogger().log(Level.WARNING,
+                                "You can add only positiv numbers!");
+                        return true;
+                    }
 
                     if(!Main.economyImplementer.hasAccount(target)) {
                         Bukkit.getLogger().log(Level.WARNING,

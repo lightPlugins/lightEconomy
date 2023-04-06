@@ -1,6 +1,7 @@
 package de.lightplugins.lighteconomyv5.commands.console;
 
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
+import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import org.bukkit.Bukkit;
@@ -40,6 +41,12 @@ public class MoneySetConsole extends SubCommand {
                         Bukkit.getLogger().log(Level.WARNING,
                                 "The Target does not have an account or the name is wrong! + " + args[1]);
                         return false;
+                    }
+
+                    if(amount < 0) {
+                        Bukkit.getLogger().log(Level.WARNING,
+                                "You can set only positiv numbers!");
+                        return true;
                     }
 
                     if(amount > 999999999999.99) {

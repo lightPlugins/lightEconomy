@@ -17,6 +17,8 @@ public class MoneyTabCompletion implements TabCompleter {
             arguments.add("add");
             arguments.add("remove");
             arguments.add("set");
+            arguments.add("top");
+            arguments.add("show");
 
             return arguments;
         }

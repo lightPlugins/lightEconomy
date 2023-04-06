@@ -32,6 +32,7 @@ public class MoneyTopCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
+
         if(args.length == 1) {
             if(args[0].equalsIgnoreCase("top")) {
 
@@ -82,6 +83,9 @@ public class MoneyTopCommand extends SubCommand {
                     player.sendMessage(Main.colorTranslation.hexTranslation(footer));
                 }
             }
+        } else {
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            return false;
         }
 
         return false;

@@ -1,9 +1,6 @@
 package de.lightplugins.lighteconomyv5.commands;
 
-import de.lightplugins.lighteconomyv5.commands.money.MoneyAddCommand;
-import de.lightplugins.lighteconomyv5.commands.money.MoneyRemoveCommand;
-import de.lightplugins.lighteconomyv5.commands.money.MoneySetCommand;
-import de.lightplugins.lighteconomyv5.commands.money.MoneyTopCommand;
+import de.lightplugins.lighteconomyv5.commands.money.*;
 import de.lightplugins.lighteconomyv5.database.querys.MoneyTableAsync;
 import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
@@ -35,6 +32,7 @@ public class MoneyCommandManager implements CommandExecutor {
         subCommands.add(new MoneyRemoveCommand(plugin));
         subCommands.add(new MoneySetCommand(plugin));
         subCommands.add(new MoneyTopCommand());
+        subCommands.add(new MoneyShowCommand());
     }
 
     @Override

@@ -37,12 +37,14 @@ public class MoneySetCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args) {
 
-        if(args.length != 3) {  return true; }
-        OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
-
-        if(offlinePlayer == null) {
-            Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
+        if(args.length != 3) {
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
             return true;
+        }
+
+        if(!Main.economyImplementer.hasAccount(args[1])) {
+            Main.util.sendMessage(player, MessagePath.PlayerNotExists.getPath());
+            return false;
         }
 
         if(!player.hasPermission(PermissionPath.MoneySet.getPerm())) {

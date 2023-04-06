@@ -10,7 +10,7 @@ public enum PermissionPath {
     MoneyRemove("lighteconomy.admin.command.moneyremove"),
     MoneySet("lighteconomy.admin.command.moneyset"),
     Reload("lighteconomy.admin.command.reload"),
-
+    MoneyOther("lighteconomy.admin.command.balanceother"),
 
     /*
         User Command Perissions

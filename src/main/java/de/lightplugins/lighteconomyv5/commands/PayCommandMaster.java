@@ -34,20 +34,25 @@ public class PayCommandMaster implements CommandExecutor {
                 }
 
                 String target = args[0];
-                double amount = Double.parseDouble(args[1]);
 
                 if(!Main.util.isNumber(args[1])) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotANumber.getPath());
                     return false;
                 }
+
+                double amount = Double.parseDouble(args[1]);
+
                 if(!Main.economyImplementer.hasAccount(target)) {
                     Main.util.sendMessage((Player) sender, MessagePath.PlayerNotFound.getPath());
                     return false;
                 }
                 if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
+                    //return false;
+                }
+                if(amount < 0) {
+                    Main.util.sendMessage((Player) sender, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
-
                 }
                 if(cooldown.contains(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.PayCooldown.getPath());

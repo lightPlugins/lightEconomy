@@ -1,5 +1,6 @@
 package de.lightplugins.lighteconomyv5.commands.console;
 
+import de.lightplugins.lighteconomyv5.enums.MessagePath;
 import de.lightplugins.lighteconomyv5.master.Main;
 import de.lightplugins.lighteconomyv5.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -39,6 +40,12 @@ public class MoneyRemoveConsole extends SubCommand {
                         Bukkit.getLogger().log(Level.WARNING,
                                 "The Target does not have an account or the name is wrong!");
                         return false;
+                    }
+
+                    if(amount < 0) {
+                        Bukkit.getLogger().log(Level.WARNING,
+                                "You can remove only positiv numbers!");
+                        return true;
                     }
 
                     if(!Main.economyImplementer.has(target, amount)) {

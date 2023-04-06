@@ -18,7 +18,7 @@
 version: 5.0
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
-  enable: true
+  enable: false
   host: 136.243.208.18
   port: 3306
   database: lightEconomy
