@@ -1,7 +1,7 @@
 name: lightEconomyV5
 author: lightPlugins
 version: 5.0.0
-main: de.lightplugins.lighteconomyv5.master.Main
+main: de.lightplugins.economy.master.Main
 api-version: 1.19
 depend: [Vault]
 loadbefore: [Essentials, Towny]
