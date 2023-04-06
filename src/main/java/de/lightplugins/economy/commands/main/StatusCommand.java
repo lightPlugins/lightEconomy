@@ -1,0 +1,36 @@
+package de.lightplugins.economy.commands.main;
+
+import de.lightplugins.economy.master.Main;
+import de.lightplugins.economy.utils.SubCommand;
+import org.bukkit.entity.Player;
+
+public class StatusCommand extends SubCommand {
+
+    public Main plugin;
+    public StatusCommand(Main plugin) {this.plugin = plugin; }
+
+
+    @Override
+    public String getName() {
+        return "status";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Show the status about lightEconomy V5";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/le status";
+    }
+
+    @Override
+    public boolean perform(Player player, String[] args) {
+
+        if(args.length == 1) {
+            player.sendMessage("Plugin is ready to use!");
+        }
+        return false;
+    }
+}

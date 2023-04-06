@@ -13,3 +13,4 @@ Aktuelle Aufgaben:
 [x]    - start money (mit Firstjoin message)
     - bank system low prio (maybe in seperate plugin)
 [x]    - reload Command
+[x]    - show other balance
