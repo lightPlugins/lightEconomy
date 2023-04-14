@@ -69,7 +69,7 @@ public class MoneyAddCommand extends SubCommand {
                         .replace("#amount#", Main.util.formatDouble(amount))
                         .replace("#target#", args[1])
                         .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                        .replace("#balance#", Main.util.formatDouble(amount))); // TODO: richtige Zahl ausgeben
+                        .replace("#balance#", String.valueOf(Main.economyImplementer.getBalance(args[1]))));
                 return true;
 
             }

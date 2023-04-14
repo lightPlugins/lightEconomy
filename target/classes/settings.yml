@@ -19,13 +19,14 @@ version: 5.0
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
   enable: false
-  host: 136.243.208.18
+  host: 127.0.0.1
   port: 3306
-  database: lightEconomy
-  user: lightEconomy
-  password: KPCDrfYC2uPrIlc9X3V4X0LIV9aQZRbu
+  database: databaseName
+  user: username
+  password: YourSecretPassword
   ssl: false
   advanced:
+    # Don't change any values here if you don't know what you're doing
     connectionPoolSize: 10
     prepStmtCacheSize: 250
     prepStmtCacheSqlLimit: 2048
@@ -33,8 +34,10 @@ mysql:
     useServerPrepStmts: true
 settings:
   # Debug Messages in the log
-  debug: true
+  debug: false
+  # Start Balance
   start-balance: 200.00
+  # Printing first join message to the new Player in Chat (message.yml)
   enable-first-join-message: true
   date-format: 'dd:mm:yyyy'
   pay-command-delay: 10

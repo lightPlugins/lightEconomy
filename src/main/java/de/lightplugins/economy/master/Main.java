@@ -40,7 +40,6 @@ public class Main extends JavaPlugin {
 
     public static FileManager settings;
     public static FileManager messages;
-    public static FileManager mainMenu;
     public static FileManager titles;
 
     public void onLoad() {
@@ -63,12 +62,11 @@ public class Main extends JavaPlugin {
 
         settings = new FileManager(this, "settings.yml");
         messages = new FileManager(this, "messages.yml");
-        mainMenu = new FileManager(this, "main-menu.yml");
         titles = new FileManager(this, "titles.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
-        Bukkit.getLogger().log(Level.INFO, "Successfully loaded " + this.getName());
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully loaded " + this.getName());
     }
 
     public void onEnable() {
@@ -76,7 +74,6 @@ public class Main extends JavaPlugin {
         /*  Initalize Database and connect driver  */
 
         this.hikari = new DatabaseConnection(this);
-        Bukkit.getLogger().log(Level.INFO, "Use MySQL Connection ...");
 
         if(settings.getConfig().getBoolean("mysql.enable")) {
             hikari.connectToDataBaseViaMariaDB();
@@ -88,13 +85,13 @@ public class Main extends JavaPlugin {
 
         /*  Creating needed Database-Tables  */
 
-        Bukkit.getLogger().log(Level.INFO, "Creating Database ...");
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Creating Database ...");
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
 
         /*  Register required Commands & TabCompletion  */
 
-        Bukkit.getLogger().log(Level.INFO, "Register Commands and TabCompletion ...");
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Register Commands and TabCompletion ...");
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
@@ -110,7 +107,7 @@ public class Main extends JavaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new NewPlayer(this), this);
 
-        Bukkit.getLogger().log(Level.INFO, "Successfully started " + this.getName());
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully started " + this.getName());
     }
 
     public void onDisable() {
@@ -123,16 +120,16 @@ public class Main extends JavaPlugin {
 
         try {
             if(ds != null) {
-                Bukkit.getLogger().log(Level.INFO, "Status of Database: " + ds.getConnection());
-                Bukkit.getLogger().log(Level.INFO, "Lets try to shutdown the database");
-                Bukkit.getLogger().log(Level.WARNING, "Never 'relaod' the server!");
+                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Status of Database: " + ds.getConnection());
+                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Lets try to shutdown the database");
+                Bukkit.getLogger().log(Level.WARNING, "[lightEconomy] Never 'relaod' the server!");
                 ds.close();
-                Bukkit.getLogger().log(Level.INFO, "Successfully disconnected Database!");
+                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully disconnected Database!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        Bukkit.getLogger().log(Level.INFO, "Successfully stopped " + this.getName());
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully stopped " + this.getName());
     }
 }

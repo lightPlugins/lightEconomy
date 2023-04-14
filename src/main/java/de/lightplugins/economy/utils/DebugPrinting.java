@@ -13,7 +13,7 @@ public class DebugPrinting {
         boolean debugMode = fileConfiguration.getBoolean("settings.debug");
 
         if(debugMode) {
-            Bukkit.getLogger().log(Level.INFO, message);
+            Bukkit.getLogger().log(Level.INFO, "[lightEconomy] " + message);
         }
     }
 
@@ -22,7 +22,7 @@ public class DebugPrinting {
         boolean debugMode = fileConfiguration.getBoolean("settings.debug");
 
         if(debugMode) {
-            Bukkit.getLogger().log(Level.WARNING, message);
+            Bukkit.getLogger().log(Level.WARNING, "[lightEconomy] " + message);
         }
     }
 
@@ -31,7 +31,7 @@ public class DebugPrinting {
         boolean debugMode = fileConfiguration.getBoolean("settings.debug");
 
         if(debugMode) {
-            Bukkit.getLogger().log(Level.SEVERE, message);
+            Bukkit.getLogger().log(Level.SEVERE, "[lightEconomy] " + message);
         }
     }
 }

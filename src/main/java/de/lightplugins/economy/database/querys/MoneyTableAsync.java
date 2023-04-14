@@ -95,11 +95,7 @@ public class MoneyTableAsync {
 
                 while(rs.next()) {
 
-                    OfflinePlayer offlinePlayer = Bukkit.getPlayer(rs.getString("name"));
-
-                    if(offlinePlayer != null) {
-                        playerList.put(rs.getString("name"), rs.getDouble("money"));
-                    }
+                    playerList.put(rs.getString("name"), rs.getDouble("money"));
                 }
                 return playerList;
 
@@ -128,8 +124,6 @@ public class MoneyTableAsync {
     }
 
     public CompletableFuture<Boolean> createNewPlayer(String playerName) {
-
-        Bukkit.getLogger().log(Level.SEVERE, "CREATING ACCOUNT FOR: " + playerName);
 
 
         return CompletableFuture.supplyAsync(() -> {

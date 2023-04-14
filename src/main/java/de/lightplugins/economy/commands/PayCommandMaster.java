@@ -43,12 +43,12 @@ public class PayCommandMaster implements CommandExecutor {
                 double amount = Double.parseDouble(args[1]);
 
                 if(!Main.economyImplementer.hasAccount(target)) {
-                    Main.util.sendMessage((Player) sender, MessagePath.PlayerNotFound.getPath());
+                    Main.util.sendMessage((Player) sender, MessagePath.PlayerNotExists.getPath());
                     return false;
                 }
                 if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
-                    //return false;
+                    return false;
                 }
                 if(amount < 0) {
                     Main.util.sendMessage((Player) sender, MessagePath.OnlyPositivNumbers.getPath());
