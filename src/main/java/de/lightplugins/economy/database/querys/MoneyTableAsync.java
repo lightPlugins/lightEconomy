@@ -141,7 +141,7 @@ public class MoneyTableAsync {
             FileConfiguration settings = Main.settings.getConfig();
             double startBalance = settings.getDouble("settings.start-balance");
 
-            Bukkit.getLogger().log(Level.INFO, "New User found. Creating Database entry for " + playerName);
+            Main.debugPrinting.sendInfo("New User found. Creating Database entry for " + playerName);
 
             try {
 
@@ -161,7 +161,7 @@ public class MoneyTableAsync {
                 ps.setDouble(3, startBalance);
                 ps.execute();
                 ps.close();
-                Bukkit.getLogger().log(Level.INFO, "Successfully added new Player to database!");
+                Main.debugPrinting.sendInfo("Successfully added new Player to database!");
                 return true;
 
             } catch (SQLException e) {

@@ -27,7 +27,10 @@ public class ReloadCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
-        if(args.length != 1)  { return false; }
+        if(args.length != 1)  {
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            return false;
+        }
 
         if(!player.hasPermission(PermissionPath.Reload.getPerm())) {
             Main.util.sendMessage(player, MessagePath.NoPermission.getPath());

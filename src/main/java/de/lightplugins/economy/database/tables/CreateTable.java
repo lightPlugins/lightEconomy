@@ -14,7 +14,7 @@ public class CreateTable {
     public void createMoneyTable() {
 
         String tableName = "MoneyTable";
-        String tableStatement = "";
+        String tableStatement;
         TableStatements tableStatements = new TableStatements(plugin);
         FileConfiguration settings = Main.settings.getConfig();
 

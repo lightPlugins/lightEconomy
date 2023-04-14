@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
@@ -47,7 +48,7 @@ public class MoneyCommandManager implements CommandExecutor {
 
                         try {
                             if(getSubCommands().get(i).perform(player, args)) {
-                                Bukkit.getLogger().log(Level.INFO, "MainSubCommand successfully executed!");
+                                Main.debugPrinting.sendInfo("MainSubCommand " + Arrays.toString(args) + " successfully executed by " + player.getName());
                             }
 
                         } catch (ExecutionException | InterruptedException e) {

@@ -75,6 +75,8 @@ public class MoneyRemoveCommand extends SubCommand {
 
             }
 
+            Main.debugPrinting.sendError(moneyRemove.errorMessage);
+
         } catch (NumberFormatException e) {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
             return true;

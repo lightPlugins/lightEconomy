@@ -78,7 +78,7 @@ public class MoneyAddCommand extends SubCommand {
                 ERROR Message if something Wrong !
              */
 
-            Bukkit.getLogger().log(Level.WARNING, "ERROR: " + moneyAdd.errorMessage);
+            Main.debugPrinting.sendError(moneyAdd.errorMessage);
 
             // TODO: insert error message here, if something went wrong
 

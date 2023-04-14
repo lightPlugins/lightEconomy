@@ -35,7 +35,6 @@ public class TableStatements {
             if(connection != null) {
                 try {
                     connection.close();
-                    Bukkit.getLogger().log(Level.INFO, "Connection closed.");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -44,7 +43,6 @@ public class TableStatements {
             if(ps != null) {
                 try {
                     ps.close();
-                    Bukkit.getLogger().log(Level.INFO, "Statement closed.");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

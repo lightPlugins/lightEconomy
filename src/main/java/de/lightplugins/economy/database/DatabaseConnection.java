@@ -71,7 +71,7 @@ public class DatabaseConnection {
                 e.printStackTrace();
             }
         } else{
-            Bukkit.getLogger().log(Level.WARNING, "SQLite file already exists -> skipping");
+            Main.debugPrinting.sendWarning("SQLite file already exists -> skipping");
         }
 
         HikariConfig config = new HikariConfig();
@@ -80,10 +80,7 @@ public class DatabaseConnection {
         config.setMaximumPoolSize(10);
         plugin.ds = new HikariDataSource(config);
 
-
-        Bukkit.getLogger().log(Level.WARNING, dataFolder.toString());
-
-        Bukkit.getLogger().log(Level.INFO, "Successfully connected to SQLite !");
+        Main.debugPrinting.sendInfo("Successfully connected to SQLite !");
 
     }
 }

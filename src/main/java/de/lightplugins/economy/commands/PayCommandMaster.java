@@ -83,7 +83,7 @@ public class PayCommandMaster implements CommandExecutor {
 
                     cooldown.add(sender.getName());
 
-                    BukkitTask tast = new BukkitRunnable() {
+                    BukkitTask task = new BukkitRunnable() {
 
                         final int[] counter = {0};
                         @Override

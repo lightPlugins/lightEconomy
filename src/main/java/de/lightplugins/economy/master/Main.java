@@ -9,6 +9,7 @@ import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.utils.ColorTranslation;
+import de.lightplugins.economy.utils.DebugPrinting;
 import de.lightplugins.economy.utils.ProgressionBar;
 import de.lightplugins.economy.utils.Util;
 import net.milkbowl.vault.economy.Economy;
@@ -35,6 +36,7 @@ public class Main extends JavaPlugin {
     public static ColorTranslation colorTranslation;
     public static ProgressionBar progressionBar;
     public static Util util;
+    public static DebugPrinting debugPrinting;
 
     public static FileManager settings;
     public static FileManager messages;
@@ -57,6 +59,7 @@ public class Main extends JavaPlugin {
 
         colorTranslation = new ColorTranslation();
         util = new Util();
+        debugPrinting = new DebugPrinting();
 
         settings = new FileManager(this, "settings.yml");
         messages = new FileManager(this, "messages.yml");
