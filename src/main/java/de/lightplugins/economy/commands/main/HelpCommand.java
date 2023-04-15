@@ -17,7 +17,7 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Get an overview of all posible Commands";
+        return "Get an overview of all possible Commands";
     }
 
     @Override
@@ -30,7 +30,6 @@ public class HelpCommand extends SubCommand {
 
         if(args.length == 1) {
             FileConfiguration messages = Main.messages.getConfig();
-            Bukkit.getLogger().log(Level.WARNING, "INFO: " + MessagePath.Help.getPath());
 
             Main.util.sendMessageList(player, messages.getStringList("helpCommand"));
         }
