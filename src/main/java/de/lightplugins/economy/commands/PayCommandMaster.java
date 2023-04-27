@@ -26,6 +26,23 @@ public class PayCommandMaster implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
         if(sender instanceof Player) {
+
+            if(args.length == 1) {
+                if(args[0].equalsIgnoreCase("toggle")) {
+                    if(Main.payToggle.contains(sender.getName())) {
+                        Main.payToggle.remove(sender.getName());
+                        Main.util.sendMessage((Player) sender, MessagePath.PayEnabled.getPath());
+                        return false;
+                    }
+                    Main.payToggle.add(sender.getName());
+                    Main.util.sendMessage((Player) sender, MessagePath.PayDisabled.getPath());
+                    return false;
+                }
+
+                Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath());
+                return false;
+            }
+
             if(args.length == 2) {
 
                 if(!sender.hasPermission(PermissionPath.PayCommand.getPerm())) {
@@ -46,21 +63,25 @@ public class PayCommandMaster implements CommandExecutor {
                     Main.util.sendMessage((Player) sender, MessagePath.PlayerNotExists.getPath());
                     return false;
                 }
+                /*
                 if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
                     return false;
                 }
+                */
                 if(amount < 0) {
                     Main.util.sendMessage((Player) sender, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
                 }
-                if(cooldown.contains(sender.getName())) {
-                    Main.util.sendMessage((Player) sender, MessagePath.PayCooldown.getPath());
-                    return false;
-                }
+
                 if(!Main.economyImplementer.has(sender.getName(), amount)) {
                     Main.util.sendMessage((Player) sender, MessagePath.PayFailed.getPath()
                             .replace("#reason#", "Not enough Money"));
+                    return false;
+                }
+                if(Main.payToggle.contains(target)) {
+                    Main.util.sendMessage((Player) sender, MessagePath.PayFailed.getPath()
+                            .replace("#reason#", "Target disabled payments"));
                     return false;
                 }
 
@@ -118,7 +139,7 @@ public class PayCommandMaster implements CommandExecutor {
                 return false;
             }
         }
-
+        Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath());
         return false;
     }
 }

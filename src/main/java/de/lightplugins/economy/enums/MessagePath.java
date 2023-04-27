@@ -23,6 +23,8 @@ public enum MessagePath {
     PayTargetSuccess("payTargetOnSuccess"),
     PayFailed("payTransactionFailed"),
     PayCooldown("payCooldown"),
+    PayEnabled("payToggleEnabled"),
+    PayDisabled("payToggleDisabled"),
     NotYourself("notYourself"),
     NotHappening("payNotHappening"),
     WrongCommand("wrongCommand"),

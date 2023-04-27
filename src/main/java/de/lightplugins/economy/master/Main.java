@@ -8,6 +8,7 @@ import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
+import de.lightplugins.economy.placeholder.PlaceholderAPI;
 import de.lightplugins.economy.utils.ColorTranslation;
 import de.lightplugins.economy.utils.DebugPrinting;
 import de.lightplugins.economy.utils.ProgressionBar;
@@ -18,6 +19,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -41,6 +44,8 @@ public class Main extends JavaPlugin {
     public static FileManager settings;
     public static FileManager messages;
     public static FileManager titles;
+
+    public static List<String> payToggle = new ArrayList<>();
 
     public void onLoad() {
 
@@ -81,7 +86,11 @@ public class Main extends JavaPlugin {
             hikari.connectToDatabaseViaSQLite();
         }
 
+        /*  Check if PlaceholderAPI installed  */
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderAPI().register(); // initial lightEconomy placeholder
 
+        }
 
         /*  Creating needed Database-Tables  */
 
