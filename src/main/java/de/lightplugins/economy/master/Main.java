@@ -76,6 +76,11 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
 
+        /*  creating bStats method  */
+
+        enableBStats();
+        debugPrinting.sendInfo("bStats successfully registered.");
+
         /*  Initalize Database and connect driver  */
 
         this.hikari = new DatabaseConnection(this);
@@ -140,5 +145,10 @@ public class Main extends JavaPlugin {
         }
 
         Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully stopped " + this.getName());
+    }
+
+    private void enableBStats() {
+        int pluginId = 18401;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 }
