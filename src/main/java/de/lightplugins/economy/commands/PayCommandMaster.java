@@ -63,12 +63,10 @@ public class PayCommandMaster implements CommandExecutor {
                     Main.util.sendMessage((Player) sender, MessagePath.PlayerNotExists.getPath());
                     return false;
                 }
-                /*
                 if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
                     return false;
                 }
-                */
                 if(amount < 0) {
                     Main.util.sendMessage((Player) sender, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
