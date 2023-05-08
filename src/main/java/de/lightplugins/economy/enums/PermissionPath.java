@@ -18,6 +18,7 @@ public enum PermissionPath {
 
     PayCommand("lighteconomy.user.command.pay"),
     MoneyTop("lighteconomy.user.command.top"),
+    CreateVoucher("lighteconomy.user.command.createvoucher"),
     ;
 
     private final String path;

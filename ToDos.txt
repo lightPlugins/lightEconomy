@@ -3,7 +3,7 @@ Aktuelle Aufgaben:
 [x]    - Console Commands
     - Lose money on die low prio
 [x]    - pay commands (cooldowns)
-    - placeholderapi placeholder
+[x]    - placeholderapi placeholder
 [x]    - max pocket balance in settings.yml
     - giveall command (Einmal für alle online Spieler, und einmal für alle in der Database) low prio
     - Transaction logs low prio
@@ -14,3 +14,4 @@ Aktuelle Aufgaben:
     - bank system low prio (maybe in seperate plugin)
 [x]    - reload Command
 [x]    - show other balance
+    - Item Voucher

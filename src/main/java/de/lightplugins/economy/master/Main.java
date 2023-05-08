@@ -44,6 +44,7 @@ public class Main extends JavaPlugin {
     public static FileManager settings;
     public static FileManager messages;
     public static FileManager titles;
+    public static FileManager voucher;
 
     public static List<String> payToggle = new ArrayList<>();
 
@@ -68,6 +69,7 @@ public class Main extends JavaPlugin {
         settings = new FileManager(this, "settings.yml");
         messages = new FileManager(this, "messages.yml");
         titles = new FileManager(this, "titles.yml");
+        voucher = new FileManager(this, "voucher.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 

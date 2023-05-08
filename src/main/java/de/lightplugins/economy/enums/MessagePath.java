@@ -29,6 +29,12 @@ public enum MessagePath {
     NotHappening("payNotHappening"),
     WrongCommand("wrongCommand"),
     MoneyBalanceOther("moneyBalanceOther"),
+    NotEnoughtMoney("notEnoughtMoney"),
+    TransactionFailed("transactionFailed"),
+    VoucherCreate("voucherCreate"),
+    VoucherMinValue("voucherMinValue"),
+    VoucherMaxValue("voucherMaxValue"),
+    VoucherDisabled("voucherDisabled"),
     ;
 
     private final String path;

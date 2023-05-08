@@ -91,4 +91,6 @@ public class Util {
             }
         }.runTaskTimer(Main.getInstance, 0, 1);
     }
+
+    public boolean isInventoryEmpty(Player player) { return player.getInventory().firstEmpty() != -1; }
 }
