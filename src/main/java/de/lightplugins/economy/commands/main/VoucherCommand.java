@@ -30,11 +30,6 @@ public class VoucherCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
-        if(!Main.voucher.getConfig().getBoolean("voucher.enable")) {
-            Main.util.sendMessage(player, MessagePath.VoucherDisabled.getPath());
-            return false;
-        }
-
         if(args.length != 3) {
             Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
             return false;
@@ -42,6 +37,11 @@ public class VoucherCommand extends SubCommand {
 
         if(!player.hasPermission(PermissionPath.CreateVoucher.getPerm())) {
             Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+            return false;
+        }
+
+        if(!Main.voucher.getConfig().getBoolean("voucher.enable")) {
+            Main.util.sendMessage(player, MessagePath.VoucherDisabled.getPath());
             return false;
         }
 
@@ -55,7 +55,7 @@ public class VoucherCommand extends SubCommand {
 
                 double itemValue = Double.parseDouble(args[2]);
 
-                if(itemValue <= 0) {
+                if(itemValue < 0) {
                     Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
                 }

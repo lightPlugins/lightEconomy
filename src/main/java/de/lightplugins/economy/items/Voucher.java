@@ -1,6 +1,6 @@
 package de.lightplugins.economy.items;
 
-import de.lightplugins.economy.enums.PersistenceDataPaths;
+import de.lightplugins.economy.enums.PersistentDataPaths;
 import de.lightplugins.economy.master.Main;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -60,9 +60,9 @@ public class Voucher {
 
         PersistentDataContainer data = itemMeta.getPersistentDataContainer();
         NamespacedKey namespacedKeyValue = new NamespacedKey(
-                Main.getInstance, PersistenceDataPaths.MONEY_VALUE.getType());
+                Main.getInstance, PersistentDataPaths.MONEY_VALUE.getType());
 
-        if(namespacedKeyValue.getKey().equalsIgnoreCase(PersistenceDataPaths.MONEY_VALUE.getType())) {
+        if(namespacedKeyValue.getKey().equalsIgnoreCase(PersistentDataPaths.MONEY_VALUE.getType())) {
             data.set(namespacedKeyValue, PersistentDataType.DOUBLE, itemValue);
         }
 

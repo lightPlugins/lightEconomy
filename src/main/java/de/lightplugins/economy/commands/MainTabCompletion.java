@@ -17,6 +17,7 @@ public class MainTabCompletion implements TabCompleter {
             List<String> arguments = new ArrayList<>();
             arguments.add("reload");
             arguments.add("help");
+            arguments.add("voucher");
 
             return arguments;
         }

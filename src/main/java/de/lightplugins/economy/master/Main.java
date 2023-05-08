@@ -96,6 +96,7 @@ public class Main extends JavaPlugin {
         /*  Check if PlaceholderAPI installed  */
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPI().register(); // initial lightEconomy placeholder
+            Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Hooked into PlaceholderAPI");
 
         }
 
@@ -107,14 +108,14 @@ public class Main extends JavaPlugin {
 
         /*  Register required Commands & TabCompletion  */
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Register Commands and TabCompletion ...");
+        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Register Commands and TabCompletions ...");
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
         Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
 
-        //  Console commands not require TabCompletion
+        // Console commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("eco")).setExecutor(new ConsoleCommandManager(this));
         // Pay Commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("pay")).setExecutor(new PayCommandMaster());

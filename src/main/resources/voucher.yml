@@ -7,12 +7,11 @@ voucher:
     enable: false
     custom-id: 5
   glow: true
-  name: '&c&l#amount# &7#currency# Voucher'
+  name: '&c&l#amount# &7#currency# - Voucher'
   lore:
     - '&8&m--------&r&c●&8&m--&r &c&lINFO &8&m--&r&c●&8&m--------&r'
     - ' '
     - '&7From player: &c#creator#'
     - '&7Value: &c#amount# &7#currency#'
     - ' '
-    - '&c&lTIP &8- &7Hold the Voucher in your hand and type'
-    - '    &c/le reedem to collect the voucher.'
+    - '&c&lTIP &8- &7Right-Click to collect'

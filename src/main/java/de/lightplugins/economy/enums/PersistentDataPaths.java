@@ -1,12 +1,12 @@
 package de.lightplugins.economy.enums;
 
-public enum PersistenceDataPaths {
+public enum PersistentDataPaths {
 
     MONEY_VALUE("money_value"),
     ;
 
     private String type;
-    PersistenceDataPaths(String type) { this.type = type; }
+    PersistentDataPaths(String type) { this.type = type; }
     public String getType() {
 
         return type;
