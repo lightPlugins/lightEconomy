@@ -38,7 +38,7 @@ public class ReloadCommand extends SubCommand {
         }
 
         Main.messages.reloadConfig("messages.yml");
-        Main.messages.reloadConfig("titles.yml");
+        Main.titles.reloadConfig("titles.yml");
 
         Main.util.sendMessage(player, MessagePath.Reload.getPath());
 
