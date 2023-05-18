@@ -35,6 +35,8 @@ public enum MessagePath {
     VoucherMinValue("voucherMinValue"),
     VoucherMaxValue("voucherMaxValue"),
     VoucherDisabled("voucherDisabled"),
+    VoucherCollected("convertCollect"),
+    VoucherOffHanad("voucherOffHanad"),
     ;
 
     private final String path;

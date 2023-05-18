@@ -70,6 +70,7 @@ voucherDisabled: '&7The voucher system is currently &cdisabled &7!'
 convertNotEnough: '&cYou do not have enough money for this convert &7!'
 convertNotEnabled: '&cMoney voucher are not enabled &7!'
 convertCollect: '&7You collected &c#amount# &7#currency# from an voucher.'
+voucherOffHanad: '&7You cannot set a &cVoucher &7into your offhand!'
 # ●
 bankDepositValueViaChat: '&7Write down the amount you want to deposit into your bank account!'
 bankDepositSuccessfully: '&7You added &c#amount# &7#currency# to your bank account.'

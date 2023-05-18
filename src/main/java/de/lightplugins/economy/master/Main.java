@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.economy.commands.*;
 import de.lightplugins.economy.database.DatabaseConnection;
 import de.lightplugins.economy.database.tables.CreateTable;
+import de.lightplugins.economy.events.ClaimVoucher;
 import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
@@ -123,6 +124,7 @@ public class Main extends JavaPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new NewPlayer(this), this);
+        pluginManager.registerEvents(new ClaimVoucher(), this);
 
         Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully started " + this.getName());
     }
