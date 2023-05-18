@@ -3,11 +3,22 @@ package de.lightplugins.economy.events;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.master.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockDataMeta;
+import org.bukkit.material.MaterialData;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -63,5 +74,23 @@ public class NewPlayer implements Listener {
                 });
             }
         });
+    }
+    @EventHandler
+    public void test(PlayerInteractEvent event) {
+
+        Player player = event.getPlayer();
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+
+        if (itemInHand.getType() == Material.IRON_PICKAXE) {
+            Block clickedBlock = event.getClickedBlock();
+            if (clickedBlock != null && clickedBlock.getType() == Material.DIAMOND_ORE) {
+                // Verlängere die Abbauzeit des Steins
+                event.setCancelled(true); // Blockabbau verhindern
+                Bukkit.getLogger().log(Level.INFO, "TEST: " + event.getClickedBlock().getBlockPower());
+                player.sendBlockDamage(clickedBlock.getLocation(), 0.1f); // Sende den Schaden an den Block
+            }
+        }
+
+        event.getPlayer().sendBlockDamage(event.getPlayer().getLocation(), 0.1f);
     }
 }
