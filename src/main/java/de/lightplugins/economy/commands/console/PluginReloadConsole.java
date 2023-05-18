@@ -32,6 +32,7 @@ public class PluginReloadConsole extends SubCommand {
 
                 Main.messages.reloadConfig("messages.yml");
                 Main.titles.reloadConfig("titles.yml");
+                Main.voucher.reloadConfig("voucher.yml");
 
                 Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully reloaded the message.yml and titles.yml");
                 Bukkit.getLogger().log(Level.WARNING, "[lightEconomy] If you changed the settings.yml please restart the server!");

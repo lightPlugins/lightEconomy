@@ -46,6 +46,11 @@ public class ClaimVoucher implements Listener {
                         return;
                     }
 
+                    if(!Main.voucher.getConfig().getBoolean("voucher.enable")) {
+                        Main.util.sendMessage(player, MessagePath.VoucherDisabled.getPath());
+                        return;
+                    }
+
                     double amount = data.get(key, PersistentDataType.DOUBLE);
                     EconomyResponse economyResponse = Main.economyImplementer.depositPlayer(player.getName(), amount);
                     if(economyResponse.transactionSuccess()) {

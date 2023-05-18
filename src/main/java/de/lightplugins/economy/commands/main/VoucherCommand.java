@@ -90,7 +90,9 @@ public class VoucherCommand extends SubCommand {
 
                 if(Main.util.isInventoryEmpty(player)) {
                     player.getInventory().addItem(voucher.createVoucher(itemValue, player.getName()));
-                    Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath());
+                    Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath()
+                            .replace("#amount#", String.valueOf(itemValue))
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
                     return true;
                 }
 
