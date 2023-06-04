@@ -54,6 +54,9 @@ moneyTopFormat: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency
 moneyTopFooter:
   - ' '
   - '&7&m-----&r&c●&7&m-----&r &7&m-----&r&c●&7⏺&c●&7&m-----&r &7&m-----&r&c●&7&m-----&r'
+moneyAddAll: '&c#successcount# &7of &c#overallcount# &7player(s) got &c#amount# &7#currency# deposited.'
+moneyAddAllTarget: 'You got a global payment from &c#sender#&7. Amount: &c#amount# &7#currency#'
+moneyAddAllFailed: '&c#failcount# &7transaction failed. Please see in the log for errors.'
 # ●
 payToggleEnabled: '&7You &aenabled &7payments from other players.'
 payToggleDisabled: '&7You &cdisabled &7payments from other players.'

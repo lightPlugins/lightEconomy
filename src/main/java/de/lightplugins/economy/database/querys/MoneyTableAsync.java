@@ -87,7 +87,7 @@ public class MoneyTableAsync {
 
                 connection = plugin.ds.getConnection();
 
-                ps = connection.prepareStatement("SELECT * FROM "+ tableName);
+                ps = connection.prepareStatement("SELECT * FROM "+ tableName + " WHERE isPlayer = '1'");
 
                 HashMap<String, Double> playerList = new HashMap<>();
 

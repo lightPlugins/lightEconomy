@@ -72,7 +72,7 @@ public class MoneyTopCommand extends SubCommand {
                         player.sendMessage(Main.colorTranslation.hexTranslation(message.getString("moneyTopFormat"))
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", name)
-                                .replace("#amount#", String.valueOf(Main.util.fixDouble(top.getValue())))
+                                .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
                     } catch (Exception e) {
                         // Catch Exception for Map.Entry Exception if its null!

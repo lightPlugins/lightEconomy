@@ -1,0 +1,10 @@
+- money top command shows now only players (towny accounts are not shown in the top command)
+- money top command formating number
+- money balance command now shows the correct format
+- adding a new command called /money addall [amount]. With this command you reward all players from the database with
+  a specified amount of currency. All online Players will be notified. Also you get messages, if any transaction
+  failed from the global pay. Players where on a different Server get no message. Thats not possible at this moment.
+  Watch out that a big amount of players can provide massive lags for a short time!!! This command is not rated
+  for big networks with a high amount of player count.
+- new entrys in the message.yml. Feel free to translate it into your language.
+

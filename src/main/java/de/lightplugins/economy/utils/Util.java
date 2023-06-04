@@ -45,6 +45,9 @@ public class Util {
         return String.format("%,.2f", numberToFormat);
     }
 
+    public String finalFormatDouble(double numberToRound) { return formatDouble(fixDouble(numberToRound));
+    }
+
     /*  Count Animation with title for withdraw and deposit  */
 
     public void countUp(Player player, double endValue,
