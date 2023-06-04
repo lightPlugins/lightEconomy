@@ -1,9 +1,6 @@
 package de.lightplugins.economy.commands;
 
-import de.lightplugins.economy.commands.console.MoneyAddConsole;
-import de.lightplugins.economy.commands.console.MoneyRemoveConsole;
-import de.lightplugins.economy.commands.console.MoneySetConsole;
-import de.lightplugins.economy.commands.console.PluginReloadConsole;
+import de.lightplugins.economy.commands.console.*;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
@@ -33,6 +30,7 @@ public class ConsoleCommandManager implements CommandExecutor {
         subCommands.add(new MoneyRemoveConsole());
         subCommands.add(new MoneySetConsole());
         subCommands.add(new PluginReloadConsole());
+        subCommands.add(new MoneyReset());
     }
 
     @Override

@@ -1,9 +1,14 @@
 package de.lightplugins.economy.commands.console;
 
+import de.lightplugins.economy.database.querys.MoneyTableAsync;
+import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 public class MoneyReset extends SubCommand {
     @Override
@@ -25,8 +30,29 @@ public class MoneyReset extends SubCommand {
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
         if(args.length != 2)  {
-
+            Bukkit.getLogger().log(Level.WARNING, "This command does not exist. Please try it again");
+            return false;
         }
+
+        String target = args[1];
+
+        Bukkit.getLogger().log(Level.WARNING, "TEST " + target);
+
+        if(!Main.economyImplementer.hasAccount(target)) {
+            Bukkit.getLogger().log(Level.WARNING,
+                    "The Target does not have an account and cant be deleted!");
+            return false;
+        }
+
+        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+
+        CompletableFuture<Boolean> delete = moneyTableAsync.deleteAccount(target);
+            if(delete.get()) {
+                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully deleted user " + target);
+            } else {
+                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Cannot delete user " + target + ". " +
+                        "Something went wrong");
+            }
 
         return false;
     }
