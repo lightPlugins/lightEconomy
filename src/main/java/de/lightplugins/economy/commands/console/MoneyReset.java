@@ -36,11 +36,9 @@ public class MoneyReset extends SubCommand {
 
         String target = args[1];
 
-        Bukkit.getLogger().log(Level.WARNING, "TEST " + target);
-
         if(!Main.economyImplementer.hasAccount(target)) {
             Bukkit.getLogger().log(Level.WARNING,
-                    "The Target does not have an account and cant be deleted!");
+                    "[lightEconomy] The Target does not have an account and cant be deleted!");
             return false;
         }
 
@@ -49,6 +47,10 @@ public class MoneyReset extends SubCommand {
         CompletableFuture<Boolean> delete = moneyTableAsync.deleteAccount(target);
             if(delete.get()) {
                 Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully deleted user " + target);
+                Player tar = Bukkit.getPlayer(target);
+                if(tar == null) { return false; }
+                tar.kickPlayer("§7[lightEconomy] §cYour economy account was deleted. " +
+                        "\n§cPlease connect again to the server");
             } else {
                 Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Cannot delete user " + target + ". " +
                         "Something went wrong");

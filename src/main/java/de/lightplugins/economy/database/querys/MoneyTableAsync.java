@@ -295,7 +295,7 @@ public class MoneyTableAsync {
 
                 ps = connection.prepareStatement("DELETE FROM MoneyTable WHERE name=?");
                 ps.setString(1, playerName);
-                ps.execute();
+                ps.executeUpdate();
                 ps.close();
                 connection.commit();
                 return true;
