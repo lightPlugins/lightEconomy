@@ -65,6 +65,7 @@ payTargetOnSuccess: '&7You receive &c#amount# &7#currency# from &c#sender#'
 payTransactionFailed: '&cPay Transaction failed cause by: &7#reason#'
 payCooldown: '&cPlease wait a few seconds, before you can pay again &7!'
 payNotHappening: '&cThat should not have happened. You lose the money due pay command. Please contact an Admin!'
+payWrongCommand: '&cWrong Command. Please use &7/pay [username] [amount] &cor &7/pay toggle'
 # ●
 voucherCreate: '&7You converted &c#amount# &7#currency# from your Balance to a physical voucher'
 voucherMinValue: '&7You need at least &c#min-value# &7#currency# to convert money into voucher.'

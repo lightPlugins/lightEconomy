@@ -25,6 +25,7 @@ public enum MessagePath {
     PayCooldown("payCooldown"),
     PayEnabled("payToggleEnabled"),
     PayDisabled("payToggleDisabled"),
+    PayWrongCommand("payWrongCommand"),
     NotYourself("notYourself"),
     NotHappening("payNotHappening"),
     WrongCommand("wrongCommand"),
