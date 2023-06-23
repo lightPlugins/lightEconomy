@@ -31,7 +31,7 @@ public class HelpCommand extends SubCommand {
         if(args.length == 1) {
             FileConfiguration messages = Main.messages.getConfig();
 
-            Main.util.sendMessageList(player, messages.getStringList("helpCommand"));
+            Main.util.sendMessageList(player, messages.getStringList(MessagePath.Help.getPath()));
         }
 
         return false;

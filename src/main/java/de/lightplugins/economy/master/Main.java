@@ -2,6 +2,9 @@ package de.lightplugins.economy.master;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.economy.commands.*;
+import de.lightplugins.economy.commands.tabcompletion.BankTabCompletion;
+import de.lightplugins.economy.commands.tabcompletion.MainTabCompletion;
+import de.lightplugins.economy.commands.tabcompletion.MoneyTabCompletion;
 import de.lightplugins.economy.database.DatabaseConnection;
 import de.lightplugins.economy.database.tables.CreateTable;
 import de.lightplugins.economy.events.ClaimVoucher;
@@ -9,13 +12,16 @@ import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
+import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.placeholder.PlaceholderAPI;
 import de.lightplugins.economy.utils.ColorTranslation;
 import de.lightplugins.economy.utils.DebugPrinting;
 import de.lightplugins.economy.utils.ProgressionBar;
 import de.lightplugins.economy.utils.Util;
+import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,8 +52,14 @@ public class Main extends JavaPlugin {
     public static FileManager messages;
     public static FileManager titles;
     public static FileManager voucher;
+    public static FileManager bankMenu;
+    public static FileManager bankLevelMenu;
 
     public static List<String> payToggle = new ArrayList<>();
+    public List<Player> bankDepositValue = new ArrayList<>();
+    public List<Player> bankWithdrawValue = new ArrayList<>();
+
+    public static InventoryManager bankMenuInventoryManager;
 
     public void onLoad() {
 
@@ -71,6 +83,8 @@ public class Main extends JavaPlugin {
         messages = new FileManager(this, "messages.yml");
         titles = new FileManager(this, "titles.yml");
         voucher = new FileManager(this, "voucher.yml");
+        bankMenu = new FileManager(this, "bank-menu.yml");
+        bankLevelMenu = new FileManager(this, "bank-level.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
@@ -106,6 +120,7 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Creating Database ...");
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
+        createTable.createBankTable();
 
         /*  Register required Commands & TabCompletion  */
 
@@ -116,15 +131,23 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
 
+        Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
+        Objects.requireNonNull(this.getCommand("bank")).setTabCompleter(new BankTabCompletion());
+
         // Console commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("eco")).setExecutor(new ConsoleCommandManager(this));
         // Pay Commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("pay")).setExecutor(new PayCommandMaster());
+        Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
 
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new NewPlayer(this), this);
         pluginManager.registerEvents(new ClaimVoucher(), this);
+        pluginManager.registerEvents(new BankListener(this), this);
+
+        bankMenuInventoryManager = new InventoryManager(this);
+        bankMenuInventoryManager.init();
 
         Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully started " + this.getName());
     }

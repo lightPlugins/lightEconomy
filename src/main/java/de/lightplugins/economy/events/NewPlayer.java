@@ -1,5 +1,6 @@
 package de.lightplugins.economy.events;
 
+import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.master.Main;
 import org.bukkit.Bukkit;
@@ -21,6 +22,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 public class NewPlayer implements Listener {
@@ -42,6 +45,7 @@ public class NewPlayer implements Listener {
         Player player = event.getPlayer();
 
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
+        BankTableAsync bankTableAsync = new BankTableAsync(plugin);
         moneyTableAsync.playerBalance(player.getName()).thenAccept(balance -> {
 
             if(balance != null) {
@@ -74,6 +78,16 @@ public class NewPlayer implements Listener {
                 });
             }
         });
+
+        CompletableFuture<Boolean> completableFuture = bankTableAsync.createBankAccount(player.getName());
+
+        try {
+            if(completableFuture.get()) {
+                Main.debugPrinting.sendInfo("Successfully created bank account!");
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     @EventHandler
     public void test(PlayerInteractEvent event) {

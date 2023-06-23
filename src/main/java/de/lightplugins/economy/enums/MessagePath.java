@@ -37,6 +37,22 @@ public enum MessagePath {
     VoucherDisabled("voucherDisabled"),
     VoucherCollected("convertCollect"),
     VoucherOffHanad("voucherOffHanad"),
+    BankUpgradeNoPermission("bankUpgradeNoPermission"),
+    BankUpgradeAlreadyOwn("bankUpgradeAlreadyOwn"),
+    BankUpgradeNeedPreviousLevel("bankUpgradeNeedPreviousLevel"),
+    BankUpgradeNoMoney("bankUpgradeNoMoney"),
+    BankUpgradeSuccess("bankUpgradeSuccess"),
+    BankDepositValueViaChat("bankDepositValueViaChat"),
+    BankDepositNotEnough("bankDepositNotEnough"),
+    BankDepositNotPossible("bankDepositNotPossible"),
+    BankDepositAllLimit("bankDepositAllLimit"),
+    BankDepositAll("bankDepositAll"),
+    BankWithdrawValueViaChat("bankWithdrawValueViaChat"),
+    BankWithdrawAll("bankWithdrawAll"),
+    BankWithdrawNotEnough("bankWithdrawNotEnough"),
+    BankWithdrawSuccessfully("bankWithdrawSuccessfully"),
+    BankDepositOverLimit("bankDepositOverLimit"),
+    BankDepositSuccessfully("bankDepositSuccessfully"),
     ;
 
     private final String path;
