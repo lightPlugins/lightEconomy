@@ -1,0 +1,153 @@
+levels:
+  level-1:
+    level: 1
+    max-value: 15000
+    price: 7500
+    needed-permission: lighteconomy.bank.buy.level.1
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-2:
+    level: 2
+    max-value: 25000
+    price: 12500
+    needed-permission: lighteconomy.bank.buy.level.2
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-3:
+    level: 3
+    max-value: 50000
+    price: 25000
+    needed-permission: lighteconomy.bank.buy.level.3
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-4:
+    level: 4
+    max-value: 100000
+    price: 50000
+    needed-permission: lighteconomy.bank.buy.level.4
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-5:
+    level: 5
+    max-value: 250000
+    price: 125000
+    needed-permission: lighteconomy.bank.buy.level.5
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-6:
+    level: 6
+    max-value: 500000
+    price: 250000
+    needed-permission: lighteconomy.bank.buy.level.6
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-7:
+    level: 7
+    max-value: 1000000
+    price: 500000
+    needed-permission: lighteconomy.bank.buy.level.7
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-8:
+    level: 8
+    max-value: 2500000
+    price: 1250000
+    needed-permission: lighteconomy.bank.buy.level.8
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+  level-9:
+    level: 9
+    max-value: 5000000
+    price: 2500000
+    needed-permission: lighteconomy.bank.buy.level.9
+    title: '&7Bank Level &c#level#'
+    material: GOLD_INGOT
+    lore:
+      - '&7&m---&r&c●&7&m---&r &c&lBANK &7Level &c&lUPGRADE &7&m---&r&c●&7&m---&r'
+      - ' '
+      - '&cLeft Click &7to &cbuy &7this Level'
+      - '&7Price: &c#amount# &7#currency#'
+      - '&7New Limit: &c#limit# &7#currency#'
+      - ''
+gui:
+  title: '&c&lBANK &8| &7Upgrade Menu'
+  pages:
+    previous-page:
+      column: 2
+      row: 3
+      material: ARROW
+      displayname: '&cprevious Page'
+      lore: []
+    next-page:
+      column: 2
+      row: 5
+      material: ARROW
+      displayname: '&cnext Page'
+      lore: []
+  other:
+    no-permission:
+      title: '&7Bank Level &c#level#'
+      glow: true
+      material: BARRIER
+      lore-extra: '&7IMPORTANT: &cYou dont have &4Permission &cto buy this &7!'
+    already-bought:
+      title: '&7Bank Level &c#level#'
+      glow: true
+      material: RAW_GOLD
+      lore-extra: '&7IMPORTANT: &aYou already &2own &athis Level &7!'

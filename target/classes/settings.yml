@@ -1,0 +1,50 @@
+#
+#  $$\ $$\           $$\        $$\     $$$$$$$$\
+#  $$ |\__|          $$ |       $$ |    $$  _____|
+#  $$ |$$\  $$$$$$\  $$$$$$$\ $$$$$$\   $$ |      $$$$$$$\  $$$$$$\  $$$$$$$\   $$$$$$\  $$$$$$\$$$$\  $$\   $$\
+#  $$ |$$ |$$  __$$\ $$  __$$\\_$$  _|  $$$$$\   $$  _____|$$  __$$\ $$  __$$\ $$  __$$\ $$  _$$  _$$\ $$ |  $$ |
+#  $$ |$$ |$$ /  $$ |$$ |  $$ | $$ |    $$  __|  $$ /      $$ /  $$ |$$ |  $$ |$$ /  $$ |$$ / $$ / $$ |$$ |  $$ |
+#  $$ |$$ |$$ |  $$ |$$ |  $$ | $$ |$$\ $$ |     $$ |      $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ | $$ | $$ |$$ |  $$ |
+#  $$ |$$ |\$$$$$$$ |$$ |  $$ | \$$$$  |$$$$$$$$\\$$$$$$$\ \$$$$$$  |$$ |  $$ |\$$$$$$  |$$ | $$ | $$ |\$$$$$$$ |
+#  \__|\__| \____$$ |\__|  \__|  \____/ \________|\_______| \______/ \__|  \__| \______/ \__| \__| \__| \____$$ |
+#          $$\   $$ |                                                                                  $$\   $$ |
+#          \$$$$$$  |                                                                                  \$$$$$$  |
+#           \______/                                                                                    \______/
+#
+#
+#               Plugin version 5.0
+#               Developer: lightPlugins
+#
+version: 5.0
+mysql:
+  # if disabled, the plugin will use automatically sqlite for single server setup
+  enable: false
+  host: 127.0.0.1
+  port: 3306
+  database: databaseName
+  user: username
+  password: YourSecretPassword
+  ssl: false
+  advanced:
+    # Don't change any values here if you don't know what you're doing
+    connectionPoolSize: 10
+    prepStmtCacheSize: 250
+    prepStmtCacheSqlLimit: 2048
+    cachePrepStmts: true
+    useServerPrepStmts: true
+settings:
+  # Debug Messages in the log
+  debug: false
+  # Start Balance
+  start-balance: 200.00
+  # Printing first join message to the new Player in Chat (message.yml)
+  enable-first-join-message: true
+  date-format: 'dd:mm:yyyy'
+  pay-command-delay: 10
+  currency-name-plural: 'EUR'
+  currency-name-singular: 'EURs'
+  max-pocket-balance: 999999999999.99
+  baltop-amount-of-players: 10
+  baltop-exclude:
+    - gaben
+    - notch

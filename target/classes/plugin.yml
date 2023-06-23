@@ -1,0 +1,15 @@
+name: lightEconomy
+author: lightPlugins
+version: 5.2.1
+main: de.lightplugins.economy.master.Main
+api-version: 1.19
+depend: [Vault]
+softdepend: [PlaceholderAPI]
+loadbefore: [Essentials, Towny]
+commands: {
+            le:,
+            money:,
+            eco:,
+            pay:,
+            bank:,
+}
