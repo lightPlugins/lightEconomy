@@ -89,6 +89,7 @@ public class Main extends JavaPlugin {
         currencyName = settings.getConfig().getString("settings.currency-name");
 
         Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully loaded " + this.getName());
+
     }
 
     public void onEnable() {

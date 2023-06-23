@@ -1,5 +1,6 @@
 package de.lightplugins.economy.commands;
 
+import de.lightplugins.economy.commands.main.ConnectionCommand;
 import de.lightplugins.economy.commands.main.HelpCommand;
 import de.lightplugins.economy.commands.main.ReloadCommand;
 import de.lightplugins.economy.commands.main.VoucherCommand;
@@ -30,6 +31,7 @@ public class MainCommandManager implements CommandExecutor {
         subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new VoucherCommand());
+        subCommands.add(new ConnectionCommand());
     }
 
     @Override

@@ -87,7 +87,7 @@ public class MoneyTableAsync {
 
                 connection = plugin.ds.getConnection();
 
-                ps = connection.prepareStatement("SELECT * FROM "+ tableName);
+                ps = connection.prepareStatement("SELECT * FROM "+ tableName + " WHERE isPlayer = '1'");
 
                 HashMap<String, Double> playerList = new HashMap<>();
 
@@ -260,6 +260,49 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+
+            } finally {
+                if(connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public CompletableFuture<Boolean> deleteAccount(String playerName) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            Connection connection = null;
+            PreparedStatement ps = null;
+
+            try {
+
+                connection = plugin.ds.getConnection();
+                connection.setAutoCommit(false);
+
+                ps = connection.prepareStatement("DELETE FROM MoneyTable WHERE name=?");
+                ps.setString(1, playerName);
+                ps.executeUpdate();
+                ps.close();
+                connection.commit();
+                return true;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
 
             } finally {
                 if(connection != null) {

@@ -99,10 +99,9 @@ public class ClaimVoucher implements Listener {
                 return;
             }
 
-            Main.util.sendMessage((Player) event.getWhoClicked(), MessagePath.VoucherOffHanad.getPath());
-
             if(event.getSlot() == 40) {
                 event.setCancelled(true);
+                Main.util.sendMessage((Player) event.getWhoClicked(), MessagePath.VoucherOffHanad.getPath());
                 event.getWhoClicked().closeInventory();
             }
         }

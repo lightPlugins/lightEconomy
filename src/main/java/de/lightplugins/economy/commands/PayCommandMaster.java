@@ -39,7 +39,7 @@ public class PayCommandMaster implements CommandExecutor {
                     return false;
                 }
 
-                Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath());
+                Main.util.sendMessage((Player) sender, MessagePath.PayWrongCommand.getPath());
                 return false;
             }
 
@@ -137,7 +137,7 @@ public class PayCommandMaster implements CommandExecutor {
                 return false;
             }
         }
-        Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath());
+        Main.util.sendMessage((Player) sender, MessagePath.PayWrongCommand.getPath());
         return false;
     }
 }

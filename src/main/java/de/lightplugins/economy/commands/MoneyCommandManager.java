@@ -33,6 +33,7 @@ public class MoneyCommandManager implements CommandExecutor {
         subCommands.add(new MoneySetCommand(plugin));
         subCommands.add(new MoneyTopCommand());
         subCommands.add(new MoneyShowCommand());
+        subCommands.add(new MoneyAddAllCommand());
     }
 
     @Override
@@ -62,7 +63,7 @@ public class MoneyCommandManager implements CommandExecutor {
                     if(balance != null) {
                         double currentBalance = balance;
                         Main.util.sendMessage(player, MessagePath.MoneyBalance.getPath()
-                                .replace("#balance#", String.valueOf(Main.util.fixDouble(currentBalance)))
+                                .replace("#balance#", Main.util.finalFormatDouble(currentBalance))
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
                     } else {
                         player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
