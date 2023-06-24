@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankMainMenu implements InventoryProvider {
 
@@ -111,13 +112,21 @@ public class BankMainMenu implements InventoryProvider {
 
             List<String> lore = new ArrayList<>();
 
+            int[] maxLevel = {0};
+
+            Main.bankLevelMenu.getConfig().getStringList("levels").forEach(e -> {
+                maxLevel[0] ++;
+            });
+
             for(String line : bankMenu.getStringList("bank.main.content." + input + ".lore")) {
 
                 String finalLine = line
                         .replace("%bank_owner%", player.getName())
-                        .replace("%bank_balance%", String.valueOf(bankBalance))
+                        .replace("%bank_balance%", Main.util.finalFormatDouble(bankBalance))
                         .replace("%bank_level%", String.valueOf(level))
-                        .replace("%level_based_max_value%", String.valueOf(limit));
+                        .replace("%bank_level_max%", String.valueOf(maxLevel[0]))
+                        .replace("%level_based_max_value%", Main.util.finalFormatDouble(limit))
+                        .replace("%pocket_balance%", Main.util.finalFormatDouble(pocketBalance));
 
                 lore.add(Main.colorTranslation.hexTranslation(finalLine));
             }

@@ -1,7 +1,10 @@
 package de.lightplugins.economy.commands.bank;
 
 import de.lightplugins.economy.inventories.BankMainMenu;
+import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ExecutionException;
@@ -9,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 public class BankMenuCommand extends SubCommand {
     @Override
     public String getName() {
-        return "bank";
+        return "open";
     }
 
     @Override
@@ -19,13 +22,20 @@ public class BankMenuCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank";
+        return "/bank open [player]";
     }
 
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
-        BankMainMenu.INVENTORY.open(player);
+        if(args.length == 2) {
+            Player target = Bukkit.getPlayer(args[1]);
+            if(target == null) {
+                Main.debugPrinting.sendWarning("Target player from /bank open [target] not found!");
+                return false;
+            }
+            BankMainMenu.INVENTORY.open(target);
+        }
 
         return false;
     }

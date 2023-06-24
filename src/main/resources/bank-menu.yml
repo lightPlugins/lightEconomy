@@ -47,14 +47,6 @@ bank:
           - '&8● &7Here you can &awithdraw'
           - '    &7all your money from your'
           - '    &7Bank Account'
-      latest-transactions:
-        column: 2
-        row: 1
-        material: BOOK
-        displayname: '&cLatest Transactions'
-        lore:
-          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
-          - ' '
       bank-informations:
         column: 4
         row: 1
@@ -65,16 +57,10 @@ bank:
           - ' '
           - '&7Account Owner: &c%bank_owner%'
           - '&7Account Value: &c%bank_balance% &7/ &c%level_based_max_value%'
-          - '&7Account Deposit Level: &c%bank_level%'
+          - '&7Account Deposit Level: &c%bank_level% &7/ &c%bank_level_max%'
+          - '&7Pcket Balance: &c%pocket_balance%'
           - ' '
-      friends:
-        column: 6
-        row: 1
-        material: WRITABLE_BOOK
-        displayname: '&cPermission Grands'
-        lore:
-          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
-          - ' '
+          - '&cLeft click to &4open &cbank level menu'
       back-button:
         column: 4
         row: 4

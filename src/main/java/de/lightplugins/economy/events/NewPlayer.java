@@ -79,12 +79,31 @@ public class NewPlayer implements Listener {
             }
         });
 
-        CompletableFuture<Boolean> completableFuture = bankTableAsync.createBankAccount(player.getName());
+        CompletableFuture<Double> hasAccountValue = bankTableAsync.playerBankBalance(player.getName());
 
         try {
-            if(completableFuture.get()) {
-                Main.debugPrinting.sendInfo("Successfully created bank account!");
+            if(hasAccountValue.get() == null) {
+
+                CompletableFuture<Boolean> completableFuture = bankTableAsync.createBankAccount(player.getName());
+
+                try {
+                    if(completableFuture.get()) {
+                        Main.debugPrinting.sendInfo(
+                                "Successfully created bank account!");
+                    } else {
+                        Main.debugPrinting.sendInfo(
+                                "Something went wrong in creating bank account for " + player.getName());
+                    }
+                    return;
+
+                } catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
+
+            Main.debugPrinting.sendInfo(
+                    "Player already has bank account!");
+
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

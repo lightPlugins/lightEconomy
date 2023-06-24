@@ -140,6 +140,12 @@ gui:
       material: ARROW
       displayname: '&cnext Page'
       lore: []
+    back:
+      column: 2
+      row: 4
+      material: REDSTONE
+      displayname: '&cback'
+      lore: []
   other:
     no-permission:
       title: '&7Bank Level &c#level#'
@@ -151,3 +157,8 @@ gui:
       glow: true
       material: RAW_GOLD
       lore-extra: '&7IMPORTANT: &aYou already &2own &athis Level &7!'
+    no-money:
+      title: '&7Bank Level &c#level#'
+      glow: false
+      material: BARRIER
+      lore-extra: '&7IMPORTANT: &4You dont have enought money&7!'
