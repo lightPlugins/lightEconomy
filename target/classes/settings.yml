@@ -48,3 +48,5 @@ settings:
   baltop-exclude:
     - gaben
     - notch
+  count-up-sound: BLOCK_NOTE_BLOCK_HAT
+  final-count-sound: ENTITY_DRAGON_FIREBALL_EXPLODE

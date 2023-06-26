@@ -1,0 +1,4 @@
+- added bank feature
+- added bank level system
+- new config files for bank menu and bank level menu
+- added sound settings from deposit/withdraw counter to settings.yml

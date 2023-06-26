@@ -2,6 +2,7 @@ package de.lightplugins.economy.utils;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -55,6 +56,11 @@ public class Util {
 
         double startValue = endValue * 0.05;
 
+        FileConfiguration config = Main.settings.getConfig();
+
+        Sound countUpSound = Sound.valueOf(config.getString("settings.count-up-sound"));
+        Sound countFinishSound = Sound.valueOf(config.getString("settings.final-count-sound"));
+
         BigDecimal bd2 = new BigDecimal(startValue).setScale(2, RoundingMode.HALF_UP);
         BigDecimal bd = new BigDecimal(endValue).setScale(2, RoundingMode.HALF_UP);
 
@@ -76,7 +82,7 @@ public class Util {
                             upperLine.replace("#amount#", roundedOutput),
                             lowerLine.replace("#amount#", roundedOutput),
                             0, 20, 20);
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, (float)0.7, (float)1.6);
+                    player.playSound(player.getLocation(), countUpSound, (float)0.7, (float)1.6);
                 }
 
                 if(roundedCountMin[0] >= endValue) {
@@ -87,7 +93,7 @@ public class Util {
                             upperLineFinal.replace("#amount#", roundedSetPointOutput),
                             lowerLineFinal.replace("#amount#", roundedSetPointOutput),
                             0, 20, 20);
-                    player.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, (float)0.7, (float)1.6);
+                    player.playSound(player.getLocation(), countFinishSound, (float)0.7, (float)1.6);
                     this.cancel();
 
                 }
