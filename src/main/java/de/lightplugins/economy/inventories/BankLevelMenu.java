@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankLevelMenu implements InventoryProvider {
 
@@ -50,6 +51,14 @@ public class BankLevelMenu implements InventoryProvider {
         //CompletableFuture<Integer> currentBankLevelFuture = bankTable.playerCurrentBankLevel(player.getName());
 
         MoneyTableAsync moneyTable = new MoneyTableAsync(Main.getInstance);
+
+        CompletableFuture<Double> pocketFuture = moneyTable.playerBalance(player.getName());
+        double currentPocket;
+        try {
+            currentPocket = pocketFuture.get();
+        } catch (ExecutionException | InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
 
         ClickableItem[] levelItems = new ClickableItem[levelCounter];
 
@@ -86,6 +95,8 @@ public class BankLevelMenu implements InventoryProvider {
             assert im != null;
             im.setDisplayName(Main.colorTranslation.hexTranslation(title
                     .replace("#level#", String.valueOf(level))));
+
+
 
             //setup lore System
             List<String> lore = new ArrayList<>();
@@ -146,7 +157,8 @@ public class BankLevelMenu implements InventoryProvider {
 
                 //Wenn Spieler schon das Level hat ...
 
-                Material alreadyBoughtMaterial = Material.valueOf(config.getString("gui.other.already-bought.material"));
+                Material alreadyBoughtMaterial =
+                        Material.valueOf(config.getString("gui.other.already-bought.material"));
                 is.setType(alreadyBoughtMaterial);
 
                 List<String> alreadyBoughtExtraLore = im.getLore();
@@ -164,7 +176,35 @@ public class BankLevelMenu implements InventoryProvider {
                 }
 
                 is.setItemMeta(im);
+            } else {
+                if(currentPocket < price) {
+
+                    //Wenn Spieler nicht genug Geld für die nächste Stufe hat ...
+
+                    Material alreadyBoughtMaterial =
+                            Material.valueOf(config.getString("gui.other.no-money.material"));
+                    is.setType(alreadyBoughtMaterial);
+
+                    List<String> alreadyBoughtExtraLore = im.getLore();
+                    assert alreadyBoughtExtraLore != null;
+                    alreadyBoughtExtraLore.add(Main.colorTranslation.hexTranslation(
+                            config.getString("gui.other.no-money.lore-extra")));
+
+                    im.setLore(alreadyBoughtExtraLore);
+
+                    if(config.getBoolean("gui.other.no-money.glow")) {
+
+                        im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+                        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    }
+
+                    is.setItemMeta(im);
+
+                }
             }
+
+
 
 
             levelItems[i - 1] = ClickableItem.of(is, e -> {
@@ -218,7 +258,7 @@ public class BankLevelMenu implements InventoryProvider {
 
                     if(currentPocketBalance < price) {
                         Main.util.sendMessage(player, MessagePath.BankUpgradeNoMoney.getPath());
-                        player.closeInventory();
+                        // player.closeInventory();
                         sounds.soundOnFailure(player);
                         return;
                     }
@@ -233,7 +273,9 @@ public class BankLevelMenu implements InventoryProvider {
                         if(moneyFuture.get() && bankFuture.get()) {
                             Main.util.sendMessage(player, MessagePath.BankUpgradeSuccess.getPath()
                                     .replace("#level#", String.valueOf(level)));
-                            player.closeInventory();
+                            //player.closeInventory();
+                            int test = pagination.getPage();
+                            INVENTORY.open(player, pagination.page(test).getPage());
                             sounds.soundOnSuccess(player);
                             return;
 
@@ -257,6 +299,9 @@ public class BankLevelMenu implements InventoryProvider {
         Material previousPageMaterial = Material.valueOf(config.getString("gui.pages.previous-page.material"));
         String previousPageDisplayName= config.getString("gui.pages.previous-page.displayname");
 
+        int rowPrevious = config.getInt("gui.pages.previous-page.row");
+        int columnPrevious = config.getInt("gui.pages.previous-page.column");
+
         ItemStack previousPageItemStack = new ItemStack(previousPageMaterial);
         ItemMeta previousPageItemMeta = previousPageItemStack.getItemMeta();
 
@@ -274,6 +319,9 @@ public class BankLevelMenu implements InventoryProvider {
         Material nextPageMaterial = Material.valueOf(config.getString("gui.pages.next-page.material"));
         String nextPageDisplayName= config.getString("gui.pages.next-page.displayname");
 
+        int rowNext = config.getInt("gui.pages.next-page.row");
+        int columnNext = config.getInt("gui.pages.next-page.column");
+
         ItemStack nextPageItemStack = new ItemStack(nextPageMaterial);
         ItemMeta nextPageItemMeta = nextPageItemStack.getItemMeta();
 
@@ -285,12 +333,31 @@ public class BankLevelMenu implements InventoryProvider {
         nextPageItemStack.setItemMeta(nextPageItemMeta);
 
 
-        inventoryContents.set(2, 3, ClickableItem.of(previousPageItemStack,
+        // back button
+
+        Material backMaterial = Material.valueOf(config.getString("gui.pages.back.material"));
+        String backDisplayName= config.getString("gui.pages.back.displayname");
+
+        int rowBack = config.getInt("gui.pages.back.row");
+        int columnBack = config.getInt("gui.pages.back.column");
+
+        ItemStack backItemStack = new ItemStack(backMaterial);
+        ItemMeta backItemMeta = nextPageItemStack.getItemMeta();
+
+        assert backItemMeta != null;
+        if(backItemMeta.hasLore()) { Objects.requireNonNull(backItemMeta.getLore()).clear();}
+
+        backItemMeta.setDisplayName(Main.colorTranslation.hexTranslation(backDisplayName));
+
+        backItemStack.setItemMeta(backItemMeta);
+
+
+        inventoryContents.set(columnPrevious, rowPrevious, ClickableItem.of(previousPageItemStack,
                 e -> INVENTORY.open(player, pagination.previous().getPage())));
-        inventoryContents.set(2, 5, ClickableItem.of(nextPageItemStack,
+        inventoryContents.set(columnNext, rowNext, ClickableItem.of(nextPageItemStack,
                 e -> INVENTORY.open(player, pagination.next().getPage())));
-
-
+        inventoryContents.set(columnBack, rowBack, ClickableItem.of(backItemStack,
+                e -> BankMainMenu.INVENTORY.open(player)));
 
 
 
