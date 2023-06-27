@@ -4,7 +4,6 @@ import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ExecutionException;
