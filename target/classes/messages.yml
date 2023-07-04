@@ -94,7 +94,7 @@ bankSetPlayerLimit: '&cYou cant set this Value to players bank account. Its over
 # ●
 bankUpgradeNoPermission: '&cYou dont have Permission to buy this Level. You need &7#permission#'
 bankUpgradeAlreadyOwn: '&cYou own this Level already &7!'
-bankUpgradeNeedPreviousLevel: '&cYou need to buy a previous Level bevor you can buy this &7!'
+bankUpgradeNeedPreviousLevel: '&cYou need to buy a previous Level before you can buy this &7!'
 bankUpgradeNoMoney: '&cYou dont have enought Money to buy this Level &7!'
 bankUpgradeSuccess: '&7You bought success the Bank Level &c#level#&7.'
 bankSetLevelPlayer: '&7You set players level from &c#old-level# &7to &c#new-level#&7.'

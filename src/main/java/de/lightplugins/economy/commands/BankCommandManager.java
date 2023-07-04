@@ -1,6 +1,7 @@
 package de.lightplugins.economy.commands;
 
 import de.lightplugins.economy.commands.bank.BankMenuCommand;
+import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.command.Command;
@@ -50,6 +51,8 @@ public class BankCommandManager implements CommandExecutor {
             } else {
 
                 /* if the Main command is /money, just do here a quick balance checkout */
+
+                BankMainMenu.INVENTORY.open(player);
             }
         }
 

@@ -35,6 +35,8 @@ public class FileManager {
         if(this.configFile == null)
             this.configFile = new File(this.plugin.getDataFolder(), configName);
 
+        this.plugin.reloadConfig();
+
         this.dataConfig = YamlConfiguration.loadConfiguration(this.configFile);
 
         InputStream defaultStream = this.plugin.getResource(configName);

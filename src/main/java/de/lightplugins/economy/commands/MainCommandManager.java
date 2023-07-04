@@ -6,7 +6,6 @@ import de.lightplugins.economy.commands.main.ReloadCommand;
 import de.lightplugins.economy.commands.main.VoucherCommand;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 
 public class MainCommandManager implements CommandExecutor {
 

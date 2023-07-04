@@ -39,6 +39,8 @@ settings:
   start-balance: 200.00
   # Printing first join message to the new Player in Chat (message.yml)
   enable-first-join-message: true
+  # Enable the bank modul, so players can use the bank command
+  enable-bank-feature: true
   date-format: 'dd:mm:yyyy'
   pay-command-delay: 10
   currency-name-plural: 'EUR'

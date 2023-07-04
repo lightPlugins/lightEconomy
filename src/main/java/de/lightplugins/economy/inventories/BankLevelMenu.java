@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankLevelMenu implements InventoryProvider {
 
@@ -74,6 +73,8 @@ public class BankLevelMenu implements InventoryProvider {
         int i = 0;
         for(String path : Objects.requireNonNull(config.getConfigurationSection("levels")).getKeys(false)) {
             i++;
+            
+            config.getString("levels..material");
 
             Material material = Material.valueOf(config.getString("levels." + path + ".material"));
             int level = config.getInt("levels." + path + ".level");

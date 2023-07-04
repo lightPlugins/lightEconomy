@@ -1,0 +1,48 @@
+drops:
+  blockBreakEvent:
+    enable: true
+    drops:
+      '[0]':
+        fromBlock: DIAMOND_ORE
+        rewards:
+          vault:
+            chance: 75.0
+            min: 10
+            max: 100
+          exp:
+            chance: 25.0
+            min: 2
+            max: 10
+          items:
+            - 'DIAMOND;5;10.0'
+            - 'COAL;3;25.0'
+      '[1]':
+        fromBlock: COAL_ORE
+        rewards:
+          vault:
+            chance: 75.0
+            min: 10
+            max: 100
+          exp:
+            chance: 25.0
+            min: 2
+            max: 10
+          items:
+            - 'DIAMOND;5;10.0'
+            - 'COAL;3;25.0'
+      '[2]':
+        fromBlock: DEEPSLATE_COAL_ORE
+        rewards:
+          vault:
+            enable: true
+            chance: 75.0
+            min: 10
+            max: 100
+          exp:
+            enable: true
+            chance: 25.0
+            min: 2
+            max: 10
+          items:
+            - 'DIAMOND;5;10.0'
+            - 'COAL;3;25.0'
