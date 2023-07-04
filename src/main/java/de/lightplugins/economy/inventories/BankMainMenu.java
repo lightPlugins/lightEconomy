@@ -274,7 +274,6 @@ public class BankMainMenu implements InventoryProvider {
 
                         }
 
-                        Material.DEEP
 
                     }catch (Exception ex) {
                         ex.printStackTrace();
