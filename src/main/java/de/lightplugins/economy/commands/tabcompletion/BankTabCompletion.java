@@ -19,6 +19,7 @@ public class BankTabCompletion implements TabCompleter {
             arguments.add("add");
             arguments.add("remove");
             arguments.add("level");
+            arguments.add("show");
 
             return arguments;
         }

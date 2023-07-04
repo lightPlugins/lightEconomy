@@ -3,14 +3,25 @@
   You can add infinity Levels to bank-level.yml. Players can purchase those levels to gain more bank space.
 - new config files for bank menu and bank level menu. - bank-level.yml and bank-menu.yml.
 - added sound settings from deposit/withdraw counter to settings.yml. Please regenerate the settings.yml to change the
-  new Sounds. Make sure you backuped your old settings.yml to avoid losing already setuped settings like database params.
-- added new Bank feature based commands like changing bank values and levels from other Players
-- added new Command: eco bank open <player> - Opens the bank inventory for a player (Console Command)
-- added new Command: /bank open <player> - Opens the bank inventory for a player (InGame Command)
+  new Sounds. Make sure you backuped your old settings.yml to avoid losing already setuped
+  settings like database params.
+- added new Bank feature based commands like changing bank values and levels from other Players.
+- added new Command: eco bank open <player> - Opens the bank inventory for a player. (Console Command)
+- added new Command: /bank open <player> - Opens the bank inventory for a player. (InGame Command)
 - added new Command: /bank - Open the bank inventory for the target player, who used this command.
-- added new Command: /bank set <player> <amount> - Set the players current bank value to a new value
-- added new Command: /bank remove <player> <amount> - Remove a value from players current bank value
-- added new Command: /bank add <player> <amount> - Add a value to players current bank value
+- added new Command: /bank set <player> <amount> - Set the players current bank value to a new value.
+- added new Command: /bank remove <player> <amount> - Remove a value from players current bank value.
+- added new Command: /bank add <player> <amount> - Add a value to players current bank value.
+- added new Command: /bank show <player> - Show the bank stats from another player.
 - added new Command: /bank level set <player> <level> - Change the current bank level from other player to a new value
 - added new Messages to message.yml. Please regenerate the message.yml to translate it into your current languange.
   Make sure you backuped your old message.yml to avoid losing already translated stuff.
+- added new help command system. Only admins can show admin commands. Normal players will only see
+  player related commands
+- added new placeholder:
+  %lighteconomy_bank_balance%,
+  %lighteconomy_bank_limit_balance%,
+  %lighteconomy_bank_current_level%,
+  %lighteconomy_bank_max_level%,
+  %lighteconomy_%
+- fixed the help command. For no reasons the output was not working for most users.

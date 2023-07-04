@@ -64,6 +64,7 @@ public enum MessagePath {
     BankSetLevelPlayerToLow("bankSetLevelPlayerToLow"),
     BankSetLevelPlayerMax("bankSetLevelPlayerMax"),
     BankSetLevelPlayer("bankSetLevelPlayer"),
+    BankShowOther("bankShowOther"),
     ;
 
     private final String path;

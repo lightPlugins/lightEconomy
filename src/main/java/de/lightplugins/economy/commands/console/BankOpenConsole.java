@@ -1,7 +1,6 @@
 package de.lightplugins.economy.commands.console;
 
 import de.lightplugins.economy.inventories.BankMainMenu;
-import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,13 +20,13 @@ public class BankOpenConsole extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "eco bank open NAME";
+        return "eco bank open <player>";
     }
 
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
-        if(args.length == 33) {
+        if(args.length == 3) {
 
             Player target = Bukkit.getPlayer(args[2]);
             if(args[1].equalsIgnoreCase("open")) {

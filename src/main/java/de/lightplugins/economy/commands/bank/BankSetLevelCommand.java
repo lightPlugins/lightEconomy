@@ -44,14 +44,14 @@ public class BankSetLevelCommand extends SubCommand {
                 String targetName = args[2];
                 OfflinePlayer target = Bukkit.getPlayer(targetName);
 
-                if(target == null) {
-                    Main.util.sendMessage(player, MessagePath.PlayerNotExists.getPath());
+                if(!player.hasPermission(PermissionPath.BankSetLevel.getPerm())) {
+                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
                     sounds.soundOnFailure(player);
                     return false;
                 }
 
-                if(!player.hasPermission(PermissionPath.BankSetLevel.getPerm())) {
-                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+                if(target == null) {
+                    Main.util.sendMessage(player, MessagePath.PlayerNotExists.getPath());
                     sounds.soundOnFailure(player);
                     return false;
                 }

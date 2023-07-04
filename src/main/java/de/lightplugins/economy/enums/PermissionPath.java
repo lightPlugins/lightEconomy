@@ -17,6 +17,8 @@ public enum PermissionPath {
     BankSet("lighteconomy.admin.command.bankset"),
     BankRemove("lighteconomy.admin.comand.bankremove"),
     BankSetLevel("lighteconomy.admin.command.banksetlevel"),
+    BankShow("lighteconomy.admin.command.bankswow"),
+    HelpCommandAdmin("lighteconomy.admin.command.helpadmin"),
 
     /*
         User Command Perissions

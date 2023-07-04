@@ -112,11 +112,13 @@ public class BankMainMenu implements InventoryProvider {
 
             List<String> lore = new ArrayList<>();
 
-            int[] maxLevel = {0};
+            FileConfiguration config = Main.bankLevelMenu.getConfig();
 
-            Main.bankLevelMenu.getConfig().getStringList("levels").forEach(e -> {
-                maxLevel[0] ++;
-            });
+            int maxLevelViaConfig = 0;
+
+            for(int i = 0; i < config.getConfigurationSection("levels").getKeys(false).size(); i++) {
+                maxLevelViaConfig ++;
+            }
 
             for(String line : bankMenu.getStringList("bank.main.content." + input + ".lore")) {
 
@@ -124,7 +126,7 @@ public class BankMainMenu implements InventoryProvider {
                         .replace("%bank_owner%", player.getName())
                         .replace("%bank_balance%", Main.util.finalFormatDouble(bankBalance))
                         .replace("%bank_level%", String.valueOf(level))
-                        .replace("%bank_level_max%", String.valueOf(maxLevel[0]))
+                        .replace("%bank_level_max%", String.valueOf(maxLevelViaConfig))
                         .replace("%level_based_max_value%", Main.util.finalFormatDouble(limit))
                         .replace("%pocket_balance%", Main.util.finalFormatDouble(pocketBalance));
 
