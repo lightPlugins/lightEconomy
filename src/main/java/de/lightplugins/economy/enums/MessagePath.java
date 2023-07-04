@@ -57,6 +57,13 @@ public enum MessagePath {
     BankWithdrawSuccessfully("bankWithdrawSuccessfully"),
     BankDepositOverLimit("bankDepositOverLimit"),
     BankDepositSuccessfully("bankDepositSuccessfully"),
+    BankAddPlayerLimit("bankAddPlayerLimit"),
+    BankAddPlayer("bankAddPlayer"),
+    BankSetPlayerLimit("bankSetPlayerLimit"),
+    BankSetPlayer("bankSetPlayer"),
+    BankSetLevelPlayerToLow("bankSetLevelPlayerToLow"),
+    BankSetLevelPlayerMax("bankSetLevelPlayerMax"),
+    BankSetLevelPlayer("bankSetLevelPlayer"),
     ;
 
     private final String path;

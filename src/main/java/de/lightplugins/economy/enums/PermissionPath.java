@@ -13,6 +13,10 @@ public enum PermissionPath {
     Debug("lighteconomy.admin.command.debug"),
     MoneyOther("lighteconomy.admin.command.balanceother"),
     MoneyAddAll("lighteconomy.admin.command.moneyaddall"),
+    BankAdd("lighteconomy.admin.command.bankadd"),
+    BankSet("lighteconomy.admin.command.bankset"),
+    BankRemove("lighteconomy.admin.comand.bankremove"),
+    BankSetLevel("lighteconomy.admin.command.banksetlevel"),
 
     /*
         User Command Perissions

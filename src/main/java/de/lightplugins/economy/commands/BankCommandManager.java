@@ -1,6 +1,6 @@
 package de.lightplugins.economy.commands;
 
-import de.lightplugins.economy.commands.bank.BankMenuCommand;
+import de.lightplugins.economy.commands.bank.*;
 import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
@@ -25,6 +25,10 @@ public class BankCommandManager implements CommandExecutor {
     public BankCommandManager(Main plugin) {
         this.plugin = plugin;
         subCommands.add(new BankMenuCommand());
+        subCommands.add(new BankAddCommand());
+        subCommands.add(new BankSetCommand());
+        subCommands.add(new BankSetLevelCommand());
+        subCommands.add(new BankRemoveCommand());
     }
 
     @Override

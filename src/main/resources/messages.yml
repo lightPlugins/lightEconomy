@@ -91,6 +91,7 @@ bankAddPlayer: '&7You added &c#amount# &7#currency# &7to &c#target# &7bank accou
 bankAddPlayerLimit: '&cYou cant add more money to players bank account. It reached the limit due his bank level. Max is &4#limit#&7!'
 bankSetPlayer: '&7You set &c#target# &7bank account to &c#amount# &7#currency#'
 bankSetPlayerLimit: '&cYou cant set this Value to players bank account. Its over the limit due his bank level. Max is &4#limit#&7!'
+bankRemovePlayer: '&7You removed from &c#amount# &7#currency# from &c#target# &7bank account.'
 # ●
 bankUpgradeNoPermission: '&cYou dont have Permission to buy this Level. You need &7#permission#'
 bankUpgradeAlreadyOwn: '&cYou own this Level already &7!'

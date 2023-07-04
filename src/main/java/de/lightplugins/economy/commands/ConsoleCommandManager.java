@@ -31,6 +31,7 @@ public class ConsoleCommandManager implements CommandExecutor {
         subCommands.add(new MoneySetConsole());
         subCommands.add(new PluginReloadConsole());
         subCommands.add(new MoneyReset());
+        subCommands.add(new BankOpenConsole());
     }
 
     @Override

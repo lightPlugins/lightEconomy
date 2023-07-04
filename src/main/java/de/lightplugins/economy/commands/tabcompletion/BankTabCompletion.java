@@ -16,6 +16,9 @@ public class BankTabCompletion implements TabCompleter {
         if(args.length == 1) {
             List<String> arguments = new ArrayList<>();
             arguments.add("open");
+            arguments.add("add");
+            arguments.add("remove");
+            arguments.add("level");
 
             return arguments;
         }
