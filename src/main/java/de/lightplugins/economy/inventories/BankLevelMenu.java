@@ -106,8 +106,8 @@ public class BankLevelMenu implements InventoryProvider {
                 String finalLore = list
                         .replace("#level#", String.valueOf(level))
                         .replace("#permission#", permission)
-                        .replace("#amount#", String.valueOf(price))
-                        .replace("#limit#", String.valueOf(limit))
+                        .replace("#amount#", Main.util.finalFormatDouble(price))
+                        .replace("#limit#", Main.util.finalFormatDouble(limit))
                         .replace("#currency#", Main.economyImplementer.currencyNamePlural());
 
                 lore.add(Main.colorTranslation.hexTranslation(finalLore));

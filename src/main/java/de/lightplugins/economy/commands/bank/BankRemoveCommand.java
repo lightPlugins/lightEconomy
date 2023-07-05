@@ -46,6 +46,12 @@ public class BankRemoveCommand extends SubCommand {
 
                 OfflinePlayer targetPlayer = Bukkit.getPlayer(targetName);
 
+                if(!player.hasPermission(PermissionPath.BankRemove.getPerm())) {
+                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+                    sounds.soundOnFailure(player);
+                    return false;
+                }
+
                 if(targetPlayer == null) {
                     Main.util.sendMessage(player, MessagePath.PlayerNotExists.getPath());
                     sounds.soundOnFailure(player);
@@ -55,9 +61,9 @@ public class BankRemoveCommand extends SubCommand {
                 CompletableFuture<Double> balanceFuture = bankTable.playerBankBalance(targetPlayer.getName());
                 double currentBankBalance = balanceFuture.get();
 
-                if(!player.hasPermission(PermissionPath.BankRemove.getPerm())) {
-                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
-                    sounds.soundOnFailure(player);
+
+                if(removeValue <= 0) {
+                    Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
                 }
 
@@ -68,13 +74,13 @@ public class BankRemoveCommand extends SubCommand {
                     removeValue = currentBankBalance;
                 }
 
-                CompletableFuture<Boolean> completableFuture = bankTable.setBankMoney(targetPlayer.getName(), removeValue);
+                CompletableFuture<Boolean> completableFuture = bankTable.setBankMoney(targetPlayer.getName(), currentBankBalance - removeValue);
 
                 try {
 
                     if(completableFuture.get()) {
-                        Main.util.sendMessage(player, MessagePath.BankAddPlayer.getPath()
-                                .replace("#amount#", String.valueOf(removeValue))
+                        Main.util.sendMessage(player, MessagePath.BankRemovePlayer.getPath()
+                                .replace("#amount#", Main.util.finalFormatDouble(removeValue))
                                 .replace("#currency#", Main.economyImplementer.currencyNamePlural())
                                 .replace("#target#", targetName));
                         sounds.soundOnSuccess(player);

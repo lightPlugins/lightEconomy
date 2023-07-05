@@ -50,6 +50,11 @@ public class PayCommandMaster implements CommandExecutor {
                     return false;
                 }
 
+                if(cooldown.contains(sender.getName())) {
+                    Main.util.sendMessage((Player) sender, MessagePath.PayCooldown.getPath());
+                    return false;
+                }
+
                 String target = args[0];
 
                 if(!Main.util.isNumber(args[1])) {

@@ -48,9 +48,20 @@ public class BankAddCommand extends SubCommand {
 
                 OfflinePlayer targetPlayer = Bukkit.getPlayer(targetName);
 
+                if(!player.hasPermission(PermissionPath.BankAdd.getPerm())) {
+                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+                    sounds.soundOnFailure(player);
+                    return false;
+                }
+
                 if(targetPlayer == null) {
                     Main.util.sendMessage(player, MessagePath.PlayerNotExists.getPath());
                     sounds.soundOnFailure(player);
+                    return false;
+                }
+
+                if(addValue <= 0) {
+                    Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
                     return false;
                 }
 
@@ -59,15 +70,10 @@ public class BankAddCommand extends SubCommand {
 
                 double limit = bankLevelSystem.getLimitByLevel(targetPlayer.getUniqueId());
 
-                if(!player.hasPermission(PermissionPath.BankAdd.getPerm())) {
-                    Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
-                    sounds.soundOnFailure(player);
-                    return false;
-                }
 
                 if(limit < (currentBankBalance + addValue)) {
                     Main.util.sendMessage(player, MessagePath.BankAddPlayerLimit.getPath()
-                            .replace("#limit#", String.valueOf(limit)));
+                            .replace("#limit#", Main.util.finalFormatDouble(limit)));
                     sounds.soundOnFailure(player);
                     return false;
                 }
@@ -78,7 +84,7 @@ public class BankAddCommand extends SubCommand {
 
                     if(completableFuture.get()) {
                         Main.util.sendMessage(player, MessagePath.BankAddPlayer.getPath()
-                                .replace("#amount#", String.valueOf(addValue))
+                                .replace("#amount#", Main.util.finalFormatDouble(addValue))
                                 .replace("#currency#", Main.economyImplementer.currencyNamePlural())
                                 .replace("#target#", targetName));
                         sounds.soundOnSuccess(player);

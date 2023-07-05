@@ -60,6 +60,13 @@ public class BankListener implements Listener {
                 throw new RuntimeException(ex);
             }
 
+            if(amount <= 0) {
+                Main.util.sendMessage(chatter, MessagePath.OnlyPositivNumbers.getPath());
+                sounds.soundOnFailure(chatter);
+                plugin.bankDepositValue.remove(chatter);
+                return;
+            }
+
 
 
             if(amount > bankAmount) {
@@ -144,6 +151,13 @@ public class BankListener implements Listener {
                 throw new RuntimeException(ex);
             }
 
+            if(amount <= 0) {
+                Main.util.sendMessage(chatter, MessagePath.OnlyPositivNumbers.getPath());
+                sounds.soundOnFailure(chatter);
+                plugin.bankDepositValue.remove(chatter);
+                return;
+            }
+
 
             if(bankAmount == bankLevelSystem.getLimitByLevel(chatter.getUniqueId())) {
                 Main.util.sendMessage(chatter, MessagePath.BankDepositNotPossible.getPath());
@@ -156,6 +170,14 @@ public class BankListener implements Listener {
             if(amount > bankLevelSystem.getLimitByLevel(chatter.getUniqueId())) {
                 Main.util.sendMessage(chatter, MessagePath.BankDepositOverLimit.getPath());
                 sounds.soundOnFailure(chatter);
+                plugin.bankDepositValue.remove(chatter);
+                return;
+            }
+
+            if(bankAmount + amount >= bankLevelSystem.getLimitByLevel(chatter.getUniqueId())) {
+                Main.util.sendMessage(chatter, MessagePath.BankDepositOverLimit.getPath());
+                sounds.soundOnFailure(chatter);
+                plugin.bankDepositValue.remove(chatter);
                 return;
             }
 

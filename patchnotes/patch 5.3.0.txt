@@ -25,3 +25,4 @@
   %lighteconomy_bank_max_level%,
   %lighteconomy_%
 - fixed the help command. For no reasons the output was not working for most users.
+- fixed the pay command. The cooldown worked, but the message output for the cooldown was not working for many users.

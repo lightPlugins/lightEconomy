@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankMainMenu implements InventoryProvider {
 
@@ -234,7 +233,7 @@ public class BankMainMenu implements InventoryProvider {
 
                         if(completableFuture.get() && completableFuture1.get()) {
                             Main.util.sendMessage(player, MessagePath.BankDepositAll.getPath()
-                                    .replace("#amount#", String.valueOf(currentPocketBalance))
+                                    .replace("#amount#", Main.util.finalFormatDouble(currentPocketBalance))
                                     .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
                             sounds.soundOnSuccess(player);
                             player.closeInventory();
