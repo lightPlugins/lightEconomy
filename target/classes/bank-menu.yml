@@ -58,7 +58,7 @@ bank:
           - '&7Account Owner: &c%bank_owner%'
           - '&7Account Value: &c%bank_balance% &7/ &c%level_based_max_value%'
           - '&7Account Deposit Level: &c%bank_level% &7/ &c%bank_level_max%'
-          - '&7Pcket Balance: &c%pocket_balance%'
+          - '&7Pocket Balance: &c%pocket_balance%'
           - ' '
           - '&cLeft click to &4open &cbank level menu'
       back-button:
