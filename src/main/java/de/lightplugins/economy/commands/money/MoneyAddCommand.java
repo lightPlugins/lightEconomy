@@ -66,10 +66,10 @@ public class MoneyAddCommand extends SubCommand {
             EconomyResponse moneyAdd = Main.economyImplementer.depositPlayer(args[1], amount);
             if(moneyAdd.transactionSuccess()) {
                 Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
-                        .replace("#amount#", Main.util.formatDouble(amount))
+                        .replace("#amount#", Main.util.finalFormatDouble(amount))
                         .replace("#target#", args[1])
                         .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                        .replace("#balance#", String.valueOf(Main.economyImplementer.getBalance(args[1]))));
+                        .replace("#balance#", Main.util.finalFormatDouble(Main.economyImplementer.getBalance(args[1]))));
                 return true;
 
             }

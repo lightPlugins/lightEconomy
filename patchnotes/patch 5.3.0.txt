@@ -26,3 +26,7 @@
   %lighteconomy_%
 - fixed the help command. For no reasons the output was not working for most users.
 - fixed the pay command. The cooldown worked, but the message output for the cooldown was not working for many users.
+- changed the voucher command for userfriendly reasons.
+  For now players can create voucher with /money voucher create <amount>
+- added a server overall money value for the money top command.
+  Now you can see how much money are existing in you network.

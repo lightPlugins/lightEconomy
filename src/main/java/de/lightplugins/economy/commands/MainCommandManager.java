@@ -3,7 +3,6 @@ package de.lightplugins.economy.commands;
 import de.lightplugins.economy.commands.main.ConnectionCommand;
 import de.lightplugins.economy.commands.main.HelpCommand;
 import de.lightplugins.economy.commands.main.ReloadCommand;
-import de.lightplugins.economy.commands.main.VoucherCommand;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.command.Command;
@@ -28,7 +27,7 @@ public class MainCommandManager implements CommandExecutor {
         this.plugin = plugin;
         subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
-        subCommands.add(new VoucherCommand());
+        //subCommands.add(new VoucherCommand());
         subCommands.add(new ConnectionCommand());
     }
 

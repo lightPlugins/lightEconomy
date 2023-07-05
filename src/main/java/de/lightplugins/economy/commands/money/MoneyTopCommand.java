@@ -56,10 +56,25 @@ public class MoneyTopCommand extends SubCommand {
                 }
                 TreeMap<String, Double> list = (new Sorter(map)).get();
 
+                CompletableFuture<HashMap<String, Double>> test = moneyTableAsync.getPlayersBalanceList();
+
+                HashMap<String, Double> allPlayers = test.get();
+
+                double allServerMoney = 0.0;
+
+                for(Double single : allPlayers.values()) {
+                    allServerMoney += single;
+                }
+
                 for(String header : message.getStringList("moneyTopHeader")) {
-                    player.sendMessage(Main.colorTranslation.hexTranslation(header));
+                    player.sendMessage(Main.colorTranslation.hexTranslation(header
+                            .replace("#overall#", Main.util.finalFormatDouble(allServerMoney)))
+                            .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
 
                 }
+
+
+
 
                 int baltopAmount = settings.getInt("settings.baltop-amount-of-players");
 

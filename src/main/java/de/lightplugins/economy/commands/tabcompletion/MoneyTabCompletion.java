@@ -15,11 +15,12 @@ public class MoneyTabCompletion implements TabCompleter {
         if(args.length == 1) {
             List<String> arguments = new ArrayList<>();
             arguments.add("add");
+            arguments.add("addall");
             arguments.add("remove");
             arguments.add("set");
             arguments.add("top");
             arguments.add("show");
-            arguments.add("addall");
+            arguments.add("voucher create");
 
             return arguments;
         }

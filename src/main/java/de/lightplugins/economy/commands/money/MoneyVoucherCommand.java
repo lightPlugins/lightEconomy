@@ -1,4 +1,4 @@
-package de.lightplugins.economy.commands.main;
+package de.lightplugins.economy.commands.money;
 
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.enums.PermissionPath;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.concurrent.ExecutionException;
 
-public class VoucherCommand extends SubCommand {
+public class MoneyVoucherCommand extends SubCommand {
     @Override
     public String getName() {
         return "voucher";

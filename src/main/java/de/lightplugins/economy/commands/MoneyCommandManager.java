@@ -1,11 +1,11 @@
 package de.lightplugins.economy.commands;
 
+import de.lightplugins.economy.commands.money.MoneyVoucherCommand;
 import de.lightplugins.economy.commands.money.*;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 
 public class MoneyCommandManager implements CommandExecutor {
 
@@ -34,6 +33,7 @@ public class MoneyCommandManager implements CommandExecutor {
         subCommands.add(new MoneyTopCommand());
         subCommands.add(new MoneyShowCommand());
         subCommands.add(new MoneyAddAllCommand());
+        subCommands.add(new MoneyVoucherCommand());
     }
 
     @Override
