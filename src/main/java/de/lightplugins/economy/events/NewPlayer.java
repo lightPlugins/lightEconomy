@@ -108,22 +108,4 @@ public class NewPlayer implements Listener {
             throw new RuntimeException(e);
         }
     }
-    @EventHandler
-    public void test(PlayerInteractEvent event) {
-
-        Player player = event.getPlayer();
-        ItemStack itemInHand = player.getInventory().getItemInMainHand();
-
-        if (itemInHand.getType() == Material.IRON_PICKAXE) {
-            Block clickedBlock = event.getClickedBlock();
-            if (clickedBlock != null && clickedBlock.getType() == Material.DIAMOND_ORE) {
-                // Verlängere die Abbauzeit des Steins
-                event.setCancelled(true); // Blockabbau verhindern
-                Bukkit.getLogger().log(Level.INFO, "TEST: " + event.getClickedBlock().getBlockPower());
-                player.sendBlockDamage(clickedBlock.getLocation(), 0.1f); // Sende den Schaden an den Block
-            }
-        }
-
-        event.getPlayer().sendBlockDamage(event.getPlayer().getLocation(), 0.1f);
-    }
 }
