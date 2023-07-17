@@ -6,6 +6,7 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
@@ -30,6 +31,8 @@ public class MoneyAddCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args)  {
 
+        FileConfiguration settings = Main.settings.getConfig();
+        double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
 
         if(args.length != 3) {
             Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
@@ -49,6 +52,14 @@ public class MoneyAddCommand extends SubCommand {
         try {
 
             double amount = Double.parseDouble(args[2]);
+            double playerBalance = Main.economyImplementer.getBalance(args[1]);
+
+            if((playerBalance + amount) > maxPocketBalance) {
+                Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
+                        .replace("#reason#", "This value reached the max pocket balance of "
+                                + maxPocketBalance + "!"));
+                return false;
+            }
 
             if(amount == 0) {
                 Main.util.sendMessage(player, MessagePath.NotZero.getPath()
