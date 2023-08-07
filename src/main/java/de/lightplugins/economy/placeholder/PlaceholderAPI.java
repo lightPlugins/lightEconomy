@@ -81,8 +81,6 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 }
             }
 
-
-
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
