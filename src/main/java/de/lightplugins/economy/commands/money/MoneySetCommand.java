@@ -5,6 +5,8 @@ import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class MoneySetCommand extends SubCommand {
@@ -32,6 +34,14 @@ public class MoneySetCommand extends SubCommand {
     @Override
     public boolean perform(Player player, String[] args) {
 
+        FileConfiguration settings = Main.settings.getConfig();
+        double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
+
+        if(!player.hasPermission(PermissionPath.MoneySet.getPerm())) {
+            Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+            return false;
+        }
+
         if(args.length != 3) {
             Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
             return true;
@@ -42,13 +52,15 @@ public class MoneySetCommand extends SubCommand {
             return false;
         }
 
-        if(!player.hasPermission(PermissionPath.MoneySet.getPerm())) {
-            Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
-            return false;
-        }
-
         try {
             double amount = Double.parseDouble(args[2]);
+
+            if(amount > maxPocketBalance) {
+                Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
+                        .replace("#reason#", "This value reached the max pocket balance of "
+                                + maxPocketBalance + "!"));
+                return false;
+            }
 
             if(amount < 0) {
                 Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());

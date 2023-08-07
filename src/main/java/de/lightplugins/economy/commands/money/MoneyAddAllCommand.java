@@ -7,6 +7,7 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -32,7 +33,6 @@ public class MoneyAddAllCommand extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
-
 
         if(args.length != 2) {
             Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
