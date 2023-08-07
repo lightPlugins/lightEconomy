@@ -201,7 +201,7 @@ public class BankMainMenu implements InventoryProvider {
                     if(currentPocketBalance >= finalLimit) {
 
                         CompletableFuture<Boolean> completableFuture = bankTable.setBankMoney(player.getName(), finalLimit);
-                        CompletableFuture<Boolean> completableFuture1 = moneyTable.setMoney(player.getName(), (currentPocketBalance - finalLimit));
+                        CompletableFuture<Boolean> completableFuture1 = moneyTable.setMoney(player.getName(), (currentPocketBalance - (finalLimit - finalBankBalance)));
 
 
                         try {

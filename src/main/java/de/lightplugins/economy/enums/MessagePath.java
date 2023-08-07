@@ -33,6 +33,7 @@ public enum MessagePath {
     moneyAddAll("moneyAddAll"),
     moneyAddAllTarget("moneyAddAllTarget"),
     moneyAddAllFailed("moneyAddAllFailed"),
+    MoneyTopFormat("moneyTopFormat"),
     NotEnoughtMoney("notEnoughtMoney"),
     TransactionFailed("transactionFailed"),
     VoucherCreate("voucherCreate"),
@@ -66,6 +67,7 @@ public enum MessagePath {
     BankSetLevelPlayer("bankSetLevelPlayer"),
     BankShowOther("bankShowOther"),
     BankRemovePlayer("bankRemovePlayer"),
+    BankDisabled("bankDisabled"),
     ;
 
     private final String path;

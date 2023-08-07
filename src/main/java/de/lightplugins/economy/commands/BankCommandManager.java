@@ -1,12 +1,14 @@
 package de.lightplugins.economy.commands;
 
 import de.lightplugins.economy.commands.bank.*;
+import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -38,6 +40,13 @@ public class BankCommandManager implements CommandExecutor {
 
         if(sender instanceof Player) {
             Player player = (Player) sender;
+
+            FileConfiguration config = Main.settings.getConfig();
+
+            if(!config.getBoolean("settings.enable-bank-feature")) {
+                Main.util.sendMessage(player, MessagePath.BankDisabled.getPath());
+                return false;
+            }
 
             if (args.length > 0) {
                 for(int i = 0; i < subCommands.size(); i++) {

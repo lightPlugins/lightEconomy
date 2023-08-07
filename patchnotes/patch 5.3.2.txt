@@ -1,0 +1,3 @@
+- issue with the bank deposit. Players lose money if they exceed the bank limit by level
+- implementing bank system disable method in settings.yml
+- adding money top placeholder for placeholderapi (%lighteconomy_moneytop_1%, %lighteconomy_moneytop_2% ....);
