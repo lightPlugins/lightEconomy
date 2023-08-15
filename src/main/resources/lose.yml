@@ -1,0 +1,38 @@
+# If a players die from a mob or player, their will be lost a percentage of their pocketbalance
+lose:
+  # enable / disable this system
+  enable: true
+  # The settings for each world. Here you can use decimals and numbers for example 5 or 5.5
+  #
+  # 'world'                 - The world name of the target world.
+  #                           Case-sensitive! Must be unique! Must be in 'quotation marks'!
+  # min-amount-for-trigger  - the min amount of pocket balance, the player must have to lose money
+  # trigger-chance          - The chance in percentage that the lost system will trigger in this world.
+  #                           ex. 100% = every death
+  # lose-percentage         - The amount in percentage the player will lose pocket balance
+  #                           if the lost system will trigger.
+  # immunity-permission     - if the player has this permission, he will not lose money on death.
+  #                           #worldname# is a placeholder for the world name of this world setting.
+  # drop-money-as-voucher   - if you enable the voucher system in the voucher.yml you have here the option
+  #                           to drop the lost money from player as voucher. Any player can pick up and claim
+  #                           the dropped voucher.
+  #
+  worlds:
+    'world':
+      min-amount-for-trigger: 1000
+      trigger-chance: 50
+      lose-percentage: 5.5
+      immunity-permission: 'lighteconomy_vip_lose_immunity_#worldname#'
+      drop-money-as-voucher: true
+    'world_nether':
+      min-amount-for-trigger: 1000
+      trigger-chance: 50
+      lose-percentage: 5.5
+      immunity-permission: 'lighteconomy_vip_lose_immunity_#worldname#'
+      drop-money-as-voucher: true
+    'world_end':
+      min-amount-for-trigger: 1000
+      trigger-chance: 50
+      lose-percentage: 5.5
+      immunity-permission: 'lighteconomy_vip_lose_immunity_#worldname#'
+      drop-money-as-voucher: true

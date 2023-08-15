@@ -68,6 +68,7 @@ public enum MessagePath {
     BankShowOther("bankShowOther"),
     BankRemovePlayer("bankRemovePlayer"),
     BankDisabled("bankDisabled"),
+    LoseMoneyOnDeath("loseMoneyOnDeath"),
     ;
 
     private final String path;

@@ -13,6 +13,7 @@ import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.listener.BankListener;
+import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.placeholder.PlaceholderAPI;
 import de.lightplugins.economy.utils.ColorTranslation;
 import de.lightplugins.economy.utils.DebugPrinting;
@@ -54,6 +55,7 @@ public class Main extends JavaPlugin {
     public static FileManager voucher;
     public static FileManager bankMenu;
     public static FileManager bankLevelMenu;
+    public static FileManager lose;
 
     public static List<String> payToggle = new ArrayList<>();
     public List<Player> bankDepositValue = new ArrayList<>();
@@ -85,6 +87,7 @@ public class Main extends JavaPlugin {
         voucher = new FileManager(this, "voucher.yml");
         bankMenu = new FileManager(this, "bank-menu.yml");
         bankLevelMenu = new FileManager(this, "bank-level.yml");
+        lose = new FileManager(this, "lose.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
@@ -139,6 +142,7 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("eco")).setExecutor(new ConsoleCommandManager(this));
         // Pay Commands not require TabCompletion
         Objects.requireNonNull(this.getCommand("pay")).setExecutor(new PayCommandMaster());
+
         Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
 
 
@@ -146,6 +150,7 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new NewPlayer(this), this);
         pluginManager.registerEvents(new ClaimVoucher(), this);
         pluginManager.registerEvents(new BankListener(this), this);
+        pluginManager.registerEvents(new LoseMoney(), this);
 
         bankMenuInventoryManager = new InventoryManager(this);
         bankMenuInventoryManager.init();

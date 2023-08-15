@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
 public class Util {
 
@@ -102,4 +103,22 @@ public class Util {
     }
 
     public boolean isInventoryEmpty(Player player) { return player.getInventory().firstEmpty() != -1; }
+
+    public double subtractPercentage(double originalValue, double percentage) {
+        if (percentage < 0 || percentage > 100) {
+            throw new IllegalArgumentException("Percentage must be between 0 and 100");
+        }
+
+        double subtractAmount = (percentage / 100) * originalValue;
+        return originalValue - subtractAmount;
+    }
+
+    public boolean checkPercentage(double percent) {
+        if (percent < 0 || percent > 100) {
+            throw new IllegalArgumentException("Percent value must be between 0 and 100");
+        }
+        Random random = new Random();
+        double randomPercent = random.nextDouble() * 100;
+        return randomPercent <= percent;
+    }
 }

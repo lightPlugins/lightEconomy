@@ -114,6 +114,8 @@ bankSetLevelPlayerMax: '&cThis Level dont exist in the &4bank-level.yml &7!'
 bankSetLevelPlayerToLow: '&cYou cant set a bank level on &40 &cor &4lower &7!'
 bankDisabled: '&cThe bank system is disabled on this server &7!'
 # ●
+loseMoneyOnDeath: '&7You died and lost &c#amount# &7#currency# from your pocket balance.'
+# ●
 helpCommandAdmin:
   - '&7&m-----&r&c●&7&m-----&r &c&l&olight&7Economy &7&m-----&r&c●&7&m-----&r'
   - ' '
