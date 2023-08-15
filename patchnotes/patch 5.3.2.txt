@@ -1,3 +1,8 @@
 - issue with the bank deposit. Players lose money if they exceed the bank limit by level
 - implementing bank system disable method in settings.yml
 - adding money top placeholder for placeholderapi (%lighteconomy_moneytop_1%, %lighteconomy_moneytop_2% ....);
+- added player lost money feature
+    - new file called lose.yml
+    - added playerdeath event
+    - player losing money if their died
+    - money can be dropped as voucher
