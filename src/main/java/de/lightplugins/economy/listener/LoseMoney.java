@@ -4,6 +4,7 @@ import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.items.Voucher;
 import de.lightplugins.economy.master.Main;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ public class LoseMoney implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
 
         FileConfiguration lose = Main.lose.getConfig();
+
 
         if(!lose.getBoolean("lose.enable")) {
             return;
@@ -36,7 +38,7 @@ public class LoseMoney implements Listener {
 
             double minPocketBalance = lose.getDouble("lose.worlds." + worldsetting + ".min-amount-for-trigger");
             double triggerChance = lose.getDouble("lose.worlds." + worldsetting + ".trigger-chance");
-            double losePercentage = lose.getDouble("lose.worlds." + worldsetting + ".trigger-chance");
+            double losePercentage = lose.getDouble("lose.worlds." + worldsetting + ".lose-percentage");
             String immunityPerm = lose.getString("lose.worlds." + worldsetting + ".immunity-permission")
                     .replace("#worldname#", worldsetting);
             boolean voucherDrop = lose.getBoolean("lose.worlds." + worldsetting + ".drop-money-as-voucher");
@@ -59,6 +61,14 @@ public class LoseMoney implements Listener {
 
                 double loseAmount = Main.util.subtractPercentage(currentPocket, losePercentage);
 
+                EconomyResponse ecoWithdraw = Main.economyImplementer.withdrawPlayer(player.getName(), loseAmount);
+
+                if(ecoWithdraw.transactionSuccess()) {
+                    Main.util.sendMessage(player, MessagePath.LoseMoneyOnDeath.getPath()
+                            .replace("#amount#", Main.util.formatDouble(loseAmount))
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                }
+
                 if(voucherDrop) {
 
                     Voucher voucherCreator = new Voucher();
@@ -71,14 +81,7 @@ public class LoseMoney implements Listener {
 
                 }
 
-                EconomyResponse ecoWithdraw = Main.economyImplementer.withdrawPlayer(player.getName(), loseAmount);
-
-                if(ecoWithdraw.transactionSuccess()) {
-                    Main.util.sendMessage(player, MessagePath.LoseMoneyOnDeath.getPath()
-                            .replace("#amount#", Main.util.formatDouble(loseAmount))
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
-                    return;
-                }
+                return;
             }
         }
     }

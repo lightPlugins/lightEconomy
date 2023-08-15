@@ -1,7 +1,7 @@
 # If a players die from a mob or player, their will be lost a percentage of their pocketbalance
 lose:
   # enable / disable this system
-  enable: true
+  enable: false
   # The settings for each world. Here you can use decimals and numbers for example 5 or 5.5
   #
   # 'world'                 - The world name of the target world.

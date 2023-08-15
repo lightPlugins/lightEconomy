@@ -40,49 +40,52 @@ public class PlaceholderAPI extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
 
-        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+        if(params.contains("moneytop_")) {
 
-        List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
-        CompletableFuture<HashMap<String, Double>> futureMap = moneyTableAsync.getPlayersBalanceList();
-        try {
-            HashMap<String, Double> map = futureMap.get();
-            for(String playername : exclude) {
-                map.remove(playername);
-            }
-            TreeMap<String, Double> list = (new Sorter(map)).get();
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
-            int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
-
-            for (int i = 0; i < baltopAmount; i++) {
-
-                try {
-                    Map.Entry<String, Double> top = list.pollFirstEntry();
-
-                    String name = top.getKey();
-
-                    if(params.equalsIgnoreCase("moneytop_" + (i + 1))) {
-
-
-                        return MessagePath.MoneyTopFormat.getPath()
-                                .replace("#number#", String.valueOf(i + 1))
-                                .replace("#name#", name)
-                                .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular());
-
-                    }
-                } catch (Exception e) {
-                    // Catch Exception for Map.Entry Exception if its null!
-                    // e.printStackTrace();
-                    return MessagePath.MoneyTopFormat.getPath()
-                            .replace("#number#", "x")
-                            .replace("#name#", "Open")
-                            .replace("#amount#", "0.00")
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = moneyTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
                 }
-            }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
 
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        String name = top.getKey();
+
+                        if(params.equalsIgnoreCase("moneytop_" + (i + 1))) {
+
+
+                            return MessagePath.MoneyTopFormat.getPath()
+                                    .replace("#number#", String.valueOf(i + 1))
+                                    .replace("#name#", name)
+                                    .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
+                                    .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+
+                        }
+                    } catch (Exception e) {
+                        // Catch Exception for Map.Entry Exception if its null!
+                        // e.printStackTrace();
+                        return MessagePath.MoneyTopFormat.getPath()
+                                .replace("#number#", "x")
+                                .replace("#name#", "Open")
+                                .replace("#amount#", "0.00")
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
 
 

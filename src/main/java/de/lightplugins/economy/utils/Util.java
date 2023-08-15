@@ -1,6 +1,7 @@
 package de.lightplugins.economy.utils;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class Util {
 
@@ -105,12 +107,14 @@ public class Util {
     public boolean isInventoryEmpty(Player player) { return player.getInventory().firstEmpty() != -1; }
 
     public double subtractPercentage(double originalValue, double percentage) {
+
+        Bukkit.getLogger().log(Level.WARNING, "TEST 1 " + originalValue + " - " + percentage);
+
         if (percentage < 0 || percentage > 100) {
             throw new IllegalArgumentException("Percentage must be between 0 and 100");
         }
 
-        double subtractAmount = (percentage / 100) * originalValue;
-        return originalValue - subtractAmount;
+        return (percentage / 100) * originalValue;
     }
 
     public boolean checkPercentage(double percent) {
