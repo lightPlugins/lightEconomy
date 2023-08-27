@@ -53,3 +53,5 @@ settings:
     - notch
   count-up-sound: BLOCK_NOTE_BLOCK_HAT
   final-count-sound: ENTITY_DRAGON_FIREBALL_EXPLODE
+  # if the top placeholder is not defined
+  top-placeholder-not-set: 'none'

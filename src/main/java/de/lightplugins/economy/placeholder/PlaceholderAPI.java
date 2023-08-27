@@ -34,7 +34,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "5.0.3";
+        return "5.0.0";
     }
 
     @Override
@@ -75,9 +75,10 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                     } catch (Exception e) {
                         // Catch Exception for Map.Entry Exception if its null!
                         // e.printStackTrace();
+                        String empty = Main.settings.getConfig().getString("settings.top-placeholder-not-set");
                         return MessagePath.MoneyTopFormat.getPath()
                                 .replace("#number#", "x")
-                                .replace("#name#", "Open")
+                                .replace("#name#", empty != null ? empty : "-")
                                 .replace("#amount#", "0.00")
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular());
                     }
