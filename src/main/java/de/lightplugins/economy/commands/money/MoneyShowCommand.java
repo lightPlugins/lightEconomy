@@ -42,11 +42,11 @@ public class MoneyShowCommand extends SubCommand {
             return false;
         }
 
-        Double balanceTarget = Main.economyImplementer.getBalance(args[1]);
+        double balanceTarget = Main.economyImplementer.getBalance(args[1]);
 
         Main.util.sendMessage(player, MessagePath.MoneyBalanceOther.getPath()
                 .replace("#target#", args[1])
-                .replace("#balance#", String.valueOf(balanceTarget))
+                .replace("#balance#", Main.util.finalFormatDouble(balanceTarget))
                 .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
 
         return false;

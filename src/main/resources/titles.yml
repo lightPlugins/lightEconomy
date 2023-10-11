@@ -1,6 +1,7 @@
 titles:
   deposit-wallet:
     enable: true
+    min-trigger-amount: 5000.00
     counter:
       upper-line: "&7Deposit &cto &7wallet"
       lower-line: "&a+ &7#amount#"
@@ -10,6 +11,7 @@ titles:
       lower-line: "&7You received a deposit"
   withdraw-wallet:
     enable: true
+    min-trigger-amount: 5000.00
     counter:
       upper-line: "&7Withdraw &cfrom &7wallet"
       lower-line: "&c- &7#amount#"

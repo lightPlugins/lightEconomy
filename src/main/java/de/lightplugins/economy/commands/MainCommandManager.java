@@ -3,6 +3,7 @@ package de.lightplugins.economy.commands;
 import de.lightplugins.economy.commands.main.ConnectionCommand;
 import de.lightplugins.economy.commands.main.HelpCommand;
 import de.lightplugins.economy.commands.main.ReloadCommand;
+import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.command.Command;
@@ -54,7 +55,7 @@ public class MainCommandManager implements CommandExecutor {
                 }
             } else {
 
-                /* if the Main command is /money, just do here a quick balance checkout */
+                Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
             }
         }
 

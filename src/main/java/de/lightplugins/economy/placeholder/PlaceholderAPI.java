@@ -38,6 +38,11 @@ public class PlaceholderAPI extends PlaceholderExpansion {
     }
 
     @Override
+    public boolean persist() {
+        return true; // This is required or else PlaceholderAPI will unregister the Expansion on reload
+    }
+
+    @Override
     public String onRequest(OfflinePlayer player, String params) {
 
         if(params.contains("moneytop_")) {
@@ -105,7 +110,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
             CompletableFuture<Double> completableFuture = bankTableAsync.playerBankBalance(player.getName());
 
             try {
-                return String.valueOf(completableFuture.get());
+                return Main.util.finalFormatDouble(completableFuture.get());
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

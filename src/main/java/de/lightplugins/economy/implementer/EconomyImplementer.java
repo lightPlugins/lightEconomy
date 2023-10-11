@@ -48,7 +48,9 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public String format(double v) {
-        return Main.util.formatDouble(v);
+        // Other plugins are not showing the currency
+        // return Main.util.formatDouble(v)
+        return Main.util.formatDouble(v) + " " + currencyNamePlural();
     }
 
     @Override
@@ -174,6 +176,7 @@ public class EconomyImplementer implements Economy {
             if(completableFuture.get()) {
 
                 FileConfiguration titles = Main.titles.getConfig();
+                double minTrigger = titles.getDouble("titles.withdraw-wallet.min-trigger-amount");
 
                 /*
                     Title on count up
@@ -202,7 +205,9 @@ public class EconomyImplementer implements Economy {
                     Player player = offlinePlayer.getPlayer();
 
                     if(titles.getBoolean("titles.withdraw-wallet.enable")) {
-                        Main.util.countUp(player, v, upperTitle, lowerTitle, upperTitleFinal, lowerTitleFinal);
+                        if(v >= minTrigger) {
+                            Main.util.countUp(player, v, upperTitle, lowerTitle, upperTitleFinal, lowerTitleFinal);
+                        }
                     }
                 }
 
@@ -269,6 +274,7 @@ public class EconomyImplementer implements Economy {
             if(completableFuture.get()) {
 
                 FileConfiguration titles = Main.titles.getConfig();
+                double minTrigger = titles.getDouble("titles.deposit-wallet.min-trigger-amount");
 
                 /*
                     Title on count up
@@ -296,7 +302,9 @@ public class EconomyImplementer implements Economy {
                     Player player = offlinePlayer.getPlayer();
 
                     if(titles.getBoolean("titles.deposit-wallet.enable")) {
-                        Main.util.countUp(player, v, upperTitle, lowerTitle, upperTitleFinal, lowerTitleFinal);
+                        if(v >= minTrigger) {
+                            Main.util.countUp(player, v, upperTitle, lowerTitle, upperTitleFinal, lowerTitleFinal);
+                        }
                     }
                 }
 
