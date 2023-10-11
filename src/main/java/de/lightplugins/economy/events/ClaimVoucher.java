@@ -35,7 +35,10 @@ public class ClaimVoucher implements Listener {
 
             if(itemStack != null) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
-                assert itemMeta != null;
+
+                if(itemMeta == null) {
+                    return;
+                }
 
                 PersistentDataContainer data = itemMeta.getPersistentDataContainer();
                 NamespacedKey key = new NamespacedKey(Main.getInstance, PersistentDataPaths.MONEY_VALUE.getType());

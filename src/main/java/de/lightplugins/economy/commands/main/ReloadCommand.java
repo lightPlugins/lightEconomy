@@ -39,6 +39,8 @@ public class ReloadCommand extends SubCommand {
 
         Main.messages.reloadConfig("messages.yml");
         Main.titles.reloadConfig("titles.yml");
+        Main.bankLevelMenu.reloadConfig("bank-level.yml");
+        Main.bankMenu.reloadConfig("bank-menu.yml");
         Main.voucher.reloadConfig("voucher.yml");
         Main.lose.reloadConfig("lose.yml");
 
