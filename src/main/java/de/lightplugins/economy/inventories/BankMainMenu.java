@@ -11,6 +11,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 public class BankMainMenu implements InventoryProvider {
 
@@ -197,8 +199,14 @@ public class BankMainMenu implements InventoryProvider {
 
                     }
 
+                    Bukkit.getLogger().log(Level.WARNING, "TEST 1 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
 
-                    if(currentPocketBalance >= finalLimit) {
+
+
+                    if(currentPocketBalance >= finalLimit || currentPocketBalance >= (finalLimit - finalBankBalance)) {
+
+                        Bukkit.getLogger().log(Level.WARNING, "TEST 3 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
+
 
                         CompletableFuture<Boolean> completableFuture = bankTable.setBankMoney(player.getName(), finalLimit);
                         CompletableFuture<Boolean> completableFuture1 = moneyTable.setMoney(player.getName(), (currentPocketBalance - (finalLimit - finalBankBalance)));
@@ -230,6 +238,8 @@ public class BankMainMenu implements InventoryProvider {
                             moneyTable.setMoney(player.getName(), 0.0);
 
                     try {
+
+                        Bukkit.getLogger().log(Level.WARNING, "TEST 2 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
 
                         if(completableFuture.get() && completableFuture1.get()) {
                             Main.util.sendMessage(player, MessagePath.BankDepositAll.getPath()
