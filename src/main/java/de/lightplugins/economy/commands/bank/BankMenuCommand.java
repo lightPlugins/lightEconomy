@@ -31,7 +31,7 @@ public class BankMenuCommand extends SubCommand {
 
         if(args.length == 2) {
 
-            if(!player.hasPermission(PermissionPath.BankOpen.getPerm())) {
+            if(!player.hasPermission(PermissionPath.BankOpenOther.getPerm())) {
                 Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
                 return false;
             }

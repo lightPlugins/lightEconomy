@@ -13,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public class LoseMoney implements Listener {
 
 
@@ -34,7 +36,8 @@ public class LoseMoney implements Listener {
 
         String currentWorldName = player.getWorld().getName();
 
-        for(String worldsetting : lose.getConfigurationSection("lose.worlds").getKeys(false)) {
+        for(String worldsetting :
+                Objects.requireNonNull(lose.getConfigurationSection("lose.worlds")).getKeys(false)) {
 
             double minPocketBalance = lose.getDouble("lose.worlds." + worldsetting + ".min-amount-for-trigger");
             double triggerChance = lose.getDouble("lose.worlds." + worldsetting + ".trigger-chance");

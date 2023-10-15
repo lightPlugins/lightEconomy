@@ -31,7 +31,10 @@ public class Voucher {
         itemStack.setType(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        assert itemMeta != null;
+        if(itemMeta == null) {
+            return new ItemStack(Material.STONE, 1);
+        }
+
         itemMeta.setDisplayName(displayname);
 
         List<String> loreList = new ArrayList<>();

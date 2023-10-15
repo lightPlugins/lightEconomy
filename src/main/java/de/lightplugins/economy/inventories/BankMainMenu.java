@@ -11,7 +11,6 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 
 public class BankMainMenu implements InventoryProvider {
 
@@ -54,7 +52,7 @@ public class BankMainMenu implements InventoryProvider {
         try {
             level = levelFuture.get();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         double limitFuture = bankLevelSystem.getLimitByLevel(player.getUniqueId());
@@ -64,7 +62,7 @@ public class BankMainMenu implements InventoryProvider {
         try {
             limit = limitFuture;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         CompletableFuture<Double> bankBalanceFuture = bankTable.playerBankBalance(player.getName());
@@ -73,7 +71,7 @@ public class BankMainMenu implements InventoryProvider {
         try {
             bankBalance = bankBalanceFuture.get();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         CompletableFuture<Double> pocketBalanceFuture = moneyTable.playerBalance(player.getName());
@@ -82,7 +80,7 @@ public class BankMainMenu implements InventoryProvider {
         try {
             pocketBalance = pocketBalanceFuture.get();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
 
@@ -199,32 +197,31 @@ public class BankMainMenu implements InventoryProvider {
 
                     }
 
-                    Bukkit.getLogger().log(Level.WARNING, "TEST 1 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
-
-
 
                     if(currentPocketBalance >= finalLimit || currentPocketBalance >= (finalLimit - finalBankBalance)) {
 
-                        Bukkit.getLogger().log(Level.WARNING, "TEST 3 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
-
-
-                        CompletableFuture<Boolean> completableFuture = bankTable.setBankMoney(player.getName(), finalLimit);
-                        CompletableFuture<Boolean> completableFuture1 = moneyTable.setMoney(player.getName(), (currentPocketBalance - (finalLimit - finalBankBalance)));
+                        CompletableFuture<Boolean> completableFuture =
+                                bankTable.setBankMoney(player.getName(), finalLimit);
+                        CompletableFuture<Boolean> completableFuture1 =
+                                moneyTable.setMoney(player.getName(),
+                                        (currentPocketBalance - (finalLimit - finalBankBalance)));
 
 
                         try {
 
                             if(completableFuture1.get() && completableFuture.get()) {
                                 Main.util.sendMessage(player, MessagePath.BankDepositAllLimit.getPath()
-                                        .replace("#amount#", Main.util.finalFormatDouble(finalLimit - finalBankBalance))
-                                        .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
+                                        .replace("#amount#",
+                                                Main.util.finalFormatDouble(finalLimit - finalBankBalance))
+                                        .replace("#currency#",
+                                                Main.economyImplementer.currencyNamePlural()));
                                 sounds.soundOnSuccess(player);
                                 player.closeInventory();
                                 return;
                             }
 
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            throw new RuntimeException(ex);
                         }
 
                         player.closeInventory();
@@ -239,8 +236,6 @@ public class BankMainMenu implements InventoryProvider {
 
                     try {
 
-                        Bukkit.getLogger().log(Level.WARNING, "TEST 2 finalLimit " + limitFuture + " - " + finalLimit + " finalPocketBalance " + currentPocketBalance);
-
                         if(completableFuture.get() && completableFuture1.get()) {
                             Main.util.sendMessage(player, MessagePath.BankDepositAll.getPath()
                                     .replace("#amount#", Main.util.finalFormatDouble(currentPocketBalance))
@@ -251,7 +246,7 @@ public class BankMainMenu implements InventoryProvider {
                         }
 
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        throw new RuntimeException(ex);
                     }
                 }
                 if(input.equalsIgnoreCase("withdraw-value")) {
@@ -285,9 +280,8 @@ public class BankMainMenu implements InventoryProvider {
 
                         }
 
-
                     }catch (Exception ex) {
-                        ex.printStackTrace();
+                        throw new RuntimeException(ex);
                     }
 
                 }

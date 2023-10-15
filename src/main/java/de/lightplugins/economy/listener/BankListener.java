@@ -67,8 +67,6 @@ public class BankListener implements Listener {
                 return;
             }
 
-
-
             if(amount > bankAmount) {
                 Main.util.sendMessage(chatter, MessagePath.BankWithdrawNotEnough.getPath());
                 sounds.soundOnFailure(chatter);
@@ -96,7 +94,7 @@ public class BankListener implements Listener {
                     }
 
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
             }
 
@@ -181,8 +179,6 @@ public class BankListener implements Listener {
                 return;
             }
 
-
-
             double currentBankBalance = bankAmount;
 
             if (amount <= pocketAmount) {
@@ -206,7 +202,7 @@ public class BankListener implements Listener {
                     }
 
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
             }
 
