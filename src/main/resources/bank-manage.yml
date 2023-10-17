@@ -1,0 +1,57 @@
+manage:
+  main:
+    title: '&c&lBANK &8| &7Account Manager'
+    size: 5
+    single-user:
+      displayname: '&c#player#'
+      lore:
+        - '&7&m---&r&c●&7&m---&r &c&lPLAYER INFO &7&m---&r&c●&7&m---&r'
+        - ''
+        - '&7Joindate: &c#date#'
+        - '&7Deposited: &c#amoun#'
+        - '&7Playername: &c#player#'
+    content:
+      trust-user:
+        column: 0
+        row: 4
+        material: CHEST_MINECART
+        displayname: '&aTrust player'
+        lore:
+          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
+          - ' '
+          - '&7Add a player to your Bankaccount'
+          - ' '
+          - '&cLeft click to &4trust &ca Player'
+      untrust-user:
+        column: 8
+        row: 4
+        material: TNT_MINECART
+        displayname: '&cUntrust player'
+        lore:
+          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
+          - ' '
+          - '&7Remove a player from your Bankaccount'
+          - ' '
+          - '&cLeft click to &4untrust &ca Player'
+      back-button:
+        column: 4
+        row: 4
+        material: REDSTONE
+        displayname: '&cClose'
+        lore: []
+      previous-page:
+        column: 2
+        row: 4
+        material: ARROW
+        displayname: '&cprevious Page'
+        lore: []
+      next-page:
+        column: 6
+        row: 4
+        material: ARROW
+        displayname: '&cnext Page'
+        lore: []
+      fillItem:
+        material: GRAY_STAINED_GLASS_PANE
+        displayname: ' '
+        lore: []

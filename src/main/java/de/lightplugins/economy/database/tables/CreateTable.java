@@ -49,6 +49,7 @@ public class CreateTable {
                 + "name TEXT,"
                 + "money DOUBLE,"
                 + "level INTEGER,"
+                + "trusted TEXT,"
                 + "PRIMARY KEY (uuid))";
 
         if(settings.getBoolean("mysql.enable")) {
@@ -57,6 +58,7 @@ public class CreateTable {
                     + "name TEXT,"
                     + "money DOUBLE,"
                     + "level INTEGER,"
+                    + "trusted TEXT,"
                     + "PRIMARY KEY (uuid(200)))";
         }
 

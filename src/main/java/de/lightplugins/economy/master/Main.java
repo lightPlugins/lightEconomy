@@ -15,10 +15,7 @@ import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.placeholder.PlaceholderAPI;
-import de.lightplugins.economy.utils.ColorTranslation;
-import de.lightplugins.economy.utils.DebugPrinting;
-import de.lightplugins.economy.utils.ProgressionBar;
-import de.lightplugins.economy.utils.Util;
+import de.lightplugins.economy.utils.*;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -55,7 +52,9 @@ public class Main extends JavaPlugin {
     public static FileManager voucher;
     public static FileManager bankMenu;
     public static FileManager bankLevelMenu;
+    public static FileManager bankManager;
     public static FileManager lose;
+
 
     public static List<String> payToggle = new ArrayList<>();
     public List<Player> bankDepositValue = new ArrayList<>();
@@ -88,6 +87,7 @@ public class Main extends JavaPlugin {
         bankMenu = new FileManager(this, "bank-menu.yml");
         bankLevelMenu = new FileManager(this, "bank-level.yml");
         lose = new FileManager(this, "lose.yml");
+        bankManager = new FileManager(this, "bank-manage.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
@@ -125,6 +125,18 @@ public class Main extends JavaPlugin {
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
         createTable.createBankTable();
+
+        /*  Check for lightEconomy database updates  */
+
+        TableStatements tableStatements = new TableStatements(this);
+
+        /*
+         *
+         *   17.10.2023 - UPDATE: bank share system
+         *
+         */
+
+        tableStatements.checkTableUpdate("trusted", "TEXT", "BankTable");
 
         /*  Register required Commands & TabCompletion  */
 

@@ -61,6 +61,30 @@ bank:
           - '&7Pocket Balance: &c%pocket_balance%'
           - ' '
           - '&cLeft click to &4open &cbank level menu'
+      manage-account:
+        column: 2
+        row: 1
+        material: BOOK
+        displayname: '&cManage your own Bankaccount'
+        lore:
+          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
+          - ' '
+          - '&7Manage trusted players from'
+          - '&7you own bankaccounts.'
+          - ' '
+          - '&cLeft click to &4open &cmenu'
+      shared-banks:
+        column: 6
+        row: 1
+        material: BOOK
+        displayname: '&cShow trusted bank accounts'
+        lore:
+          - '&7&m---&r&c●&7&m---&r &c&lBANK &7of &c&lLIGHT &7&m---&r&c●&7&m---&r'
+          - ' '
+          - '&7Show bank accounts, you'
+          - '&7where trusted.'
+          - ' '
+          - '&cLeft click to &4open &cmenu'
       back-button:
         column: 4
         row: 4

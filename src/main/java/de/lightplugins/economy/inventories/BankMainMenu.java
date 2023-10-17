@@ -285,7 +285,8 @@ public class BankMainMenu implements InventoryProvider {
                     }
 
                 }
-                if(input.equalsIgnoreCase("latest-transactions")) {
+                if(input.equalsIgnoreCase("manage-account")) {
+                    BankManageMenu.INVENTORY.open(player);
 
                 }
                 if(input.equalsIgnoreCase("bank-informations")) {
