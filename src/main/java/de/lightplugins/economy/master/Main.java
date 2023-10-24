@@ -125,6 +125,7 @@ public class Main extends JavaPlugin {
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
         createTable.createBankTable();
+        createTable.createPlayerData();
 
         /*  Check for lightEconomy database updates  */
 

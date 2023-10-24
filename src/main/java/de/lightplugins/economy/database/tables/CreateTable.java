@@ -37,6 +37,28 @@ public class CreateTable {
         tableStatements.createTableStatement(tableStatement);
     }
 
+    public void createPlayerData() {
+
+        String tableName = "PlayerData";
+        String tableStatement;
+        TableStatements tableStatements = new TableStatements(plugin);
+        FileConfiguration settings = Main.settings.getConfig();
+
+        tableStatement = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                + "uuid TEXT,"
+                + "trustedBank TEXT,"
+                + "PRIMARY KEY (uuid))";
+
+        if(settings.getBoolean("mysql.enable")) {
+            tableStatement = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                    + "uuid TEXT,"
+                    + "trustedBank TEXT,"
+                    + "PRIMARY KEY (uuid(200)))";
+        }
+
+        tableStatements.createTableStatement(tableStatement);
+    }
+
     public void createBankTable() {
 
         String tableName = "BankTable";
