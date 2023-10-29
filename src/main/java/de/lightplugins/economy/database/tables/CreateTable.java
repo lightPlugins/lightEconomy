@@ -2,7 +2,10 @@ package de.lightplugins.economy.database.tables;
 
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.TableStatements;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.logging.Level;
 
 public class CreateTable {
 
@@ -71,7 +74,6 @@ public class CreateTable {
                 + "name TEXT,"
                 + "money DOUBLE,"
                 + "level INTEGER,"
-                + "trusted TEXT,"
                 + "PRIMARY KEY (uuid))";
 
         if(settings.getBoolean("mysql.enable")) {
@@ -80,7 +82,6 @@ public class CreateTable {
                     + "name TEXT,"
                     + "money DOUBLE,"
                     + "level INTEGER,"
-                    + "trusted TEXT,"
                     + "PRIMARY KEY (uuid(200)))";
         }
 

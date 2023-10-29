@@ -9,5 +9,8 @@
         <module name="lightEconomyV5" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lightEconomy" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

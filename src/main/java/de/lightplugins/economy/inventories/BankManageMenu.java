@@ -3,10 +3,7 @@ package de.lightplugins.economy.inventories;
 
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
-import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
-import de.lightplugins.economy.utils.BankLevelSystem;
-import de.lightplugins.economy.utils.Sounds;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -29,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 public class BankManageMenu implements InventoryProvider {
@@ -82,14 +78,14 @@ public class BankManageMenu implements InventoryProvider {
             throw new RuntimeException(e);
         }
 
-        CompletableFuture<List<String>> trustedFuture = bankTable.getTrustedMembers(player);
+        CompletableFuture<List<String>> trustedFuture = null; // TODO: !!!!!!
         List<String> trustedList;
         try {
             trustedList = trustedFuture.get();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        int trustedListSize = trustedList.size();
+        int trustedListSize = 5; //trustedList.size();
 
         ClickableItem[] trustedPlayerClickable = new ClickableItem[trustedListSize];
 

@@ -4,6 +4,8 @@ import de.lightplugins.economy.master.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,313 +15,259 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+/*
+ * ----------------------------------------------------------------------------
+ *  This software and its source code, including text, graphics, and images,
+ *  are the sole property of lightPlugins ("Author").
+ *
+ *  You are granted a non-exclusive, non-transferable, revocable license
+ *  to use, copy, modify, and distribute this software, provided that you
+ *  include this copyright notice in all copies.
+ *
+ *  Unauthorized reproduction or distribution of this software, or any portion
+ *  of it, may result in severe civil and criminal penalties, and will be
+ *  prosecuted to the maximum extent possible under the law.
+ * ----------------------------------------------------------------------------
+ */
+
+/**
+ * The {@code MoneyTableAsync} class provides asynchronous database operations
+ * related to player money balances.
+ * This software is developed and maintained by lightPlugins.
+ * For inquiries, please contact @discord: .light4coding.
+ *
+ * @version 5.0
+ * @since 2021-07-19
+ */
+
 public class MoneyTableAsync {
 
     public Main plugin;
+    private final String tableName = "MoneyTable";
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public MoneyTableAsync(Main plugin) {
         this.plugin = plugin;
     }
 
-    private final String tableName = "MoneyTable";
-
+    /**
+     * Retrieves the balance of a player by their name.
+     *
+     * @param playerName The name of the player.
+     * @return A CompletableFuture containing the player's balance, or null if not found.
+     */
     public CompletableFuture<Double> playerBalance(String playerName) {
-
         return CompletableFuture.supplyAsync(() -> {
-
-            Connection connection = null;
-            PreparedStatement ps = null;
-
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
-
-            try {
-
-                connection = plugin.ds.getConnection();
-
-                if(offlinePlayer != null) {
-                    ps = connection.prepareStatement("SELECT * FROM "+ tableName +" WHERE uuid=?");
-                    ps.setString(1, offlinePlayer.getUniqueId().toString());
-                } else {
-                    ps = connection.prepareStatement("SELECT * FROM "+ tableName +" WHERE name=?");
-                    ps.setString(1, playerName);
-                }
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = preparePlayerBalanceQuery(playerName, connection)) {
 
                 ResultSet rs = ps.executeQuery();
 
-                if(rs.next()) {
+                if (rs.next()) {
                     return rs.getDouble("money");
                 }
 
                 return null;
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while retrieving player balance for " + playerName, e);
                 return null;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
 
+    /**
+     * Retrieves a list of player balances.
+     *
+     * @return A CompletableFuture containing a map of player names and their balances, or null on error.
+     */
     public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
-
         return CompletableFuture.supplyAsync(() -> {
-
-            Connection connection = null;
-            PreparedStatement ps = null;
-
-            try {
-
-                connection = plugin.ds.getConnection();
-
-                ps = connection.prepareStatement("SELECT * FROM "+ tableName + " WHERE isPlayer = '1'");
-
-                HashMap<String, Double> playerList = new HashMap<>();
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = preparePlayersBalanceListQuery(connection)) {
 
                 ResultSet rs = ps.executeQuery();
-
-                while(rs.next()) {
-
-                    playerList.put(rs.getString("name"), rs.getDouble("money"));
-                }
-                return playerList;
-
+                return extractPlayerBalances(rs);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while retrieving player balances.", e);
                 return null;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
 
+    /**
+     * Creates a new player entry in the database.
+     *
+     * @param playerName The name of the new player.
+     * @return A CompletableFuture indicating the success of the operation.
+     */
     public CompletableFuture<Boolean> createNewPlayer(String playerName) {
-
-
         return CompletableFuture.supplyAsync(() -> {
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareNewPlayerInsert(playerName, connection)) {
 
-            Connection connection = null;
-            PreparedStatement ps = null;
-
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
-            FileConfiguration settings = Main.settings.getConfig();
-            double startBalance = settings.getDouble("settings.start-balance");
-
-            Main.debugPrinting.sendInfo("New User found. Creating Database entry for " + playerName);
-
-            try {
-
-                connection = plugin.ds.getConnection();
-                ps = connection.prepareStatement("INSERT INTO MoneyTable (uuid,name,money,isPlayer) VALUES (?,?,?,?)");
-
-                if(offlinePlayer != null) {
-                    ps.setString(1, offlinePlayer.getUniqueId().toString());
-                    ps.setBoolean(4, true);
-                } else {
-                    UUID uuid = UUID.randomUUID();
-                    ps.setString(1, uuid.toString());
-                    ps.setBoolean(4, false);
-                    startBalance = 0.0;
-                }
-                ps.setString(2, playerName);
-                ps.setDouble(3, startBalance);
                 ps.execute();
-                ps.close();
-                Main.debugPrinting.sendInfo("Successfully added new Player to database!");
+                logInfo("Successfully added a new player to the database: " + playerName);
                 return true;
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while creating a new player entry for " + playerName, e);
                 return null;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
 
+    /**
+     * Updates a player's name in the database.
+     *
+     * @param playerName The current name of the player.
+     * @return A CompletableFuture indicating the success of the operation.
+     */
     public CompletableFuture<Boolean> updatePlayerName(String playerName) {
-
         return CompletableFuture.supplyAsync(() -> {
-
-            Connection connection = null;
-            PreparedStatement ps = null;
-
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
-
-            if(offlinePlayer == null) {
+            if (offlinePlayer == null) {
                 return false;
             }
 
-            try {
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = preparePlayerNameUpdate(offlinePlayer, connection)) {
 
-                connection = plugin.ds.getConnection();
-
-                ps = connection.prepareStatement("UPDATE MoneyTable SET name=? WHERE uuid=?");
-                ps.setString(1, offlinePlayer.getName());
-                ps.setString(2, offlinePlayer.getUniqueId().toString());
                 ps.execute();
+                logInfo("Successfully updated the name of player: " + playerName);
                 return true;
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while updating the name of player: " + playerName, e);
                 return null;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
 
+    /**
+     * Sets the balance of a player in the database.
+     *
+     * @param playerName The name of the player.
+     * @param amount     The new balance for the player.
+     * @return A CompletableFuture indicating the success of the operation.
+     */
     public CompletableFuture<Boolean> setMoney(String playerName, double amount) {
-
         return CompletableFuture.supplyAsync(() -> {
-
-            Connection connection = null;
-            PreparedStatement ps = null;
-
             double fixedAmount = Main.util.fixDouble(amount);
 
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = preparePlayerBalanceUpdate(playerName, fixedAmount, connection)) {
 
-            try {
-
-                connection = plugin.ds.getConnection();
-
-
-                if(offlinePlayer != null) {
-                    ps = connection.prepareStatement("UPDATE MoneyTable SET money=? WHERE uuid=?");
-                    ps.setString(2, offlinePlayer.getUniqueId().toString());
-                } else {
-                    ps = connection.prepareStatement("UPDATE MoneyTable SET money=? WHERE name=?");
-                    ps.setString(2, playerName);
-                }
-                ps.setDouble(1, fixedAmount);
                 ps.execute();
-                ps.close();
+                logInfo("Successfully set the balance of player: " + playerName + " to " + fixedAmount);
                 return true;
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while setting the balance of player: " + playerName, e);
                 return null;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
 
+    /**
+     * Deletes a player's account from the database.
+     *
+     * @param playerName The name of the player.
+     * @return A CompletableFuture indicating the success of the operation.
+     */
     public CompletableFuture<Boolean> deleteAccount(String playerName) {
-
         return CompletableFuture.supplyAsync(() -> {
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareDeleteAccount(playerName, connection)) {
 
-            Connection connection = null;
-            PreparedStatement ps = null;
-
-            try {
-
-                connection = plugin.ds.getConnection();
-                connection.setAutoCommit(false);
-
-                ps = connection.prepareStatement("DELETE FROM MoneyTable WHERE name=?");
-                ps.setString(1, playerName);
                 ps.executeUpdate();
-                ps.close();
-                connection.commit();
+                logInfo("Successfully deleted the account of player: " + playerName);
                 return true;
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                logError("An error occurred while deleting the account of player: " + playerName, e);
                 return false;
-
-            } finally {
-                if(connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
+    }
+
+    private PreparedStatement preparePlayerBalanceQuery(String playerName, Connection connection) throws SQLException {
+        OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+        if (offlinePlayer != null) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
+            ps.setString(1, offlinePlayer.getUniqueId().toString());
+            return ps;
+        } else {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name = ?");
+            ps.setString(1, playerName);
+            return ps;
+        }
+    }
+
+    private PreparedStatement preparePlayersBalanceListQuery(Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE isPlayer = '1'");
+        return ps;
+    }
+
+    private HashMap<String, Double> extractPlayerBalances(ResultSet rs) throws SQLException {
+        HashMap<String, Double> playerList = new HashMap<>();
+        while (rs.next()) {
+            playerList.put(rs.getString("name"), rs.getDouble("money"));
+        }
+        return playerList;
+    }
+
+    private PreparedStatement prepareNewPlayerInsert(String playerName, Connection connection) throws SQLException {
+        OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+        FileConfiguration settings = Main.settings.getConfig();
+        double startBalance = settings.getDouble("settings.start-balance");
+
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO " + tableName + " (uuid, name, money, isPlayer) VALUES (?, ?, ?, ?)");
+
+        if (offlinePlayer != null) {
+            ps.setString(1, offlinePlayer.getUniqueId().toString());
+            ps.setBoolean(4, true);
+        } else {
+            UUID uuid = UUID.randomUUID();
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(4, false);
+            startBalance = 0.0;
+        }
+
+        ps.setString(2, playerName);
+        ps.setDouble(3, startBalance);
+        return ps;
+    }
+
+    private PreparedStatement preparePlayerNameUpdate(OfflinePlayer offlinePlayer, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("UPDATE " + tableName + " SET name = ? WHERE uuid = ?");
+        ps.setString(1, offlinePlayer.getName());
+        ps.setString(2, offlinePlayer.getUniqueId().toString());
+        return ps;
+    }
+
+    private PreparedStatement preparePlayerBalanceUpdate(String playerName, double amount, Connection connection) throws SQLException {
+        OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+        PreparedStatement ps;
+
+        if (offlinePlayer != null) {
+            ps = connection.prepareStatement("UPDATE " + tableName + " SET money = ? WHERE uuid = ?");
+            ps.setString(2, offlinePlayer.getUniqueId().toString());
+        } else {
+            ps = connection.prepareStatement("UPDATE " + tableName + " SET money = ? WHERE name = ?");
+            ps.setString(2, playerName);
+        }
+
+        ps.setDouble(1, amount);
+        return ps;
+    }
+
+    private PreparedStatement prepareDeleteAccount(String playerName, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM " + tableName + " WHERE name = ?");
+        ps.setString(1, playerName);
+        return ps;
+    }
+
+    private void logError(String message, Throwable e) {
+        logger.error(message, e);
+    }
+
+    private void logInfo(String message) {
+        logger.info(message);
     }
 }

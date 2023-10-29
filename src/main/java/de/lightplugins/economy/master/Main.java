@@ -19,6 +19,7 @@ import de.lightplugins.economy.utils.*;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -99,6 +100,18 @@ public class Main extends JavaPlugin {
 
         /*  creating bStats method  */
 
+        Bukkit.getConsoleSender().sendMessage("\n " +
+                " §r_      _____ _____ _    _ _______ §c______ _____ ____  _   _  ____  __  ____     __\n" +
+                " §r| |    |_   _/ ____| |  | |__   __§c|  ____/ ____/ __ \\| \\ | |/ __ \\|  \\/  \\ \\   / /\n" +
+                " §r| |      | || |  __| |__| |  | |  §c| |__ | |   | |  | |  \\| | |  | | \\  / |\\ \\_/ / \n" +
+                " §r| |      | || | |_ |  __  |  | |  §c|  __|| |   | |  | | . ` | |  | | |\\/| | \\   /  \n" +
+                " §r| |____ _| || |__| | |  | |  | |  §c| |___| |___| |__| | |\\  | |__| | |  | |  | |   \n" +
+                " §r|______|_____\\_____|_|  |_|  |_|  §c|______\\_____\\____/|_| \\_|\\____/|_|  |_|  |_|" +
+                "\n\n" + ChatColor.RESET +
+                "      Version: §c5.4.0    §rAuthor: §clightPlugins\n" +
+                "      §rThank you for using lightEconomy. If you came in trouble feel free to join\n" +
+                "      my §cDiscord §rserver: https://discord.gg/G2EuzmSW\n");
+
         enableBStats();
         debugPrinting.sendInfo("bStats successfully registered.");
 
@@ -130,14 +143,6 @@ public class Main extends JavaPlugin {
         /*  Check for lightEconomy database updates  */
 
         TableStatements tableStatements = new TableStatements(this);
-
-        /*
-         *
-         *   17.10.2023 - UPDATE: bank share system
-         *
-         */
-
-        tableStatements.checkTableUpdate("trusted", "TEXT", "BankTable");
 
         /*  Register required Commands & TabCompletion  */
 
