@@ -16,6 +16,11 @@
 #               Developer: lightPlugins
 #
 version: 5.0
+tester:
+  ok: true
+  list:
+    - '1'
+    - '2'
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
   enable: false
@@ -55,3 +60,4 @@ settings:
   final-count-sound: ENTITY_DRAGON_FIREBALL_EXPLODE
   # if the top placeholder is not defined
   top-placeholder-not-set: 'none'
+  test: 'AHJA'

@@ -1,6 +1,7 @@
 package de.lightplugins.economy.files;
 
 import de.lightplugins.economy.master.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class FileManager {
@@ -54,7 +56,7 @@ public class FileManager {
 
     }
 
-    public void saveConfig(String configName) {
+    public void saveConfig() {
         if(this.dataConfig == null || this.configFile == null)
             return;
 
@@ -65,12 +67,28 @@ public class FileManager {
         }
     }
 
-    public void saveDefaultConfig(String configName) {
-        if(this.configFile == null)
-            this.configFile = new File(this.plugin.getDataFolder(), configName);
+    private void saveDefaultConfig(String configName) {
+        if (this.configFile == null)
+            this.configFile = new File(this.plugin.getDataFolder(), this.configName);
 
-        if(!this.configFile.exists()) {
+        if (!this.configFile.exists()) {
             this.plugin.saveResource(configName, false);
+        } else {
+            // Merge the default config into the existing config
+            FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(Objects.requireNonNull(this.plugin.getResource(configName))));
+            FileConfiguration existingConfig = getConfig();
+
+            Bukkit.getConsoleSender().sendMessage("§cTEST 1");
+            for (String key : defaultConfig.getKeys(true)) {
+                Bukkit.getConsoleSender().sendMessage("§cTEST 2 " + key);
+                if (!existingConfig.contains(key)) {
+                    Bukkit.getConsoleSender().sendMessage("§cTEST 3 " + key);
+                    existingConfig.set(key, defaultConfig.get(key));
+
+                }
+            }
+            saveConfig();
         }
     }
 }
