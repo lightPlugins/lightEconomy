@@ -78,16 +78,25 @@ public class FileManager {
             FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
                     new InputStreamReader(Objects.requireNonNull(this.plugin.getResource(configName))));
             FileConfiguration existingConfig = getConfig();
-
-            Bukkit.getConsoleSender().sendMessage("§cTEST 1");
             for (String key : defaultConfig.getKeys(true)) {
-                Bukkit.getConsoleSender().sendMessage("§cTEST 2 " + key);
-                if (!existingConfig.contains(key)) {
-                    Bukkit.getConsoleSender().sendMessage("§cTEST 3 " + key);
+                if (!existingConfig.getKeys(true).contains(key)) {
+                    Bukkit.getConsoleSender().sendMessage(Main.consolePrefix +
+                            "Found §cnon existing config key§r. Adding §c" + key + " §rinto §c" + configName);
                     existingConfig.set(key, defaultConfig.get(key));
 
                 }
             }
+
+            try {
+
+                existingConfig.save(configFile);
+                Bukkit.getConsoleSender().sendMessage(Main.consolePrefix +
+                        "Your config §c" + configName + " §ris up to date.");
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             saveConfig();
         }
     }

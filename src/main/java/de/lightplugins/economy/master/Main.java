@@ -35,6 +35,8 @@ public class Main extends JavaPlugin {
     public static Main getInstance;
     public static String currencyName;
 
+    public static final String consolePrefix = "§r[light§cEconomy§r] ";
+
     public static EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
     public Economy econ;    // current null!!!
@@ -92,7 +94,7 @@ public class Main extends JavaPlugin {
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully loaded " + this.getName());
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully loaded " + this.getName());
 
     }
 
@@ -128,13 +130,13 @@ public class Main extends JavaPlugin {
         /*  Check if PlaceholderAPI installed  */
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPI().register(); // initial lightEconomy placeholder
-            Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Hooked into PlaceholderAPI");
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
 
         }
 
         /*  Creating needed Database-Tables  */
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Creating Database ...");
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Creating Database ...");
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
         createTable.createBankTable();
@@ -146,7 +148,7 @@ public class Main extends JavaPlugin {
 
         /*  Register required Commands & TabCompletion  */
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Register Commands and TabCompletions ...");
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Register Commands and TabCompletions ...");
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
@@ -173,7 +175,7 @@ public class Main extends JavaPlugin {
         bankMenuInventoryManager = new InventoryManager(this);
         bankMenuInventoryManager.init();
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully started " + this.getName());
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully started " + this.getName());
     }
 
     public void onDisable() {
@@ -186,17 +188,17 @@ public class Main extends JavaPlugin {
 
         try {
             if(ds != null) {
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Status of Database: " + ds.getConnection());
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Lets try to shutdown the database");
-                Bukkit.getLogger().log(Level.WARNING, "[lightEconomy] Never 'relaod' the server!");
+                Bukkit.getConsoleSender().sendMessage(consolePrefix + "Status of Database: " + ds.getConnection());
+                Bukkit.getConsoleSender().sendMessage(consolePrefix + "Lets try to shutdown the database");
+                Bukkit.getLogger().log(Level.WARNING, consolePrefix + "§4Never 'relaod' the server!");
                 ds.close();
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully disconnected Database!");
+                Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully disconnected Database!");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Something went wrong on closing database!", e);
         }
 
-        Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully stopped " + this.getName());
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully stopped " + this.getName());
     }
 
     private void enableBStats() {
