@@ -1,5 +1,6 @@
 package de.lightplugins.economy.items;
 
+import com.sun.jna.IntegerType;
 import de.lightplugins.economy.enums.PersistentDataPaths;
 import de.lightplugins.economy.master.Main;
 import org.bukkit.Material;
@@ -52,6 +53,11 @@ public class Voucher {
 
         itemMeta.setLore(loreList);
 
+        boolean shouldUseModeData = Main.voucher.getConfig().getBoolean("voucher.custom-material.enable");
+
+        if(shouldUseModeData) {
+            itemMeta.setCustomModelData(Main.voucher.getConfig().getInt("voucher.custom-material.custom-id"));
+        }
         if(glow) {
             itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
