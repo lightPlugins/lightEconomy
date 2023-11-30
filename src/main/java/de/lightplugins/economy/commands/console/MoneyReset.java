@@ -30,7 +30,7 @@ public class MoneyReset extends SubCommand {
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
         if(args.length != 2)  {
-            Bukkit.getLogger().log(Level.WARNING, "This command does not exist. Please try it again");
+            Bukkit.getLogger().log(Level.WARNING, "This command does not exist. Please try /eco delete PLAYERNAME");
             return false;
         }
 
@@ -38,7 +38,7 @@ public class MoneyReset extends SubCommand {
 
         if(!Main.economyImplementer.hasAccount(target)) {
             Bukkit.getLogger().log(Level.WARNING,
-                    "[lightEconomy] The Target does not have an account and cant be deleted!");
+                    Main.consolePrefix + "The Target does not have an account and cant be deleted!");
             return false;
         }
 
@@ -46,13 +46,13 @@ public class MoneyReset extends SubCommand {
 
         CompletableFuture<Boolean> delete = moneyTableAsync.deleteAccount(target);
             if(delete.get()) {
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully deleted user " + target);
+                Bukkit.getLogger().log(Level.INFO, Main.consolePrefix + "Successfully deleted user " + target);
                 Player tar = Bukkit.getPlayer(target);
                 if(tar == null) { return false; }
                 tar.kickPlayer("§7[lightEconomy] §cYour economy account was deleted. " +
                         "\n§cPlease connect again to the server");
             } else {
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Cannot delete user " + target + ". " +
+                Bukkit.getLogger().log(Level.INFO, Main.consolePrefix + "Cannot delete user " + target + ". " +
                         "Something went wrong");
             }
 

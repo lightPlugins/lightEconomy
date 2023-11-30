@@ -38,19 +38,19 @@ public class MoneySetConsole extends SubCommand {
 
                     if(!Main.economyImplementer.hasAccount(target)) {
                         Bukkit.getLogger().log(Level.WARNING,
-                                "The Target does not have an account or the name is wrong! + " + args[1]);
+                                Main.consolePrefix + "The Target does not have an account or the name is wrong! + " + args[1]);
                         return false;
                     }
 
                     if(amount < 0) {
                         Bukkit.getLogger().log(Level.WARNING,
-                                "You can set only positiv numbers!");
+                                Main.consolePrefix + "You can set only positiv numbers!");
                         return true;
                     }
 
                     if(amount > 999999999999.99) {
                         Bukkit.getLogger().log(Level.WARNING,
-                                "The Amount exceeds the Limit of 999,999,999,999.99");
+                                Main.consolePrefix + "The Amount exceeds the Limit of 999,999,999,999.99");
                         return false;
                     }
 
@@ -59,13 +59,13 @@ public class MoneySetConsole extends SubCommand {
 
                     if(completableFuture.get()) {
                         Bukkit.getLogger().log(Level.INFO,
-                                "Successfully set " + args[2] + " " + currency + " to " + target);
+                                Main.consolePrefix + "Successfully set " + args[2] + " " + currency + " to " + target);
                         return true;
                     }
-                    Bukkit.getLogger().log(Level.WARNING, "Something went wrong. Please try it again");
+                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Something went wrong. Please try it again");
 
                 } catch (NumberFormatException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "Please use a valid number and try it again.");
+                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Please use a valid number and try it again.");
                     return false;
                 }
             }

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class ConsoleCommandManager implements CommandExecutor {
@@ -46,7 +47,7 @@ public class ConsoleCommandManager implements CommandExecutor {
                         try {
                             if(getSubCommands().get(i).perform(null, args)) { return false; }
                         } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException("Something went wrong in executing " + Arrays.toString(args), e);
                         }
                     }
                 }

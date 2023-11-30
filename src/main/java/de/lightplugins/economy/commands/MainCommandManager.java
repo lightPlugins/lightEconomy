@@ -1,6 +1,6 @@
 package de.lightplugins.economy.commands;
 
-import de.lightplugins.economy.commands.main.ConnectionCommand;
+import de.lightplugins.economy.commands.main.DebugCommand;
 import de.lightplugins.economy.commands.main.HelpCommand;
 import de.lightplugins.economy.commands.main.ReloadCommand;
 import de.lightplugins.economy.enums.MessagePath;
@@ -29,7 +29,7 @@ public class MainCommandManager implements CommandExecutor {
         subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
         //subCommands.add(new VoucherCommand());
-        subCommands.add(new ConnectionCommand());
+        subCommands.add(new DebugCommand());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MainCommandManager implements CommandExecutor {
                             }
 
                         } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException("Something went wrong in executing " + Arrays.toString(args), e);
                         }
                     }
                 }

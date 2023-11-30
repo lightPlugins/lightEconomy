@@ -32,12 +32,22 @@ public class PluginReloadConsole extends SubCommand {
 
                 Main.messages.reloadConfig("messages.yml");
                 Main.titles.reloadConfig("titles.yml");
+                Main.bankLevelMenu.reloadConfig("bank-level.yml");
+                Main.bankMenu.reloadConfig("bank-menu.yml");
                 Main.voucher.reloadConfig("voucher.yml");
+                Main.lose.reloadConfig("lose.yml");
+                Main.settings.reloadConfig("settings.yml");
 
-                Bukkit.getLogger().log(Level.INFO, "[lightEconomy] Successfully reloaded the message.yml and titles.yml");
-                Bukkit.getLogger().log(Level.WARNING, "[lightEconomy] If you changed the settings.yml please restart the server!");
+                Bukkit.getLogger().log(Level.INFO,
+                        Main.consolePrefix + "Successfully reloaded the message.yml and titles.yml");
+                return false;
             }
+
+            Bukkit.getLogger().log(Level.WARNING, "This command does not exist. Please try /eco reload");
+            return false;
         }
+
+        Bukkit.getLogger().log(Level.WARNING, "This command does not exist.");
 
         return false;
     }

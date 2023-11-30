@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class ConnectionCommand extends SubCommand {
+public class DebugCommand extends SubCommand {
     @Override
     public String getName() {
         return "debug";
