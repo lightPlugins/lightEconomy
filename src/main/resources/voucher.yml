@@ -4,8 +4,8 @@ voucher:
   max-value: 50000.00
   material: AMETHYST_CLUSTER
   custom-material:
-    enable: false
-    custom-id: 5
+    enable: true
+    custom-id: 1337
   glow: true
   name: '&c&l#amount# &7#currency# - Voucher'
   lore:

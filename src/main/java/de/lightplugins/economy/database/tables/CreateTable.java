@@ -87,5 +87,4 @@ public class CreateTable {
 
         tableStatements.createTableStatement(tableStatement);
     }
-
 }

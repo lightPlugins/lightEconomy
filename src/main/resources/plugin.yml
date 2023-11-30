@@ -1,10 +1,10 @@
 name: lightEconomy
 author: lightPlugins
-version: 5.3.1
+version: 5.4.0
 main: de.lightplugins.economy.master.Main
 api-version: 1.19
 depend: [Vault]
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, Citizens]
 loadbefore: [Essentials, Towny]
 commands: {
             le:,

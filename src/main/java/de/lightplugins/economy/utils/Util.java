@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -61,11 +62,16 @@ public class Util {
 
         FileConfiguration config = Main.settings.getConfig();
 
-        Sound countUpSound = Sound.valueOf(config.getString("settings.count-up-sound"));
-        Sound countFinishSound = Sound.valueOf(config.getString("settings.final-count-sound"));
+        Sound countUpSound = Sound.valueOf(
+                Objects.requireNonNull(config.getString("settings.count-up-sound")).toUpperCase());
+        Sound countFinishSound = Sound.valueOf(
+                Objects.requireNonNull(config.getString("settings.final-count-sound")).toUpperCase());
 
         BigDecimal bd2 = new BigDecimal(startValue).setScale(2, RoundingMode.HALF_UP);
         BigDecimal bd = new BigDecimal(endValue).setScale(2, RoundingMode.HALF_UP);
+
+        double volume = config.getDouble("settings.volume");
+        double pitch = config.getDouble("settings.pitch");
 
 
         double roundedSetPoint = bd.doubleValue();
@@ -85,7 +91,7 @@ public class Util {
                             upperLine.replace("#amount#", roundedOutput),
                             lowerLine.replace("#amount#", roundedOutput),
                             0, 20, 20);
-                    player.playSound(player.getLocation(), countUpSound, (float)0.7, (float)1.6);
+                    player.playSound(player.getLocation(), countUpSound, (float)volume, (float)pitch);
                 }
 
                 if(roundedCountMin[0] >= endValue) {
@@ -96,7 +102,7 @@ public class Util {
                             upperLineFinal.replace("#amount#", roundedSetPointOutput),
                             lowerLineFinal.replace("#amount#", roundedSetPointOutput),
                             0, 20, 20);
-                    player.playSound(player.getLocation(), countFinishSound, (float)0.7, (float)1.6);
+                    player.playSound(player.getLocation(), countFinishSound, (float)volume, (float)pitch);
                     this.cancel();
 
                 }

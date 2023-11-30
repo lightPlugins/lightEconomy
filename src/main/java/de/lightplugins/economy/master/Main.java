@@ -14,6 +14,7 @@ import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.listener.LoseMoney;
+import de.lightplugins.economy.listener.TimeReward;
 import de.lightplugins.economy.placeholder.PlaceholderAPI;
 import de.lightplugins.economy.utils.*;
 import fr.minuskube.inv.InventoryManager;
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin {
 
     public static EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
+    public static boolean isCitizens = false;
     public Economy econ;    // current null!!!
 
     public HikariDataSource ds;
@@ -47,6 +49,7 @@ public class Main extends JavaPlugin {
     public static ColorTranslation colorTranslation;
     public static ProgressionBar progressionBar;
     public static Util util;
+    public static Sounds sounds;
     public static DebugPrinting debugPrinting;
 
     public static FileManager settings;
@@ -94,6 +97,8 @@ public class Main extends JavaPlugin {
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
+        sounds = new Sounds();
+
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully loaded " + this.getName());
 
     }
@@ -131,6 +136,13 @@ public class Main extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPI().register(); // initial lightEconomy placeholder
             Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
+
+        }
+
+        /*  Check if Citizens installed  */
+        if (Bukkit.getPluginManager().getPlugin("Citizens") != null) {
+            isCitizens = true;
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into Citizens");
 
         }
 
@@ -174,6 +186,10 @@ public class Main extends JavaPlugin {
 
         bankMenuInventoryManager = new InventoryManager(this);
         bankMenuInventoryManager.init();
+
+        // Starting the timer for the time reward feature
+        TimeReward timeReward = new TimeReward();
+        timeReward.startTimedReward();
 
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully started " + this.getName());
     }

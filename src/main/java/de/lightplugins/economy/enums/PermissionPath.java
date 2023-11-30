@@ -20,6 +20,7 @@ public enum PermissionPath {
     BankSetLevel("lighteconomy.admin.command.banksetlevel"),
     BankShow("lighteconomy.admin.command.bankshow"),
     HelpCommandAdmin("lighteconomy.admin.command.helpadmin"),
+    CreateNPC("lighteconomy.admin.command.npc.create"),
 
     /*
         User Command Perissions

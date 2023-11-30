@@ -58,6 +58,15 @@ settings:
     - notch
   count-up-sound: BLOCK_NOTE_BLOCK_HAT
   final-count-sound: ENTITY_DRAGON_FIREBALL_EXPLODE
+  volume: 1.0
+  pitch: 1.0
   # if the top placeholder is not defined
   top-placeholder-not-set: 'none'
-  test: 'AHJA'
+  npcName: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
+  emptyNpcName: '&8● Maybe your name ? &8●'
+  # apply timeRwards to all online players
+  timeReward:
+    money:
+      enable: true
+      intervall: 60
+      amount: 15

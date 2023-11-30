@@ -1,5 +1,7 @@
 package de.lightplugins.economy.commands.tabcompletion;
 
+import de.lightplugins.economy.enums.PermissionPath;
+import de.lightplugins.economy.master.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -24,6 +26,11 @@ public class MainTabCompletion implements TabCompleter {
             }
             if(player.hasPermission("lighteconomy.admin.command.debug")) {
                 arguments.add("debug");
+            }
+            if(player.hasPermission(PermissionPath.CreateNPC.getPerm())) {
+                if(Main.isCitizens) {
+                    arguments.add("createnpc");
+                }
             }
 
             return arguments;

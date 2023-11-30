@@ -43,6 +43,7 @@ public class ReloadCommand extends SubCommand {
         Main.bankMenu.reloadConfig("bank-menu.yml");
         Main.voucher.reloadConfig("voucher.yml");
         Main.lose.reloadConfig("lose.yml");
+        Main.settings.reloadConfig("settings.yml");
 
         Main.util.sendMessage(player, MessagePath.Reload.getPath());
 

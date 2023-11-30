@@ -69,6 +69,8 @@ public enum MessagePath {
     BankRemovePlayer("bankRemovePlayer"),
     BankDisabled("bankDisabled"),
     LoseMoneyOnDeath("loseMoneyOnDeath"),
+    NpcCreateWrongRankID("npcCreateWrongRankID"),
+    TimeRewardMoney("timeRewardMoney"),
     ;
 
     private final String path;
@@ -79,8 +81,7 @@ public enum MessagePath {
         try {
             return paths.getString(this.path);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error occured on Message creation", e);
         }
-        return "Error";
     }
 }
