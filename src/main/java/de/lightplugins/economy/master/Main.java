@@ -139,13 +139,6 @@ public class Main extends JavaPlugin {
 
         }
 
-        /*  Check if Citizens installed  */
-        if (Bukkit.getPluginManager().getPlugin("Citizens") != null) {
-            isCitizens = true;
-            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into Citizens");
-
-        }
-
         /*  Creating needed Database-Tables  */
 
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Creating Database ...");
@@ -193,6 +186,7 @@ public class Main extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully started " + this.getName());
     }
+
 
     public void onDisable() {
 
