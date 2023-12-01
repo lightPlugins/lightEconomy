@@ -58,7 +58,6 @@ public class Main extends JavaPlugin {
     public static FileManager voucher;
     public static FileManager bankMenu;
     public static FileManager bankLevelMenu;
-    public static FileManager bankManager;
     public static FileManager lose;
 
 
@@ -93,7 +92,6 @@ public class Main extends JavaPlugin {
         bankMenu = new FileManager(this, "bank-menu.yml");
         bankLevelMenu = new FileManager(this, "bank-level.yml");
         lose = new FileManager(this, "lose.yml");
-        bankManager = new FileManager(this, "bank-manage.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 

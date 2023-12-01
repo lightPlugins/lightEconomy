@@ -30,7 +30,7 @@ import java.util.logging.Level;
 
 public class BankManageMenu implements InventoryProvider {
 
-    private static final FileConfiguration bankManager = Main.bankManager.getConfig();
+    private static final FileConfiguration bankManager = null;
 
     public static final SmartInventory INVENTORY = SmartInventory.builder()
             .id("BANK_MANAGE_MENU")

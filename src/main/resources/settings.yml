@@ -64,9 +64,12 @@ settings:
   top-placeholder-not-set: 'none'
   npcName: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
   emptyNpcName: '&8● Maybe your name ? &8●'
-  # apply timeRwards to all online players
+  # apply timeRwards to all online players on your server/network
   timeReward:
     money:
-      enable: true
+      # en- or disable this feature
+      enable: false
+      # the intervall in seconds the payout is excecuting
       intervall: 60
+      # the amount of money, online players will receive
       amount: 15

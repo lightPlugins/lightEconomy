@@ -58,7 +58,7 @@ public class BankCommandManager implements CommandExecutor {
                             }
 
                         } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException("Something went wrong", e);
                         }
                     }
                 }
