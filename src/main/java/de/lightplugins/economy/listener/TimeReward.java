@@ -24,9 +24,6 @@ public class TimeReward {
         double moneyAmount = settings.getDouble("settings.timeReward.money.amount");
         int intervalSeconds = settings.getInt("settings.timeReward.money.intervall");
         int intervallInMinutes = intervalSeconds / 60;
-        int intervallInMillis = intervalSeconds * 1000;
-
-
 
         if(!enabledMoney) {
             return;

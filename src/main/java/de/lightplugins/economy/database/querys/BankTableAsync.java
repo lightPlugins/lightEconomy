@@ -168,28 +168,28 @@ public class BankTableAsync {
 
     private PreparedStatement prepareBankBalanceQuery(String playerName, Connection connection) throws SQLException {
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+        PreparedStatement ps;
         if (offlinePlayer != null) {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
             ps.setString(1, offlinePlayer.getUniqueId().toString());
-            return ps;
         } else {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name = ?");
+            ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name = ?");
             ps.setString(1, playerName);
-            return ps;
         }
+        return ps;
     }
 
     private PreparedStatement prepareBankLevelQuery(String playerName, Connection connection) throws SQLException {
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
+        PreparedStatement ps;
         if (offlinePlayer != null) {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
             ps.setString(1, offlinePlayer.getUniqueId().toString());
-            return ps;
         } else {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name = ?");
+            ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name = ?");
             ps.setString(1, playerName);
-            return ps;
         }
+        return ps;
     }
 
     private PreparedStatement prepareNewBankAccountInsert(

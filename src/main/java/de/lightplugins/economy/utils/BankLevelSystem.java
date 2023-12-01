@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -42,7 +43,7 @@ public class BankLevelSystem {
 
         FileConfiguration levels = Main.bankLevelMenu.getConfig();
 
-        for(String value : levels.getConfigurationSection("levels").getKeys(false))  {
+        for(String value : Objects.requireNonNull(levels.getConfigurationSection("levels")).getKeys(false))  {
 
             if(level == levels.getInt("levels." + value + ".level")) {
                 return levels.getDouble("levels." + value + ".max-value");

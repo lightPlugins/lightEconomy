@@ -200,8 +200,7 @@ public class MoneyTableAsync {
     }
 
     private PreparedStatement preparePlayersBalanceListQuery(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE isPlayer = '1'");
-        return ps;
+        return connection.prepareStatement("SELECT * FROM " + tableName + " WHERE isPlayer = '1'");
     }
 
     private HashMap<String, Double> extractPlayerBalances(ResultSet rs) throws SQLException {

@@ -70,6 +70,9 @@ settings:
       # en- or disable this feature
       enable: false
       # the intervall in seconds the payout is excecuting
-      intervall: 60
+      # lightEconomy uses your system time for more performance improve on larg server
+      # with many players
+      # 600 = 10 min
+      intervall: 600
       # the amount of money, online players will receive
       amount: 15
