@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -40,6 +41,15 @@ public class ClaimVoucher implements Listener {
                     return;
                 }
 
+                if(event.getHand() == null) {
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if(event.getHand().equals(EquipmentSlot.OFF_HAND)) {
+                    return;
+                }
+
                 PersistentDataContainer data = itemMeta.getPersistentDataContainer();
                 NamespacedKey key = new NamespacedKey(Main.getInstance, PersistentDataPaths.MONEY_VALUE.getType());
 
@@ -48,6 +58,8 @@ public class ClaimVoucher implements Listener {
                     if(!data.has(key, PersistentDataType.DOUBLE)) {
                         return;
                     }
+
+                    event.setCancelled(true);
 
                     if(!Main.voucher.getConfig().getBoolean("voucher.enable")) {
                         Main.util.sendMessage(player, MessagePath.VoucherDisabled.getPath());
