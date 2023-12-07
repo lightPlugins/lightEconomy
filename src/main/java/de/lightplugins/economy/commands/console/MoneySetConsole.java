@@ -37,19 +37,19 @@ public class MoneySetConsole extends SubCommand {
                     double amount = Double.parseDouble(args[2]);
 
                     if(!Main.economyImplementer.hasAccount(target)) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "The Target does not have an account or the name is wrong! + " + args[1]);
                         return false;
                     }
 
                     if(amount < 0) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "You can set only positiv numbers!");
                         return true;
                     }
 
                     if(amount > 999999999999.99) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "The Amount exceeds the Limit of 999,999,999,999.99");
                         return false;
                     }
@@ -58,19 +58,25 @@ public class MoneySetConsole extends SubCommand {
                     CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(target, amount);
 
                     if(completableFuture.get()) {
-                        Bukkit.getLogger().log(Level.INFO,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "Successfully set " + args[2] + " " + currency + " to " + target);
                         return true;
                     }
-                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Something went wrong. Please try it again");
+                    Bukkit.getConsoleSender().sendMessage( Main.consolePrefix + "Something went wrong. Please try it again");
 
                 } catch (NumberFormatException e) {
-                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Please use a valid number and try it again.");
+                    Bukkit.getConsoleSender().sendMessage( Main.consolePrefix + "Please use a valid number and try it again.");
                     return false;
                 }
             }
+
+            Bukkit.getConsoleSender().sendMessage(
+                    Main.consolePrefix + "Wrong command. Please use /eco set [playername] [amount]");
+            return false;
         }
 
+        Bukkit.getConsoleSender().sendMessage(
+                Main.consolePrefix + "Wrong command. Please use /eco set [playername] [amount]");
         return false;
     }
 }

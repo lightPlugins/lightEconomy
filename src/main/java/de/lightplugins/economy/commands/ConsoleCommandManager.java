@@ -33,6 +33,7 @@ public class ConsoleCommandManager implements CommandExecutor {
         subCommands.add(new PluginReloadConsole());
         subCommands.add(new MoneyReset());
         subCommands.add(new BankOpenConsole());
+        subCommands.add(new ConsoleHelp());
     }
 
     @Override

@@ -156,7 +156,7 @@ public class MoneyTableAsync {
                  PreparedStatement ps = preparePlayerBalanceUpdate(playerName, fixedAmount, connection)) {
 
                 ps.execute();
-                logInfo("Successfully set the balance of player: " + playerName + " to " + fixedAmount);
+                Main.debugPrinting.sendInfo("Successfully set the balance of player: " + playerName + " to " + fixedAmount);
                 return true;
             } catch (SQLException e) {
                 logError("An error occurred while setting the balance of player: " + playerName, e);

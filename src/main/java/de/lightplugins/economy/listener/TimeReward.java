@@ -25,14 +25,15 @@ public class TimeReward {
         int intervalSeconds = settings.getInt("settings.timeReward.money.intervall");
         int intervallInMinutes = intervalSeconds / 60;
 
-        if(!enabledMoney) {
-            return;
-        }
 
         new BukkitRunnable(){
 
             @Override
             public void run() {
+
+                if(!enabledMoney) {
+                    return;
+                }
 
                 long currentMillisInSeconds = System.currentTimeMillis() / 1000;
 

@@ -143,7 +143,7 @@ public class Main extends JavaPlugin {
         CreateTable createTable = new CreateTable(this);
         createTable.createMoneyTable();
         createTable.createBankTable();
-        createTable.createPlayerData();
+        //createTable.createPlayerData();
 
         /*  Check for lightEconomy database updates  */
 
@@ -198,7 +198,7 @@ public class Main extends JavaPlugin {
             if(ds != null) {
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Status of Database: " + ds.getConnection());
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Lets try to shutdown the database");
-                Bukkit.getLogger().log(Level.WARNING, consolePrefix + "§4Never 'relaod' the server!");
+                Bukkit.getConsoleSender().sendMessage( consolePrefix + "§4Never 'relaod' the server!");
                 ds.close();
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully disconnected Database!");
             }

@@ -1,5 +1,6 @@
 package de.lightplugins.economy.implementer;
 
+import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.master.Main;
 import net.milkbowl.vault.economy.Economy;
@@ -9,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -105,9 +107,9 @@ public class EconomyImplementer implements Economy {
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         CompletableFuture<Double> balance = moneyTableAsync.playerBalance(s);
 
-
         try {
             return balance.get();
+
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -140,7 +142,33 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean has(String s, String s1, double v) {
-        return getBalance(s) >= v;
+
+        BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+        CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+
+        FileConfiguration settings = Main.settings.getConfig();
+        boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
+
+        Bukkit.getLogger().log(Level.WARNING, "TEST 1 " + bankAsPocket);
+
+        if(!bankAsPocket && getBalance(s) >= v) {
+            return true;
+        }
+
+        try {
+
+            double currentBankBalance = bankBalance.get();
+            double missingAmount = v - getBalance(s);
+
+            if(currentBankBalance >= missingAmount) { return true; }
+
+
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException("Something went wrong due to bankAsPocket funtion", e);
+        }
+
+        return false;
     }
 
     @Override
@@ -150,6 +178,34 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
+
+        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+        BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+        CompletableFuture<Double> currentPocketBalance = moneyTableAsync.playerBalance(s);
+
+        FileConfiguration titles = Main.titles.getConfig();
+
+        double minTrigger = titles.getDouble("titles.withdraw-wallet.min-trigger-amount");
+
+                /*
+                    Title on count up
+                 */
+
+        String upperTitle = Main.colorTranslation.hexTranslation(
+                titles.getString("titles.withdraw-wallet.counter.upper-line"));
+        String lowerTitle = Main.colorTranslation.hexTranslation(
+                titles.getString("titles.withdraw-wallet.counter.lower-line"));
+
+                /*
+                    Title on count finished
+                 */
+
+        String upperTitleFinal = Main.colorTranslation.hexTranslation(
+                titles.getString("titles.withdraw-wallet.final.upper-line"));
+
+        String lowerTitleFinal = Main.colorTranslation.hexTranslation(
+                titles.getString("titles.withdraw-wallet.final.lower-line"));
 
         if(!hasAccount(s)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
@@ -166,37 +222,56 @@ public class EconomyImplementer implements Economy {
                     "[lightEconomy] Cant withdraw negative numbers");
         }
 
-        double currentBalance = getBalance(s);
-        currentBalance -= v;
-
-        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
-        CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(s, currentBalance);
-
         try {
+
+            double currentBalance = currentPocketBalance.get();
+
+            if(v > currentBalance) {
+                CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+
+                double missingBalance = v - currentBalance;
+
+                    double currentBankBalance = bankBalance.get();
+
+                    if(currentBankBalance >= missingBalance) {
+
+                        CompletableFuture<Boolean> withdrawFromBank =
+                                bankTableAsync.setBankMoney(s, currentBankBalance - missingBalance);
+
+                        CompletableFuture<Boolean> withdrawFromPocket =
+                                moneyTableAsync.setMoney(s, 0.00);
+
+                        if(withdrawFromBank.get() && withdrawFromPocket.get()) {
+
+                            OfflinePlayer offlinePlayer = Bukkit.getPlayer(s);
+
+                            if(offlinePlayer != null && offlinePlayer.isOnline()) {
+
+                                Player player = offlinePlayer.getPlayer();
+
+                                if(titles.getBoolean("titles.withdraw-wallet.enable")) {
+                                    if(v >= minTrigger) {
+                                        Main.util.countUp(player, v, upperTitle, lowerTitle, upperTitleFinal, lowerTitleFinal);
+                                    }
+                                }
+                            }
+
+                            return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.SUCCESS,
+                                    "[lightEconomy] Successfully withdraw the missing money from lightEconomy bank");
+
+
+                        }
+                    }
+
+                return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.FAILURE,
+                        "[lightEconomy] Something went wrong on withdraw with option bankAsPocket");
+            }
+
+            currentBalance -= v;
+
+            CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(s, currentBalance);
+
             if(completableFuture.get()) {
-
-                FileConfiguration titles = Main.titles.getConfig();
-                double minTrigger = titles.getDouble("titles.withdraw-wallet.min-trigger-amount");
-
-                /*
-                    Title on count up
-                 */
-
-                String upperTitle = Main.colorTranslation.hexTranslation(
-                        titles.getString("titles.withdraw-wallet.counter.upper-line"));
-                String lowerTitle = Main.colorTranslation.hexTranslation(
-                                titles.getString("titles.withdraw-wallet.counter.lower-line"));
-
-                /*
-                    Title on count finished
-                 */
-
-                String upperTitleFinal = Main.colorTranslation.hexTranslation(
-                                titles.getString("titles.withdraw-wallet.final.upper-line"));
-
-                String lowerTitleFinal = Main.colorTranslation.hexTranslation(
-                        titles.getString("titles.withdraw-wallet.final.lower-line"));
-
 
                 OfflinePlayer offlinePlayer = Bukkit.getPlayer(s);
 
@@ -218,9 +293,11 @@ public class EconomyImplementer implements Economy {
 
             return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] Something went wrong on withdraw");
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+
+        }catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException("Something went wrong due to bankAsPocket funtion", e);
         }
+
     }
 
     @Override

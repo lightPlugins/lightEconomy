@@ -58,6 +58,10 @@ public class LoseMoney implements Listener {
                     return;
                 }
 
+                if(currentPocket == 0.00) {
+                    return;
+                }
+
                 if(!Main.util.checkPercentage(triggerChance)) {
                     return;
                 }

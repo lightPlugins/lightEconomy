@@ -36,34 +36,41 @@ public class MoneyAddConsole extends SubCommand {
                     String currency = Main.economyImplementer.currencyNameSingular();
 
                     if(amount < 0) {
-                        Bukkit.getLogger().log(Level.WARNING,
-                                "You can add only positiv numbers!");
+                        Bukkit.getConsoleSender().sendMessage(
+                                Main.consolePrefix + "You can add only positiv numbers!");
                         return true;
                     }
 
                     if(!Main.economyImplementer.hasAccount(target)) {
-                        Bukkit.getLogger().log(Level.WARNING,
-                                "The Target does not have an account or the name is wrong!");
+                        Bukkit.getConsoleSender().sendMessage(
+                                Main.consolePrefix + "The Target does not have an account or the name is wrong!");
                         return false;
                     }
 
                     EconomyResponse economyResponse = Main.economyImplementer.depositPlayer(target, amount);
 
                     if(economyResponse.transactionSuccess()) {
-                        Bukkit.getLogger().log(Level.INFO,
-                                "Successfully added " + target + " " + args[2] + " " + currency);
+                        Bukkit.getConsoleSender().sendMessage(
+                                Main.consolePrefix + "Successfully added " + target + " " + args[2] + " " + currency);
                         return true;
 
                     }
-                    Bukkit.getLogger().log(Level.WARNING, "Something went wrong. Please try it again");
+                    Bukkit.getConsoleSender().sendMessage(
+                            Main.consolePrefix + "Something went wrong. Please try it again");
 
                 } catch (NumberFormatException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "Please use a valid number and try it again.");
+                    Bukkit.getConsoleSender().sendMessage(
+                            Main.consolePrefix + "Please use a valid number and try it again.");
                     return false;
                 }
             }
+            Bukkit.getConsoleSender().sendMessage(
+                    Main.consolePrefix + "Wrong command. Please use /eco add [playername] [amount]");
+            return false;
         }
 
+        Bukkit.getConsoleSender().sendMessage(
+                Main.consolePrefix + "Wrong command. Please use /eco add [playername] [amount]");
         return false;
     }
 }

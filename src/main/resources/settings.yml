@@ -48,23 +48,33 @@ settings:
   enable-bank-feature: true
   date-format: 'dd:mm:yyyy'
   moneyTopPlaceholderFormat: '#player# '
+  # pay comman delay in seconds. Disable this by using 0
   pay-command-delay: 10
-  currency-name-plural: 'EUR'
-  currency-name-singular: 'EURs'
+  currency-name-plural: 'EURs'
+  currency-name-singular: 'EUR'
   max-pocket-balance: 999999999999.99
   baltop-amount-of-players: 10
   baltop-exclude:
     - gaben
     - notch
+  # The title sound settings
   count-up-sound: BLOCK_NOTE_BLOCK_HAT
   final-count-sound: ENTITY_DRAGON_FIREBALL_EXPLODE
   volume: 1.0
   pitch: 1.0
+  # The top placeholder format for pocket and bank balances
+  #
+  # #number# - the number defined in the placeholder itself
+  # #name# - the playername comming from lighteconomy
+  # #amount# - the amount that the player has in their pocket balance
+  # #currency# - the currency comming from "currency-name-plural" in settings.yml
+  #
+  # You can also use hexcolors like #dc143d
+  top-placeholder-format: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
   # if the top placeholder is not defined
   top-placeholder-not-set: 'none'
-  npcName: '&8● &c&l#number#&7# &8● &c#name# &7- &c#amount# &7#currency#'
-  emptyNpcName: '&8● Maybe your name ? &8●'
   # apply timeRwards to all online players on your server/network
+  # the timer starts until the server is loaded
   timeReward:
     money:
       # en- or disable this feature
@@ -76,3 +86,13 @@ settings:
       intervall: 600
       # the amount of money, online players will receive
       amount: 15
+  # If the players pocket is empty, but his bank account has enough money, all transactions
+  # from third party plugins will withdraw from their bank account.
+  #
+  # DISCLAIMER: It depends on the other plugin and how it queries whether the player has enough money
+  #             If, for example, the Shop plugin uses the vault method getBalance() instead of has(), it will not work.
+  #             In summary, if it doesn't work, you should ask the plugin developer if they can use the has() method
+  #             in their plugin to inquire whether the player has enough money.
+  #
+  # This is a beta Feature. Use this at your own risk!. Suggested by a community user
+  bankAsPocket: false

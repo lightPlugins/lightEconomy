@@ -42,7 +42,6 @@ public class ClaimVoucher implements Listener {
                 }
 
                 if(event.getHand() == null) {
-                    event.setCancelled(true);
                     return;
                 }
 

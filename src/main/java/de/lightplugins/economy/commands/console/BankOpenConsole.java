@@ -33,21 +33,26 @@ public class BankOpenConsole extends SubCommand {
             Player target = Bukkit.getPlayer(args[2]);
             if(args[1].equalsIgnoreCase("open")) {
 
-                assert target != null;
+                if(target == null) {
+                    Bukkit.getConsoleSender().sendMessage(
+                            Main.consolePrefix + "The Player was not found on this server");
+                    return false;
+                }
 
                 if(target.isOnline()) {
                     BankMainMenu.INVENTORY.open(target);
                     return false;
                 }
-                Bukkit.getLogger().log(Level.WARNING,
-                        Main.consolePrefix + "The Player was not found on this server");
-
                 return false;
             }
 
-            Bukkit.getLogger().log(Level.WARNING,
-                    "Wrong command. Please use /eco bank open PLAYERNAME");
+            Bukkit.getConsoleSender().sendMessage(
+                    Main.consolePrefix + "Wrong command. Please use /eco bank open PLAYERNAME");
+            return false;
         }
+
+        Bukkit.getConsoleSender().sendMessage(
+                Main.consolePrefix + "Wrong command. Please use /eco bank open PLAYERNAME");
         return false;
     }
 }

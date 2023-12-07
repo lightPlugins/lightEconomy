@@ -38,17 +38,17 @@ public class PluginReloadConsole extends SubCommand {
                 Main.lose.reloadConfig("lose.yml");
                 Main.settings.reloadConfig("settings.yml");
 
-                Bukkit.getLogger().log(Level.INFO,
-                        Main.consolePrefix + "Successfully reloaded the message.yml and titles.yml");
+                Bukkit.getConsoleSender().sendMessage(
+                        Main.consolePrefix + "Successfully reloaded the configs");
                 return false;
             }
 
-            Bukkit.getLogger().log(Level.WARNING, "This command does not exist. Please try /eco reload");
+            Bukkit.getConsoleSender().sendMessage( "This command does not exist. Please try /eco reload");
             return false;
         }
 
-        Bukkit.getLogger().log(Level.WARNING, "This command does not exist.");
-
+        Bukkit.getConsoleSender().sendMessage(
+                Main.consolePrefix + "Wrong command. Please use /eco reload");
         return false;
     }
 }

@@ -36,14 +36,14 @@ public class MoneyRemoveConsole extends SubCommand {
                     String currency = Main.economyImplementer.currencyNameSingular();
 
                     if(!Main.economyImplementer.hasAccount(target)) {
-                        Bukkit.getLogger().log(Level.WARNING,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "The Target does not have an account or the name is wrong!");
                         return false;
                     }
 
                     if(amount < 0) {
-                        Bukkit.getLogger().log(Level.WARNING,
-                                Main.consolePrefix + "You can remove only positiv numbers!");
+                        Bukkit.getConsoleSender().sendMessage(
+                                Main.consolePrefix + "You can add only positiv numbers!");
                         return true;
                     }
 
@@ -54,20 +54,26 @@ public class MoneyRemoveConsole extends SubCommand {
                     EconomyResponse economyResponse = Main.economyImplementer.withdrawPlayer(target, amount);
 
                     if(economyResponse.transactionSuccess()) {
-                        Bukkit.getLogger().log(Level.INFO,
+                        Bukkit.getConsoleSender().sendMessage(
                                 Main.consolePrefix + "Successfully removed " + args[2] + " " + currency + " from " + target);
                         return true;
 
                     }
-                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Something went wrong. Please try it again");
+                    Bukkit.getConsoleSender().sendMessage(Main.consolePrefix + "Something went wrong. Please try it again");
 
                 } catch (NumberFormatException e) {
-                    Bukkit.getLogger().log(Level.WARNING, Main.consolePrefix + "Please use a valid number and try it again.");
+                    Bukkit.getConsoleSender().sendMessage(Main.consolePrefix + "Please use a valid number and try it again.");
                     return false;
                 }
             }
+
+            Bukkit.getConsoleSender().sendMessage(
+                    Main.consolePrefix + "Wrong command. Please use /eco remove [playername] [amount]");
+            return false;
         }
 
+        Bukkit.getConsoleSender().sendMessage(
+                Main.consolePrefix + "Wrong command. Please use /eco remove [playername] [amount]");
         return false;
     }
 }

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -166,6 +167,20 @@ public class BankTableAsync {
         });
     }
 
+    public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = preparePlayersBalanceListQuery(connection)) {
+
+                ResultSet rs = ps.executeQuery();
+                return extractPlayerBalances(rs);
+            } catch (SQLException e) {
+                logError("An error occurred while retrieving player balances.", e);
+                return null;
+            }
+        });
+    }
+
     private PreparedStatement prepareBankBalanceQuery(String playerName, Connection connection) throws SQLException {
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
         PreparedStatement ps;
@@ -217,6 +232,18 @@ public class BankTableAsync {
         ps.setString(1, offlinePlayer.getName());
         ps.setString(2, offlinePlayer.getUniqueId().toString());
         return ps;
+    }
+
+    private PreparedStatement preparePlayersBalanceListQuery(Connection connection) throws SQLException {
+        return connection.prepareStatement("SELECT * FROM " + tableName);
+    }
+
+    private HashMap<String, Double> extractPlayerBalances(ResultSet rs) throws SQLException {
+        HashMap<String, Double> playerList = new HashMap<>();
+        while (rs.next()) {
+            playerList.put(rs.getString("name"), rs.getDouble("money"));
+        }
+        return playerList;
     }
 
     private PreparedStatement prepareBankLevelUpdate(

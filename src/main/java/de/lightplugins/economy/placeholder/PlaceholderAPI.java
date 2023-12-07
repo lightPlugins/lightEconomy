@@ -45,6 +45,8 @@ public class PlaceholderAPI extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
 
+        FileConfiguration settings = Main.settings.getConfig();
+
         if(params.contains("moneytop_")) {
 
             MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
@@ -69,8 +71,63 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
                         if(params.equalsIgnoreCase("moneytop_" + (i + 1))) {
 
+                            String message = Main.colorTranslation.hexTranslation(
+                                    settings.getString("settings.top-placeholder-format"));
 
-                            return MessagePath.MoneyTopFormat.getPath()
+                            return message
+                                    .replace("#number#", String.valueOf(i + 1))
+                                    .replace("#name#", name)
+                                    .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
+                                    .replace("#currency#", Main.economyImplementer.currencyNamePlural());
+
+                        }
+                    } catch (Exception e) {
+                        // Catch Exception for Map.Entry Exception if its null!
+                        // e.printStackTrace();
+                        String empty = Main.settings.getConfig().getString("settings.top-placeholder-not-set");
+                        String message = Main.colorTranslation.hexTranslation(
+                                settings.getString("settings.top-placeholder-format"));
+                        return message
+                                .replace("#number#", String.valueOf(i + 1))
+                                .replace("#name#", empty != null ? empty : "-")
+                                .replace("#amount#", "0.00")
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(params.contains("banktop_")) {
+
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = bankTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
+                }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
+
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        String name = top.getKey();
+
+                        if(params.equalsIgnoreCase("banktop_" + (i + 1))) {
+
+                            String message = Main.colorTranslation.hexTranslation(
+                                    settings.getString("settings.top-placeholder-format"));
+
+                            return message
                                     .replace("#number#", String.valueOf(i + 1))
                                     .replace("#name#", name)
                                     .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
@@ -81,8 +138,10 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                         // Catch Exception for Map.Entry Exception if its null!
                         // e.printStackTrace();
                         String empty = Main.settings.getConfig().getString("settings.top-placeholder-not-set");
-                        return MessagePath.MoneyTopFormat.getPath()
-                                .replace("#number#", "x")
+                        String message = Main.colorTranslation.hexTranslation(
+                                settings.getString("settings.top-placeholder-format"));
+                        return message
+                                .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", empty != null ? empty : "-")
                                 .replace("#amount#", "0.00")
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular());
