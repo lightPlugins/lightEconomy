@@ -1,5 +1,6 @@
 package de.lightplugins.economy.commands.money;
 
+import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
@@ -42,12 +43,21 @@ public class MoneyShowCommand extends SubCommand {
             return false;
         }
 
-        double balanceTarget = Main.economyImplementer.getBalance(args[1]);
+        try {
 
-        Main.util.sendMessage(player, MessagePath.MoneyBalanceOther.getPath()
-                .replace("#target#", args[1])
-                .replace("#balance#", Main.util.finalFormatDouble(balanceTarget))
-                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+
+            double balanceTarget = moneyTableAsync.playerBalance(args[1]).get();
+
+            Main.util.sendMessage(player, MessagePath.MoneyBalanceOther.getPath()
+                    .replace("#target#", args[1])
+                    .replace("#balance#", Main.util.finalFormatDouble(balanceTarget))
+                    .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+
+
+        }catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException("Something went wrong on player show money", e);
+        }
 
         return false;
     }

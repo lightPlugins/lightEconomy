@@ -1,5 +1,6 @@
 package de.lightplugins.economy.listener;
 
+import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.items.Voucher;
 import de.lightplugins.economy.master.Main;
@@ -14,6 +15,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class LoseMoney implements Listener {
 
@@ -52,40 +54,49 @@ public class LoseMoney implements Listener {
                     return;
                 }
 
-                double currentPocket = Main.economyImplementer.getBalance(player.getName());
+                MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
-                if(currentPocket < minPocketBalance) {
-                    return;
-                }
+                try {
 
-                if(currentPocket == 0.00) {
-                    return;
-                }
+                    double currentPocket = moneyTableAsync.playerBalance(player.getName()).get();
 
-                if(!Main.util.checkPercentage(triggerChance)) {
-                    return;
-                }
+                    if(currentPocket < minPocketBalance) {
+                        return;
+                    }
 
-                double loseAmount = Main.util.subtractPercentage(currentPocket, losePercentage);
+                    if(currentPocket == 0.00) {
+                        return;
+                    }
 
-                EconomyResponse ecoWithdraw = Main.economyImplementer.withdrawPlayer(player.getName(), loseAmount);
+                    if(!Main.util.checkPercentage(triggerChance)) {
+                        return;
+                    }
 
-                if(ecoWithdraw.transactionSuccess()) {
-                    Main.util.sendMessage(player, MessagePath.LoseMoneyOnDeath.getPath()
-                            .replace("#amount#", Main.util.formatDouble(loseAmount))
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
-                }
+                    double loseAmount = Main.util.subtractPercentage(currentPocket, losePercentage);
 
-                if(voucherDrop) {
+                    EconomyResponse ecoWithdraw = Main.economyImplementer.withdrawPlayer(player.getName(), loseAmount);
 
-                    Voucher voucherCreator = new Voucher();
+                    if(ecoWithdraw.transactionSuccess()) {
+                        Main.util.sendMessage(player, MessagePath.LoseMoneyOnDeath.getPath()
+                                .replace("#amount#", Main.util.formatDouble(loseAmount))
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                    }
 
-                    ItemStack voucher = voucherCreator.createVoucher(loseAmount, player.getName());
+                    if(voucherDrop) {
 
-                    Item droppedVoucher = player.getWorld().dropItem(player.getLocation(), voucher);
-                    droppedVoucher.setCustomNameVisible(true);
-                    return;
+                        Voucher voucherCreator = new Voucher();
 
+                        ItemStack voucher = voucherCreator.createVoucher(loseAmount, player.getName());
+
+                        Item droppedVoucher = player.getWorld().dropItem(player.getLocation(), voucher);
+                        droppedVoucher.setCustomNameVisible(true);
+                        return;
+
+                    }
+
+
+                }catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException("Something went wrong on player add money", e);
                 }
 
                 return;

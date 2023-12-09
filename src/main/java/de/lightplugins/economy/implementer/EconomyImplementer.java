@@ -105,9 +105,18 @@ public class EconomyImplementer implements Economy {
     public double getBalance(String s) {
 
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+        BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
         CompletableFuture<Double> balance = moneyTableAsync.playerBalance(s);
+        CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+
+        FileConfiguration settings = Main.settings.getConfig();
+        boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
+
 
         try {
+
+            if(bankAsPocket) { return balance.get() + bankBalance.get(); }
+
             return balance.get();
 
         } catch (InterruptedException | ExecutionException e) {
@@ -131,17 +140,17 @@ public class EconomyImplementer implements Economy {
     }
 
     @Override
-    public boolean has(String s, double v) {
-        return getBalance(s) >= v;
+    public boolean has(String s, String s1, double v) {
+        return has(s, v);
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return getBalance(offlinePlayer.getName()) >= v;
+        return has(offlinePlayer.getName(), v);
     }
 
     @Override
-    public boolean has(String s, String s1, double v) {
+    public boolean has(String s, double v) {
 
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
 
@@ -149,8 +158,6 @@ public class EconomyImplementer implements Economy {
 
         FileConfiguration settings = Main.settings.getConfig();
         boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
-
-        Bukkit.getLogger().log(Level.WARNING, "TEST 1 " + bankAsPocket);
 
         if(!bankAsPocket && getBalance(s) >= v) {
             return true;
@@ -173,7 +180,7 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        return getBalance(offlinePlayer.getName()) >= v;
+        return has(offlinePlayer.getName(), v);
     }
 
     @Override
@@ -318,6 +325,7 @@ public class EconomyImplementer implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
 
+        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         FileConfiguration settings = Main.settings.getConfig();
         double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
 
@@ -336,18 +344,21 @@ public class EconomyImplementer implements Economy {
                     "[lightEconomy] The deposit value is to big");
         }
 
-        double currentBalance = getBalance(s);
-        currentBalance += v;
 
-        if(currentBalance > maxPocketBalance) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
-                    "[lightEconomy] The player reached the max balance for his pocket");
-        }
-
-        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
-        CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(s, currentBalance);
+        CompletableFuture<Double> futureBalance = moneyTableAsync.playerBalance(s);
 
         try {
+
+            double currentBalance = futureBalance.get();
+            currentBalance += v;
+
+            if(currentBalance > maxPocketBalance) {
+                return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
+                        "[lightEconomy] The player reached the max balance for his pocket");
+            }
+
+            CompletableFuture<Boolean> completableFuture = moneyTableAsync.setMoney(s, currentBalance);
+
             if(completableFuture.get()) {
 
                 FileConfiguration titles = Main.titles.getConfig();

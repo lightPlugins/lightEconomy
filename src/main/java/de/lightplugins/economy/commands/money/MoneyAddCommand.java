@@ -1,5 +1,6 @@
 package de.lightplugins.economy.commands.money;
 
+import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
@@ -9,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.beans.ExceptionListener;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 
@@ -51,47 +54,57 @@ public class MoneyAddCommand extends SubCommand {
 
         try {
 
-            double amount = Double.parseDouble(args[2]);
-            double playerBalance = Main.economyImplementer.getBalance(args[1]);
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
-            if((playerBalance + amount) > maxPocketBalance) {
-                Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
-                        .replace("#reason#", "This value reached the max pocket balance of "
-                                + maxPocketBalance + "!"));
-                return false;
-            }
+            try {
 
-            if(amount == 0) {
-                Main.util.sendMessage(player, MessagePath.NotZero.getPath()
-                        .replace("#min-amount#", "0.01")
-                        .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
-                return true;
-            }
+                double amount = Double.parseDouble(args[2]);
 
-            if(amount < 0) {
-                Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
-                return true;
-            }
+                double playerBalance = moneyTableAsync.playerBalance(args[1]).get();
+
+                if((playerBalance + amount) > maxPocketBalance) {
+                    Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
+                            .replace("#reason#", "This value reached the max pocket balance of "
+                                    + maxPocketBalance + "!"));
+                    return false;
+                }
+
+                if(amount == 0) {
+                    Main.util.sendMessage(player, MessagePath.NotZero.getPath()
+                            .replace("#min-amount#", "0.01")
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                    return true;
+                }
+
+                if(amount < 0) {
+                    Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
+                    return true;
+                }
 
 
-            EconomyResponse moneyAdd = Main.economyImplementer.depositPlayer(args[1], amount);
-            if(moneyAdd.transactionSuccess()) {
-                Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
-                        .replace("#amount#", Main.util.finalFormatDouble(amount))
-                        .replace("#target#", args[1])
-                        .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                        .replace("#balance#", Main.util.finalFormatDouble(Main.economyImplementer.getBalance(args[1]))));
-                return true;
+                EconomyResponse moneyAdd = Main.economyImplementer.depositPlayer(args[1], amount);
+                if(moneyAdd.transactionSuccess()) {
+                    Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
+                            .replace("#amount#", Main.util.finalFormatDouble(amount))
+                            .replace("#target#", args[1])
+                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#balance#", Main.util.finalFormatDouble(playerBalance + amount)));
+                    return true;
 
-            }
+                }
 
             /*
                 ERROR Message if something Wrong !
              */
 
-            Main.debugPrinting.sendError(moneyAdd.errorMessage);
+                Main.debugPrinting.sendError(moneyAdd.errorMessage);
 
-            // TODO: insert error message here, if something went wrong
+                // TODO: insert error message here, if something went wrong
+
+            }catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException("Something went wrong on player add money", e);
+            }
+
 
         } catch (NumberFormatException notANumber) {
             Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
