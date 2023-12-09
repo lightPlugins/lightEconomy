@@ -107,15 +107,16 @@ public class EconomyImplementer implements Economy {
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
         CompletableFuture<Double> balance = moneyTableAsync.playerBalance(s);
-        CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+        CompletableFuture<Boolean> isPlayer = moneyTableAsync.isPlayerAccount(s);
 
         FileConfiguration settings = Main.settings.getConfig();
         boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
 
-
         try {
 
-            if(bankAsPocket) { return balance.get() + bankBalance.get(); }
+            if(bankAsPocket && isPlayer.get()) {
+                CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+                return balance.get() + bankBalance.get(); }
 
             return balance.get();
 
@@ -153,8 +154,10 @@ public class EconomyImplementer implements Economy {
     public boolean has(String s, double v) {
 
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+        MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
         CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+        CompletableFuture<Boolean> isPlayer = moneyTableAsync.isPlayerAccount(s);
 
         FileConfiguration settings = Main.settings.getConfig();
         boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
@@ -165,7 +168,12 @@ public class EconomyImplementer implements Economy {
 
         try {
 
-            double currentBankBalance = bankBalance.get();
+            double currentBankBalance = 0;
+
+            if(isPlayer.get()) {
+                currentBankBalance = bankBalance.get();
+            }
+
             double missingAmount = v - getBalance(s);
 
             if(currentBankBalance >= missingAmount) { return true; }

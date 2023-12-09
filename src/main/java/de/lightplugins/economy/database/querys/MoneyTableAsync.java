@@ -186,6 +186,20 @@ public class MoneyTableAsync {
         });
     }
 
+    public CompletableFuture<Boolean> isPlayerAccount(String playerName) {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareIsPlayerAccount(playerName, connection)) {
+
+                ResultSet rs = ps.executeQuery();
+                return rs.next();
+            } catch (SQLException e) {
+                logError("An error occurred while deleting the account of player: " + playerName, e);
+                return false;
+            }
+        });
+    }
+
     private PreparedStatement preparePlayerBalanceQuery(String playerName, Connection connection) throws SQLException {
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
         if (offlinePlayer != null) {
@@ -258,6 +272,12 @@ public class MoneyTableAsync {
 
     private PreparedStatement prepareDeleteAccount(String playerName, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("DELETE FROM " + tableName + " WHERE name = ?");
+        ps.setString(1, playerName);
+        return ps;
+    }
+
+    private PreparedStatement prepareIsPlayerAccount(String playerName, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE isPlayer = '1' AND name =?");
         ps.setString(1, playerName);
         return ps;
     }

@@ -89,10 +89,5 @@ settings:
   # If the players pocket is empty, but his bank account has enough money, all transactions
   # from third party plugins will withdraw from their bank account.
   #
-  # DISCLAIMER: It depends on the other plugin and how it queries whether the player has enough money
-  #             If, for example, the Shop plugin uses the vault method getBalance() instead of has(), it will not work.
-  #             In summary, if it doesn't work, you should ask the plugin developer if they can use the has() method
-  #             in their plugin to inquire whether the player has enough money.
-  #
-  # This is a beta Feature. Use this at your own risk!. Suggested by a community user
+  # This is a beta Feature. Use this at your own risk!. Suggested and testet by a community user
   bankAsPocket: false
