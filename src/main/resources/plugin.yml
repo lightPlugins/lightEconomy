@@ -6,10 +6,19 @@ api-version: 1.17
 depend: [Vault]
 softdepend: [PlaceholderAPI]
 loadbefore: [Essentials, Towny]
-commands: {
-            le:,
-            money:,
-            eco:,
-            pay:,
-            bank:,
-}
+commands:
+  le:
+    description: The root command for administrated things
+    aliases: [lighteconomy, lighteco, leco]
+  money:
+    description: The root command for user things
+    aliases: [bal, balance]
+  eco:
+    description: Console only commands
+    aliases: []
+  pay:
+    description: Give other players some money from your own pocket
+    aliases: []
+  bank:
+    description: The bank command
+    aliases: []

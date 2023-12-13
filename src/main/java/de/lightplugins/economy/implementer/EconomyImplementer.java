@@ -80,10 +80,8 @@ public class EconomyImplementer implements Economy {
             return balance != null;
 
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Something went wrong", e);
         }
-
-        return false;
     }
 
     @Override

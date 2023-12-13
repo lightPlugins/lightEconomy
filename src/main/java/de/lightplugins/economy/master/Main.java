@@ -21,6 +21,8 @@ import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,8 +30,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
+
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.plugin.SimplePluginManager;
+
+import java.lang.reflect.Field;
 
 public class Main extends JavaPlugin {
 
@@ -155,8 +164,11 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
-        Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
+        registerCommand("money", new MoneyCommandManager(this));
+
+        //Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
+        Objects.requireNonNull(this.getCommand("bal")).setTabCompleter(new MoneyTabCompletion());
 
         Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
         Objects.requireNonNull(this.getCommand("bank")).setTabCompleter(new BankTabCompletion());
@@ -212,5 +224,9 @@ public class Main extends JavaPlugin {
     private void enableBStats() {
         int pluginId = 18401;
         Metrics metrics = new Metrics(this, pluginId);
+    }
+
+    private void registerCommand(String name, CommandExecutor command) {
+        Objects.requireNonNull(this.getCommand(name)).setExecutor(command);
     }
 }

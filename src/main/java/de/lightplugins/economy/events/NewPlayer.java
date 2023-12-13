@@ -38,11 +38,13 @@ public class NewPlayer implements Listener {
         BankTableAsync bankTableAsync = new BankTableAsync(plugin);
         moneyTableAsync.playerBalance(player.getName()).thenAccept(balance -> {
 
+            FileConfiguration settings = Main.settings.getConfig();
+
             if(balance != null) {
                 Main.debugPrinting.sendInfo("User already existing in Database. Checking for Name update ... ");
 
                 moneyTableAsync.updatePlayerName(player.getName()).thenAccept(result -> {
-                    // silence Playername update every time, if the player connect to the server
+
                 });
 
             } else {
@@ -51,7 +53,7 @@ public class NewPlayer implements Listener {
 
                         Main.debugPrinting.sendInfo("New Player was putting in database!");
 
-                        FileConfiguration settings = Main.settings.getConfig();
+
 
                         if(!settings.getBoolean("settings.enable-first-join-message")) {
                             return;
