@@ -7,6 +7,7 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.BankLevelSystem;
 import de.lightplugins.economy.utils.Sounds;
 import de.lightplugins.economy.utils.SubCommand;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -49,9 +50,7 @@ public class BankShowCommand extends SubCommand {
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
 
             if(offlinePlayer == null) {
-                Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
-                sounds.soundOnFailure(player);
-                return false;
+
             }
 
             BankTableAsync bankTable = new BankTableAsync(Main.getInstance);
@@ -65,19 +64,27 @@ public class BankShowCommand extends SubCommand {
                 maxLevelViaConfig ++;
             }
 
-            CompletableFuture<Integer> currentLevelFuture = bankTable.playerCurrentBankLevel(offlinePlayer.getName());
-            CompletableFuture<Double> currentBankBalanceFuture = bankTable.playerBankBalance(offlinePlayer.getName());
+            CompletableFuture<Integer> currentLevelFuture = bankTable.playerCurrentBankLevel(args[1]);
+            CompletableFuture<Double> currentBankBalanceFuture = bankTable.playerBankBalance(args[1]);
+
+            if(currentLevelFuture.get() == null || currentBankBalanceFuture.get() == null) {
+                Main.util.sendMessage(player, MessagePath.PlayerNotFound.getPath());
+                sounds.soundOnFailure(player);
+                return false;
+            }
 
             int currentLevel = currentLevelFuture.get();
             double currentBankBalance = currentBankBalanceFuture.get();
-            double currentLimit = bankLevelSystem.getLimitByLevel(offlinePlayer.getUniqueId());
+            double currentLimit = bankLevelSystem.getLimitByLevelString(args[1]);
 
             FileConfiguration messages = Main.messages.getConfig();
 
             for(String s : messages.getStringList("bankShowOther")) {
 
+                s = PlaceholderAPI.setPlaceholders(player, s);
+
                 player.sendMessage(Main.colorTranslation.hexTranslation(s
-                        .replace("#target#", offlinePlayer.getName())
+                        .replace("#target#", args[1])
                         .replace("#bank-balance#", Main.util.finalFormatDouble(currentBankBalance))
                         .replace("#currency#", Main.economyImplementer.currencyNamePlural())
                         .replace("#limit-by-level#", Main.util.finalFormatDouble(currentLimit))

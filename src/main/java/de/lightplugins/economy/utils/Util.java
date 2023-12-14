@@ -1,6 +1,7 @@
 package de.lightplugins.economy.utils;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,12 +23,14 @@ public class Util {
 
     public void sendMessage(Player player, String message) {
         String prefix = MessagePath.Prefix.getPath();
+        message = PlaceholderAPI.setPlaceholders(player, message);
         player.sendMessage(Main.colorTranslation.hexTranslation(prefix + message));
     }
     /*  Send a message List to player without Prefix  */
 
     public void sendMessageList(Player player, List<String> list) {
         for(String s : list) {
+            s = PlaceholderAPI.setPlaceholders(player, s);
             player.sendMessage(Main.colorTranslation.hexTranslation(s));
         }
     }

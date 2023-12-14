@@ -2,7 +2,6 @@ package de.lightplugins.economy.placeholder;
 
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
-import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.BankLevelSystem;
 import de.lightplugins.economy.utils.Sorter;
@@ -15,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class PlaceholderAPI extends PlaceholderExpansion {
+public class PapiRegister extends PlaceholderExpansion {
 
     @Override
     public boolean canRegister(){

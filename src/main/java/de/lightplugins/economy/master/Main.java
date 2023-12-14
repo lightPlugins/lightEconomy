@@ -15,13 +15,12 @@ import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.listener.TimeReward;
-import de.lightplugins.economy.placeholder.PlaceholderAPI;
+import de.lightplugins.economy.placeholder.PapiRegister;
 import de.lightplugins.economy.utils.*;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -30,15 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.plugin.SimplePluginManager;
-
-import java.lang.reflect.Field;
 
 public class Main extends JavaPlugin {
 
@@ -141,7 +132,7 @@ public class Main extends JavaPlugin {
 
         /*  Check if PlaceholderAPI installed  */
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderAPI().register(); // initial lightEconomy placeholder
+            new PapiRegister().register(); // initial lightEconomy placeholder
             Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
 
         }

@@ -16,11 +16,6 @@
 #               Developer: lightPlugins
 #
 version: 5.4
-tester:
-  ok: true
-  list:
-    - '1'
-    - '2'
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
   enable: false
