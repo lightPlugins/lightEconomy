@@ -45,6 +45,13 @@ public class NewPlayer implements Listener {
 
                 moneyTableAsync.updatePlayerName(player.getName()).thenAccept(result -> {
 
+                    if(result) {
+                        Main.debugPrinting.sendInfo("Playername updated from PlayerTable via async");
+                        return;
+                    }
+
+                    Main.debugPrinting.sendInfo("Playername failed from PlayerTable via async");
+
                 });
 
             } else {
@@ -93,8 +100,16 @@ public class NewPlayer implements Listener {
                 }
             }
 
-            Main.debugPrinting.sendInfo(
-                    "Player already has bank account!");
+            bankTableAsync.updatePlayerBankName(player.getName()).thenAcceptAsync(result -> {
+
+                if(result) {
+                    Main.debugPrinting.sendInfo("Playername updated from Banktable via async");
+                    return;
+                }
+
+                Main.debugPrinting.sendInfo("Playername failed from Banktable via async");
+
+            });
 
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
