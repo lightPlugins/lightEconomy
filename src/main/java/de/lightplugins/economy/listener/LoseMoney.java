@@ -79,7 +79,7 @@ public class LoseMoney implements Listener {
                     if(ecoWithdraw.transactionSuccess()) {
                         Main.util.sendMessage(player, MessagePath.LoseMoneyOnDeath.getPath()
                                 .replace("#amount#", Main.util.formatDouble(loseAmount))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                                .replace("#currency#", Main.util.getCurrency(loseAmount)));
                     }
 
                     if(voucherDrop) {

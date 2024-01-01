@@ -52,7 +52,7 @@ public class MoneyShowCommand extends SubCommand {
             Main.util.sendMessage(player, MessagePath.MoneyBalanceOther.getPath()
                     .replace("#target#", args[1])
                     .replace("#balance#", Main.util.finalFormatDouble(balanceTarget))
-                    .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                    .replace("#currency#", Main.util.getCurrency(balanceTarget)));
 
 
         }catch (ExecutionException | InterruptedException e) {

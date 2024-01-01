@@ -19,6 +19,16 @@ import java.util.logging.Level;
 
 public class Util {
 
+    public String getCurrency(double amount) {
+
+        if(amount < 1) {
+            return Main.economyImplementer.currencyNameSingular();
+        }
+
+        return Main.economyImplementer.currencyNamePlural();
+
+    }
+
     /*  Send Message with Prefix to player  */
 
     public void sendMessage(Player player, String message) {

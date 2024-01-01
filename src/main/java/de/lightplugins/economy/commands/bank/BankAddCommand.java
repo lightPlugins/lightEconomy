@@ -85,7 +85,7 @@ public class BankAddCommand extends SubCommand {
                     if(completableFuture.get()) {
                         Main.util.sendMessage(player, MessagePath.BankAddPlayer.getPath()
                                 .replace("#amount#", Main.util.finalFormatDouble(addValue))
-                                .replace("#currency#", Main.economyImplementer.currencyNamePlural())
+                                .replace("#currency#", Main.util.getCurrency(addValue))
                                 .replace("#target#", targetName));
                         sounds.soundOnSuccess(player);
                         return true;

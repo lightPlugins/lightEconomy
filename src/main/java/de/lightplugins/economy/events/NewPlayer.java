@@ -72,7 +72,7 @@ public class NewPlayer implements Listener {
 
                         Main.util.sendMessage(player, Objects.requireNonNull(messages.getString("firstJoinMessage"))
                                 .replace("#startbalance#", String.valueOf(startBalance))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                                .replace("#currency#", Main.util.getCurrency(startBalance)));
                     }
                 });
             }

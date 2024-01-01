@@ -87,7 +87,7 @@ public class BankListener implements Listener {
 
                         Main.util.sendMessage(chatter, MessagePath.BankWithdrawSuccessfully.getPath()
                                 .replace("#amount#", String.valueOf(amount))
-                                .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
+                                .replace("#currency#", Main.util.getCurrency(amount)));
                         sounds.soundOnSuccess(chatter);
 
 
@@ -195,7 +195,7 @@ public class BankListener implements Listener {
 
                         Main.util.sendMessage(chatter, MessagePath.BankDepositSuccessfully.getPath()
                                 .replace("#amount#", String.valueOf(amount))
-                                .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
+                                .replace("#currency#", Main.util.getCurrency(amount)));
                         sounds.soundOnSuccess(chatter);
                         plugin.bankDepositValue.remove(chatter);
                         return;

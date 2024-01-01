@@ -52,7 +52,7 @@ public class TimeReward {
                             Main.util.sendMessage(singlePlayer, MessagePath.TimeRewardMoney.getPath()
                                     .replace("#amount#", String.valueOf(moneyAmount))
                                     .replace("#currency#",
-                                            moneyAmount > 1 ? currencyNamePlural : currencyNameSingular)
+                                            Main.util.getCurrency(moneyAmount))
                                     .replace("#intervallMinutes#", String.valueOf(intervallInMinutes))
                                     .replace("#intervallSeconds#", String.valueOf(intervalSeconds)));
                         }

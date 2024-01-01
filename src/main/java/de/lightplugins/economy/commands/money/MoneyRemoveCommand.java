@@ -74,7 +74,7 @@ public class MoneyRemoveCommand extends SubCommand {
                 EconomyResponse moneyRemove = Main.economyImplementer.withdrawPlayer(args[1], amount);
                 if(moneyRemove.transactionSuccess()) {
                     Main.util.sendMessage(player, MessagePath.MoneyRemovePlayer.getPath()
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#currency#", Main.util.getCurrency(amount))
                             .replace("#target#", args[1])
                             .replace("#amount#", Main.util.formatDouble(amount)));
                     return true;

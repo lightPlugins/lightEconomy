@@ -72,7 +72,7 @@ public class ClaimVoucher implements Listener {
 
                         Main.util.sendMessage(player, MessagePath.VoucherCollected.getPath()
                                 .replace("#amount#", String.valueOf(amount))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                                .replace("#currency#", Main.util.getCurrency(amount)));
 
                         event.setCancelled(true);
 

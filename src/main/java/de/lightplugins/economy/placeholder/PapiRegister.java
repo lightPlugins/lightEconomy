@@ -232,6 +232,46 @@ public class PapiRegister extends PlaceholderExpansion {
 
         }
 
+        if(params.equalsIgnoreCase("bank_balance_short")) {
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+            CompletableFuture<Double> completableFuture = bankTableAsync.playerBankBalance(player.getName());
+
+            try {
+                double amount = completableFuture.get();
+                String formatting = "undefined";
+                double formattedAmount = 0;
+
+                if(amount > 999.99) {
+                    formatting = "k";
+                    formattedAmount = amount / 1000.00;
+                }
+
+                if(amount > 999999.99) {
+                    formatting = "m";
+                    formattedAmount = amount / 1000000.00;
+                }
+
+                if(amount > 999999999.99) {
+                    formatting = "b";
+                    formattedAmount = amount / 1000000000.00;
+                }
+
+                if(amount > 999999999999.99) {
+                    formatting = "t";
+                    formattedAmount = amount / 1000000000000.00;
+                }
+
+                if(amount < 1000) {
+                    return String.valueOf(amount);
+                }
+
+                return Main.util.fixDouble(formattedAmount) + formatting;
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return null; // Placeholder is unknown by the Expansion
     }
 }

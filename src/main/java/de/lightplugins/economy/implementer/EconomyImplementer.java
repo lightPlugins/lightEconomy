@@ -52,7 +52,7 @@ public class EconomyImplementer implements Economy {
     public String format(double v) {
         // Other plugins are not showing the currency
         // return Main.util.formatDouble(v)
-        return Main.util.formatDouble(v) + " " + currencyNamePlural();
+        return Main.util.formatDouble(v) + " " + Main.util.getCurrency(v);
     }
 
     @Override

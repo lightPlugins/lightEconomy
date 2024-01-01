@@ -86,7 +86,7 @@ public class MoneyAddAllCommand extends SubCommand {
             Main.util.sendMessage(target, MessagePath.moneyAddAllTarget.getPath()
                     .replace("#sender#", player.getName())
                     .replace("#amount#", args[1])
-                    .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                    .replace("#currency#", Main.util.getCurrency(amount)));
 
         }
 
@@ -94,7 +94,7 @@ public class MoneyAddAllCommand extends SubCommand {
                 .replace("#successcount#", String.valueOf(successCounter))
                 .replace("#overallcount#", String.valueOf(map.size()))
                 .replace("#amount#", Main.util.finalFormatDouble(amount))
-                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                .replace("#currency#", Main.util.getCurrency(amount)));
 
         if(successCounter < map.size()) {
             Main.util.sendMessage(player, MessagePath.moneyAddAllFailed.getPath()

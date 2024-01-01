@@ -69,7 +69,7 @@ public class MoneyTopCommand extends SubCommand {
                 for(String header : message.getStringList("moneyTopHeader")) {
                     player.sendMessage(Main.colorTranslation.hexTranslation(header
                             .replace("#overall#", Main.util.finalFormatDouble(allServerMoney)))
-                            .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
+                            .replace("#currency#", Main.util.getCurrency(allServerMoney)));
 
                 }
 
@@ -88,7 +88,7 @@ public class MoneyTopCommand extends SubCommand {
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", name)
                                 .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                                .replace("#currency#", Main.util.getCurrency(top.getValue())));
                     } catch (Exception e) {
                         // Catch Exception for Map.Entry Exception if its null!
                     }

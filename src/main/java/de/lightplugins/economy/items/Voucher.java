@@ -25,7 +25,7 @@ public class Voucher {
         String displayname = Main.colorTranslation.hexTranslation(
                 Objects.requireNonNull(Main.voucher.getConfig().getString("voucher.name"))
                         .replace("#amount#", String.valueOf(itemValue))
-                        .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                        .replace("#currency#", Main.util.getCurrency(itemValue)));
 
         ItemStack itemStack = new ItemStack(material, 1);
 
@@ -44,7 +44,7 @@ public class Voucher {
             loreList.add(Main.colorTranslation.hexTranslation(lore)
                     .replace("#creator#", creator)
                     .replace("#amount#", String.valueOf(itemValue))
-                    .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                    .replace("#currency#", Main.util.getCurrency(itemValue)));
         });
 
         if(itemMeta.hasLore()) {

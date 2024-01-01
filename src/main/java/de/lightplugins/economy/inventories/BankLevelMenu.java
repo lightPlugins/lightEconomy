@@ -108,7 +108,7 @@ public class BankLevelMenu implements InventoryProvider {
                         .replace("#permission#", permission)
                         .replace("#amount#", Main.util.finalFormatDouble(price))
                         .replace("#limit#", Main.util.finalFormatDouble(limit))
-                        .replace("#currency#", Main.economyImplementer.currencyNamePlural());
+                        .replace("#currency#", Main.util.getCurrency(price));
 
                 lore.add(Main.colorTranslation.hexTranslation(finalLore));
             }

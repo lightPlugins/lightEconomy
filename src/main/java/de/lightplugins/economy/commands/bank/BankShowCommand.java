@@ -86,7 +86,7 @@ public class BankShowCommand extends SubCommand {
                 player.sendMessage(Main.colorTranslation.hexTranslation(s
                         .replace("#target#", args[1])
                         .replace("#bank-balance#", Main.util.finalFormatDouble(currentBankBalance))
-                        .replace("#currency#", Main.economyImplementer.currencyNamePlural())
+                        .replace("#currency#", Main.util.getCurrency(currentBankBalance))
                         .replace("#limit-by-level#", Main.util.finalFormatDouble(currentLimit))
                         .replace("#current-bank-level#", String.valueOf(currentLevel))
                         .replace("#max-level#", String.valueOf(maxLevelViaConfig))));

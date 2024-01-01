@@ -75,7 +75,7 @@ public class MoneySetCommand extends SubCommand {
                     Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
                             .replace("#currency#", Main.economyImplementer.currencyNameSingular())
                             .replace("#target#", args[1])
-                            .replace("#amount#", Main.util.formatDouble(amount))
+                            .replace("#amount#", Main.util.getCurrency(amount))
                     );
                 });
             });

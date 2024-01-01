@@ -63,14 +63,14 @@ public class MoneyVoucherCommand extends SubCommand {
                 if(itemValue > maxValue) {
                     Main.util.sendMessage(player, MessagePath.VoucherMaxValue.getPath()
                             .replace("#max-value#", String.valueOf(maxValue))
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                            .replace("#currency#", Main.util.getCurrency(maxValue)));
                     return false;
                 }
 
                 if(itemValue < minValue) {
                     Main.util.sendMessage(player, MessagePath.VoucherMinValue.getPath()
                             .replace("#min-value#", String.valueOf(minValue))
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                            .replace("#currency#", Main.util.getCurrency(minValue)));
                     return false;
                 }
 
@@ -92,7 +92,7 @@ public class MoneyVoucherCommand extends SubCommand {
                     player.getInventory().addItem(voucher.createVoucher(itemValue, player.getName()));
                     Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath()
                             .replace("#amount#", String.valueOf(itemValue))
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                            .replace("#currency#", Main.util.getCurrency(itemValue)));
                     return true;
                 }
 
@@ -102,7 +102,7 @@ public class MoneyVoucherCommand extends SubCommand {
                 item.setCustomName(Main.colorTranslation.hexTranslation(
                         Main.voucher.getConfig().getString("voucher.name"))
                         .replace("#amount#", args[2])
-                        .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                        .replace("#currency#", Main.util.getCurrency(itemValue)));
 
                 item.setCustomNameVisible(true);
                 Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath());

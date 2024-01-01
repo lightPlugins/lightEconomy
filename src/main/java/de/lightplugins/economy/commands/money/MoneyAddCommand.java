@@ -72,7 +72,7 @@ public class MoneyAddCommand extends SubCommand {
                 if(amount == 0) {
                     Main.util.sendMessage(player, MessagePath.NotZero.getPath()
                             .replace("#min-amount#", "0.01")
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                            .replace("#currency#", Main.util.getCurrency(0)));
                     return true;
                 }
 
@@ -87,7 +87,7 @@ public class MoneyAddCommand extends SubCommand {
                     Main.util.sendMessage(player, MessagePath.MoneyAddPlayer.getPath()
                             .replace("#amount#", Main.util.finalFormatDouble(amount))
                             .replace("#target#", args[1])
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#currency#", Main.util.getCurrency(amount))
                             .replace("#balance#", Main.util.finalFormatDouble(playerBalance + amount)));
                     return true;
 

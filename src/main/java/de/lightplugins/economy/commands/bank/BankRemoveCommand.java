@@ -81,7 +81,7 @@ public class BankRemoveCommand extends SubCommand {
                     if(completableFuture.get()) {
                         Main.util.sendMessage(player, MessagePath.BankRemovePlayer.getPath()
                                 .replace("#amount#", Main.util.finalFormatDouble(removeValue))
-                                .replace("#currency#", Main.economyImplementer.currencyNamePlural())
+                                .replace("#currency#", Main.util.getCurrency(removeValue))
                                 .replace("#target#", targetName));
                         sounds.soundOnSuccess(player);
                         return true;

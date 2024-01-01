@@ -214,7 +214,7 @@ public class BankMainMenu implements InventoryProvider {
                                         .replace("#amount#",
                                                 Main.util.finalFormatDouble(finalLimit - finalBankBalance))
                                         .replace("#currency#",
-                                                Main.economyImplementer.currencyNamePlural()));
+                                                Main.util.getCurrency(finalLimit - finalBankBalance)));
                                 sounds.soundOnSuccess(player);
                                 player.closeInventory();
                                 return;
@@ -239,7 +239,7 @@ public class BankMainMenu implements InventoryProvider {
                         if(completableFuture.get() && completableFuture1.get()) {
                             Main.util.sendMessage(player, MessagePath.BankDepositAll.getPath()
                                     .replace("#amount#", Main.util.finalFormatDouble(currentPocketBalance))
-                                    .replace("#currency#", Main.economyImplementer.currencyNamePlural()));
+                                    .replace("#currency#", Main.util.getCurrency(currentPocketBalance)));
                             sounds.soundOnSuccess(player);
                             player.closeInventory();
                             return;
