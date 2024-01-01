@@ -198,6 +198,40 @@ public class PapiRegister extends PlaceholderExpansion {
             return String.valueOf(bankLevelSystem.getLimitByLevel(player.getUniqueId()));
         }
 
+        if(params.equalsIgnoreCase("money_short")) {
+            double amount = Main.util.fixDouble(Main.economyImplementer.getBalance(player.getName()));
+
+            String formatting = "undefined";
+            double formattedAmount = 0;
+
+            if(amount > 999.99) {
+                formatting = "k";
+                formattedAmount = amount / 1000.00;
+            }
+
+            if(amount > 999999.99) {
+                formatting = "m";
+                formattedAmount = amount / 1000000.00;
+            }
+
+            if(amount > 999999999.99) {
+                formatting = "b";
+                formattedAmount = amount / 1000000000.00;
+            }
+
+            if(amount > 999999999999.99) {
+                formatting = "t";
+                formattedAmount = amount / 1000000000000.00;
+            }
+
+            if(amount < 1000) {
+                return String.valueOf(amount);
+            }
+
+            return Main.util.fixDouble(formattedAmount) + formatting;
+
+        }
+
         return null; // Placeholder is unknown by the Expansion
     }
 }
