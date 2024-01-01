@@ -77,7 +77,7 @@ public class PapiRegister extends PlaceholderExpansion {
                                     .replace("#number#", String.valueOf(i + 1))
                                     .replace("#name#", name)
                                     .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
-                                    .replace("#currency#", Main.economyImplementer.currencyNamePlural());
+                                    .replace("#currency#", Main.util.getCurrency(top.getValue()));
 
                         }
                     } catch (Exception e) {
@@ -90,7 +90,7 @@ public class PapiRegister extends PlaceholderExpansion {
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", empty != null ? empty : "-")
                                 .replace("#amount#", "0.00")
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+                                .replace("#currency#", Main.util.getCurrency(0.00));
                     }
                 }
 
@@ -130,7 +130,7 @@ public class PapiRegister extends PlaceholderExpansion {
                                     .replace("#number#", String.valueOf(i + 1))
                                     .replace("#name#", name)
                                     .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
-                                    .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+                                    .replace("#currency#", Main.util.getCurrency(top.getValue()));
 
                         }
                     } catch (Exception e) {
@@ -143,7 +143,7 @@ public class PapiRegister extends PlaceholderExpansion {
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", empty != null ? empty : "-")
                                 .replace("#amount#", "0.00")
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular());
+                                .replace("#currency#", Main.util.getCurrency(0.00));
                     }
                 }
 
@@ -228,7 +228,16 @@ public class PapiRegister extends PlaceholderExpansion {
                 return String.valueOf(amount);
             }
 
-            return Main.util.fixDouble(formattedAmount) + formatting;
+            String configFormatting = settings.getString("settings.shortPlaceholderFormat");
+
+            if(configFormatting == null) {
+                return "settings.yml error";
+            }
+
+            return Main.colorTranslation.hexTranslation(configFormatting
+                    .replace("#amount#", String.valueOf(formattedAmount)
+                    .replace("#identifier#", formatting)
+                    .replace("#currency#", Main.util.getCurrency(formattedAmount))));
 
         }
 
@@ -265,7 +274,16 @@ public class PapiRegister extends PlaceholderExpansion {
                     return String.valueOf(amount);
                 }
 
-                return Main.util.fixDouble(formattedAmount) + formatting;
+                String configFormatting = settings.getString("settings.shortPlaceholderFormat");
+
+                if(configFormatting == null) {
+                    return "settings.yml error";
+                }
+
+                return Main.colorTranslation.hexTranslation(configFormatting
+                        .replace("#amount#", String.valueOf(formattedAmount)
+                        .replace("#identifier#", formatting)
+                        .replace("#currency#", Main.util.getCurrency(formattedAmount))));
 
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
