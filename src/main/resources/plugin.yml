@@ -4,7 +4,7 @@ version: 5.4.0
 main: de.lightplugins.economy.master.Main
 api-version: 1.17
 depend: [Vault]
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, TheNewEconomy]
 loadbefore: [Essentials, Towny]
 commands:
   le:

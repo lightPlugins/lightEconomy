@@ -82,6 +82,7 @@ public class Main extends JavaPlugin {
         vaultHook = new VaultHook();
         vaultHook.hook();
 
+
         /*  Utility setup like FileManager & Color Translation  */
 
         colorTranslation = new ColorTranslation();
@@ -95,7 +96,7 @@ public class Main extends JavaPlugin {
         bankMenu = new FileManager(this, "bank-menu.yml");
         bankLevelMenu = new FileManager(this, "bank-level.yml");
         lose = new FileManager(this, "lose.yml");
-        discord = new FileManager(this, "discordWebhook/discord.yml");
+        //discord = new FileManager(this, "discordWebhook/discord.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
@@ -134,8 +135,6 @@ public class Main extends JavaPlugin {
             hikari.connectToDatabaseViaSQLite();
         }
 
-        Bukkit.getLogger().log(Level.WARNING, "TEST: " + discord.getConfig().getString("discord.enable"));
-
         /*  Check if PlaceholderAPI installed  */
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PapiRegister().register(); // initial lightEconomy placeholder
@@ -162,8 +161,6 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
         registerCommand("money", new MoneyCommandManager(this));
-
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeePluginMessageListener());
 
 
         //Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
