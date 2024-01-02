@@ -50,15 +50,6 @@ public class BankTabCompletion implements TabCompleter {
 
             return arguments;
         }
-
-        if(args.length == 3) {
-            List<String> arguments = new ArrayList<>();
-            if(args[1].equalsIgnoreCase("remove")) {
-                arguments.add("amount");
-            }
-
-            return arguments;
-        }
         return null;
     }
 }
