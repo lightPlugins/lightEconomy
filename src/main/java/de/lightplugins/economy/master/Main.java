@@ -7,6 +7,7 @@ import de.lightplugins.economy.commands.tabcompletion.MainTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.MoneyTabCompletion;
 import de.lightplugins.economy.database.DatabaseConnection;
 import de.lightplugins.economy.database.tables.CreateTable;
+import de.lightplugins.economy.bungeecord.BungeePluginMessageListener;
 import de.lightplugins.economy.events.ClaimVoucher;
 import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
@@ -30,6 +31,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 public class Main extends JavaPlugin {
 
@@ -59,6 +61,7 @@ public class Main extends JavaPlugin {
     public static FileManager bankMenu;
     public static FileManager bankLevelMenu;
     public static FileManager lose;
+    public static FileManager discord;
 
 
     public static List<String> payToggle = new ArrayList<>();
@@ -92,6 +95,7 @@ public class Main extends JavaPlugin {
         bankMenu = new FileManager(this, "bank-menu.yml");
         bankLevelMenu = new FileManager(this, "bank-level.yml");
         lose = new FileManager(this, "lose.yml");
+        discord = new FileManager(this, "discordWebhook/discord.yml");
 
         currencyName = settings.getConfig().getString("settings.currency-name");
 
@@ -130,6 +134,8 @@ public class Main extends JavaPlugin {
             hikari.connectToDatabaseViaSQLite();
         }
 
+        Bukkit.getLogger().log(Level.WARNING, "TEST: " + discord.getConfig().getString("discord.enable"));
+
         /*  Check if PlaceholderAPI installed  */
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PapiRegister().register(); // initial lightEconomy placeholder
@@ -156,6 +162,9 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
         registerCommand("money", new MoneyCommandManager(this));
+
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeePluginMessageListener());
+
 
         //Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());

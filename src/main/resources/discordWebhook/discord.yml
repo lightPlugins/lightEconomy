@@ -1,0 +1,4 @@
+discord:
+  enable: false
+  token: 'RandomToken'
+  botStatus: 'ONLINE'
