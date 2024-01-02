@@ -98,7 +98,7 @@ public class DebugCommand extends SubCommand {
                     player, "&4Database connection test failed. &7Please check the log for more information");
             return false;
         }
-
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
         return false;
     }
 }

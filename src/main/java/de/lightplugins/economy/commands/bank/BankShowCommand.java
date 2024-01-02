@@ -47,12 +47,6 @@ public class BankShowCommand extends SubCommand {
                 return false;
             }
 
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
-
-            if(offlinePlayer == null) {
-
-            }
-
             BankTableAsync bankTable = new BankTableAsync(Main.getInstance);
             BankLevelSystem bankLevelSystem = new BankLevelSystem(Main.getInstance);
 
@@ -96,6 +90,7 @@ public class BankShowCommand extends SubCommand {
 
         }
 
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
         return false;
     }
 }

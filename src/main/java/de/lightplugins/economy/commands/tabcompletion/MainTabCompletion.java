@@ -27,11 +27,6 @@ public class MainTabCompletion implements TabCompleter {
             if(player.hasPermission("lighteconomy.admin.command.debug")) {
                 arguments.add("debug");
             }
-            if(player.hasPermission(PermissionPath.CreateNPC.getPerm())) {
-                if(Main.isCitizens) {
-                    arguments.add("createnpc");
-                }
-            }
 
             return arguments;
         }

@@ -101,6 +101,7 @@ public class BankAddCommand extends SubCommand {
                 return false;
             }
         }
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
         return false;
     }
 }

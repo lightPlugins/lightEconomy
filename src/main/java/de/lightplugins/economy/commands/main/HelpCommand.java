@@ -43,7 +43,7 @@ public class HelpCommand extends SubCommand {
                 player.sendMessage(Main.colorTranslation.hexTranslation(s));
             }
         }
-
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
         return false;
     }
 }

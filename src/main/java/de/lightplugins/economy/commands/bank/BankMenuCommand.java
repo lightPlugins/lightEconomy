@@ -44,7 +44,7 @@ public class BankMenuCommand extends SubCommand {
 
             BankMainMenu.INVENTORY.open(target);
         }
-
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
         return false;
     }
 }
