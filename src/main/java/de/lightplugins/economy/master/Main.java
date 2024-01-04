@@ -136,11 +136,17 @@ public class Main extends JavaPlugin {
         }
 
         /*  Check if PlaceholderAPI installed  */
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PapiRegister().register(); // initial lightEconomy placeholder
-            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
-
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            Bukkit.getConsoleSender().sendMessage("\n\n" +
+                    "    §cCould not find §4PlaceholderAPI \n" +
+                    "    §rLighteconomy will §cnot run §rwithout PlaceholderAPI. Please download\n" +
+                    "    the latest version of PAPI \n" +
+                    "    §chttps://www.spigotmc.org/resources/placeholderapi.6245/ \n");
+            onDisable();
+            return;
         }
+        new PapiRegister().register(); // initial lightEconomy placeholder
+        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
 
         /*  Creating needed Database-Tables  */
 
@@ -207,7 +213,7 @@ public class Main extends JavaPlugin {
             if(ds != null) {
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Status of Database: " + ds.getConnection());
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Lets try to shutdown the database");
-                Bukkit.getConsoleSender().sendMessage( consolePrefix + "§4Never 'relaod' the server!");
+                Bukkit.getConsoleSender().sendMessage( consolePrefix + "§cHint: §4Never 'relaod' the server!");
                 ds.close();
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully disconnected Database!");
             }

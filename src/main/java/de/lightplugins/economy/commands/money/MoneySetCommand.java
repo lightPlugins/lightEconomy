@@ -73,9 +73,9 @@ public class MoneySetCommand extends SubCommand {
 
                 moneyTableAsync.setMoney(args[1], amount).thenAccept(success -> {
                     Main.util.sendMessage(player, MessagePath.MoneySetPlayer.getPath()
-                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                            .replace("#currency#", Main.util.getCurrency(amount))
                             .replace("#target#", args[1])
-                            .replace("#amount#", Main.util.getCurrency(amount))
+                            .replace("#amount#", Main.util.finalFormatDouble(amount))
                     );
                 });
             });

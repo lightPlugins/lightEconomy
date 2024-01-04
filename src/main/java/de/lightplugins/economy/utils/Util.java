@@ -21,7 +21,7 @@ public class Util {
 
     public String getCurrency(double amount) {
 
-        if(amount < 1) {
+        if(amount == 1) {
             return Main.economyImplementer.currencyNameSingular();
         }
 

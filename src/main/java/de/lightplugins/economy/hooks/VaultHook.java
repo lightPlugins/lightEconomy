@@ -15,14 +15,14 @@ public class VaultHook {
     public void hook() {
         this.provider = Main.economyImplementer;
         Bukkit.getServicesManager().register(Economy.class, this.provider, this.plugin, ServicePriority.Highest);
-        Bukkit.getLogger().log(Level.INFO,
-                Main.consolePrefix + "Vault successfully hooked with highest priority into " + plugin.getName());
+        Bukkit.getConsoleSender().sendMessage(Main.consolePrefix +
+                "Vault successfully hooked with highest priority into " + plugin.getName());
     }
 
     public void unhook() {
         Bukkit.getServicesManager().unregister(Economy.class, this.provider);
-        Bukkit.getLogger().log(Level.INFO,
-                Main.consolePrefix + "Vault successfully unhooked from " + plugin.getName());
+        Bukkit.getConsoleSender().sendMessage(Main.consolePrefix +
+                "Vault successfully unhooked from " + plugin.getName());
     }
 
 }
