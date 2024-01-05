@@ -2,6 +2,7 @@ package de.lightplugins.economy.master;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.lightplugins.economy.commands.*;
+import de.lightplugins.economy.commands.tabcompletion.BalanceTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.BankTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.MainTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.MoneyTabCompletion;
@@ -118,7 +119,7 @@ public class Main extends JavaPlugin {
                 " §r| |____ _| || |__| | |  | |  | |  §c| |___| |___| |__| | |\\  | |__| | |  | |  | |   \n" +
                 " §r|______|_____\\_____|_|  |_|  |_|  §c|______\\_____\\____/|_| \\_|\\____/|_|  |_|  |_|" +
                 "\n\n" + ChatColor.RESET +
-                "      Version: §c5.4.0    §rAuthor: §clightPlugins\n" +
+                "      Version: §c5.4.4.beta-1   §rAuthor: §clightPlugins\n" +
                 "      §rThank you for using lightEconomy. If you came in trouble feel free to join\n" +
                 "      my §cDiscord §rserver: https://discord.gg/G2EuzmSW\n");
 
@@ -166,12 +167,8 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("le")).setExecutor(new MainCommandManager(this));
         Objects.requireNonNull(this.getCommand("le")).setTabCompleter(new MainTabCompletion());
 
-        registerCommand("money", new MoneyCommandManager(this));
-
-
-        //Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
+        Objects.requireNonNull(this.getCommand("money")).setExecutor(new MoneyCommandManager(this));
         Objects.requireNonNull(this.getCommand("money")).setTabCompleter(new MoneyTabCompletion());
-        Objects.requireNonNull(this.getCommand("bal")).setTabCompleter(new MoneyTabCompletion());
 
         Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
         Objects.requireNonNull(this.getCommand("bank")).setTabCompleter(new BankTabCompletion());
@@ -182,6 +179,9 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("pay")).setExecutor(new PayCommandMaster());
 
         Objects.requireNonNull(this.getCommand("bank")).setExecutor(new BankCommandManager(this));
+
+        Objects.requireNonNull(this.getCommand("balance")).setExecutor(new BalanceCommandManager(this));
+        Objects.requireNonNull(this.getCommand("balance")).setTabCompleter(new BalanceTabCompletion());
 
 
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -227,9 +227,5 @@ public class Main extends JavaPlugin {
     private void enableBStats() {
         int pluginId = 18401;
         Metrics metrics = new Metrics(this, pluginId);
-    }
-
-    private void registerCommand(String name, CommandExecutor command) {
-        Objects.requireNonNull(this.getCommand(name)).setExecutor(command);
     }
 }

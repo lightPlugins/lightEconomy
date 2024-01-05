@@ -6,6 +6,7 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.BankLevelSystem;
 import de.lightplugins.economy.utils.Sorter;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -235,9 +236,9 @@ public class PapiRegister extends PlaceholderExpansion {
             }
 
             return Main.colorTranslation.hexTranslation(configFormatting
-                    .replace("#amount#", String.valueOf(formattedAmount)
+                    .replace("#amount#", Main.util.finalFormatDouble(formattedAmount))
                     .replace("#identifier#", formatting)
-                    .replace("#currency#", Main.util.getCurrency(formattedAmount))));
+                    .replace("#currency#", Main.util.getCurrency(formattedAmount)));
 
         }
 
@@ -280,11 +281,25 @@ public class PapiRegister extends PlaceholderExpansion {
                     return "settings.yml error";
                 }
 
-                return Main.colorTranslation.hexTranslation(configFormatting
-                        .replace("#amount#", String.valueOf(formattedAmount)
+                return Main.colorTranslation.hexTranslation("test" + configFormatting
+                        .replace("#amount#", Main.util.finalFormatDouble(formattedAmount))
                         .replace("#identifier#", formatting)
-                        .replace("#currency#", Main.util.getCurrency(formattedAmount))));
+                        .replace("#currency#", Main.util.getCurrency(formattedAmount)));
 
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(params.equalsIgnoreCase("money_all")) {
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+            CompletableFuture<Double> completableFuture = bankTableAsync.playerBankBalance(player.getName());
+            CompletableFuture<Double> completableFuture1 = moneyTableAsync.playerBalance(player.getName());
+
+            try {
+                double allTheMoney = completableFuture.get() + completableFuture1.get();
+                return Main.util.finalFormatDouble(allTheMoney);
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

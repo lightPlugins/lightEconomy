@@ -1,6 +1,6 @@
 name: lightEconomy
 author: lightPlugins
-version: 5.4.0
+version: 5.4.4.beta-1
 main: de.lightplugins.economy.master.Main
 api-version: 1.17
 depend: [Vault, ]
@@ -11,8 +11,11 @@ commands:
     description: The root command for administrated things
     aliases: [lighteconomy, lighteco, leco]
   money:
+    description: The root command for admin things
+    aliases: [mon]
+  balance:
     description: The root command for user things
-    aliases: [bal, balance]
+    aliases: [bal]
   eco:
     description: Console only commands
     aliases: []

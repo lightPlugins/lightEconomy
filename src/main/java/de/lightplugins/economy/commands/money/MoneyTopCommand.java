@@ -98,6 +98,8 @@ public class MoneyTopCommand extends SubCommand {
                     player.sendMessage(Main.colorTranslation.hexTranslation(footer));
                 }
             }
+
+
         } else {
             Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
             return false;
