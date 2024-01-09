@@ -101,7 +101,5 @@ settings:
   # #currency# - the moneys currency indicator like EUR and EURs (plural and singular choice automated)
   shortPlaceholderFormat: '&c#amount# &8#identifier# &7#currency#'
   # In English, the point and comma for numbers are used in exactly the opposite way as in German.
-  # In German, the dot marks the thousands places and the comma marks the decimal places.
-  # In English, the comma marks the thousands places, the period marks the decimal places.
   # If you're hosting a German server, disable the internationalDecimals: false.
   internationalDecimals: true
