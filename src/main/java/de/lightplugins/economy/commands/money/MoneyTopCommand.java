@@ -6,6 +6,7 @@ import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.Sorter;
 import de.lightplugins.economy.utils.SubCommand;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -83,12 +84,15 @@ public class MoneyTopCommand extends SubCommand {
                     try {
                         Map.Entry<String, Double> top = list.pollFirstEntry();
                         String name = top.getKey();
-
-                        player.sendMessage(Main.colorTranslation.hexTranslation(message.getString("moneyTopFormat"))
+                        String confMessage = Main.colorTranslation.hexTranslation(message.getString("moneyTopFormat"))
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", name)
                                 .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
-                                .replace("#currency#", Main.util.getCurrency(top.getValue())));
+                                .replace("#currency#", Main.util.getCurrency(top.getValue()));
+
+                        String finalMessage = PlaceholderAPI.setPlaceholders(player, confMessage);
+                        player.sendMessage(finalMessage);
+
                     } catch (Exception e) {
                         // Catch Exception for Map.Entry Exception if its null!
                     }
