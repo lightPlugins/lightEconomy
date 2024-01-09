@@ -12,7 +12,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 import java.util.logging.Level;
@@ -59,8 +61,19 @@ public class Util {
         }
     }
 
-    public String formatDouble(double numberToFormat) {
-        return String.format("%,.2f", numberToFormat);
+    public static String formatDouble(double numberToFormat) {
+
+        boolean internationalDecimals = Main.settings.getConfig().getBoolean("settings.internationalDecimals");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY);
+
+        if(internationalDecimals) {
+            symbols = new DecimalFormatSymbols(Locale.US);
+        }
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+
+        // Formatieren der Dezimalzahl
+        return decimalFormat.format(numberToFormat);
     }
 
     public String finalFormatDouble(double numberToRound) { return formatDouble(fixDouble(numberToRound));

@@ -8,6 +8,12 @@ import java.util.regex.Pattern;
 
 public class ColorTranslation {
 
+    /**
+     *
+     *  Breaking changes. By 0Key
+     *
+     */
+
     private final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
     public String hexTranslation(String msg) {
@@ -18,10 +24,15 @@ public class ColorTranslation {
                 Bukkit.getVersion().contains("1.20")
 
         ){
+
+            if(msg.contains("&#")) {
+                msg = msg.replace("&#", "#");
+            }
+
             Matcher match = pattern.matcher(msg);
             while (match.find()) {
                 String color = msg.substring(match.start(), match.end());
-                msg = msg.replace(color, ChatColor.of(color) + "");
+                msg = msg.replace(color, String.valueOf(ChatColor.of(color)));
                 match = pattern.matcher(msg);
             }
         }

@@ -7,6 +7,7 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.Sorter;
 import de.lightplugins.economy.utils.SubCommand;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -84,14 +85,14 @@ public class MoneyTopCommand extends SubCommand {
                     try {
                         Map.Entry<String, Double> top = list.pollFirstEntry();
                         String name = top.getKey();
-                        String confMessage = Main.colorTranslation.hexTranslation(message.getString("moneyTopFormat"))
+                        String confMessage = Objects.requireNonNull(message.getString("moneyTopFormat"))
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", name)
                                 .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
                                 .replace("#currency#", Main.util.getCurrency(top.getValue()));
 
                         String finalMessage = PlaceholderAPI.setPlaceholders(player, confMessage);
-                        player.sendMessage(finalMessage);
+                        player.sendMessage(Main.colorTranslation.hexTranslation(finalMessage));
 
                     } catch (Exception e) {
                         // Catch Exception for Map.Entry Exception if its null!
@@ -99,7 +100,8 @@ public class MoneyTopCommand extends SubCommand {
                 }
 
                 for (String footer : message.getStringList("moneyTopFooter")) {
-                    player.sendMessage(Main.colorTranslation.hexTranslation(footer));
+                    String finalMessage = PlaceholderAPI.setPlaceholders(player, footer);
+                    player.sendMessage(Main.colorTranslation.hexTranslation(finalMessage));
                 }
             }
 
