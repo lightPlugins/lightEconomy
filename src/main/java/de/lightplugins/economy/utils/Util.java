@@ -71,8 +71,6 @@ public class Util {
         }
 
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
-
-        // Formatieren der Dezimalzahl
         return decimalFormat.format(numberToFormat);
     }
 
