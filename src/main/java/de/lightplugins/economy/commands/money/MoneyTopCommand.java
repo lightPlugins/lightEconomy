@@ -7,7 +7,9 @@ import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.Sorter;
 import de.lightplugins.economy.utils.SubCommand;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -85,13 +87,14 @@ public class MoneyTopCommand extends SubCommand {
                     try {
                         Map.Entry<String, Double> top = list.pollFirstEntry();
                         String name = top.getKey();
+                        OfflinePlayer offlinePlayer = Bukkit.getPlayer(name);
                         String confMessage = Objects.requireNonNull(message.getString("moneyTopFormat"))
                                 .replace("#number#", String.valueOf(i + 1))
                                 .replace("#name#", name)
                                 .replace("#amount#", String.valueOf(Main.util.finalFormatDouble(top.getValue())))
                                 .replace("#currency#", Main.util.getCurrency(top.getValue()));
 
-                        String finalMessage = PlaceholderAPI.setPlaceholders(player, confMessage);
+                        String finalMessage = PlaceholderAPI.setPlaceholders(offlinePlayer, confMessage);
                         player.sendMessage(Main.colorTranslation.hexTranslation(finalMessage));
 
                     } catch (Exception e) {
