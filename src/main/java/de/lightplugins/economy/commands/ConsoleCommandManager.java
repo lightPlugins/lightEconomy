@@ -2,6 +2,7 @@ package de.lightplugins.economy.commands;
 
 import de.lightplugins.economy.commands.console.*;
 import de.lightplugins.economy.enums.MessagePath;
+import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
 import org.bukkit.command.Command;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -54,6 +56,10 @@ public class ConsoleCommandManager implements CommandExecutor {
                 }
             }
         } else {
+            if(!sender.hasPermission(PermissionPath.MoneyRemove.getPerm())) {
+                Main.util.sendMessage((Player) sender, MessagePath.NoPermission.getPath());
+                return false;
+            }
             Main.util.sendMessage((Player) sender, MessagePath.OnlyConsole.getPath());
         }
 

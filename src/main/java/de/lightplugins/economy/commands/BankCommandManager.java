@@ -41,6 +41,7 @@ public class BankCommandManager implements CommandExecutor {
 
         if(sender instanceof Player) {
             Player player = (Player) sender;
+            boolean contains = false;
 
             FileConfiguration config = Main.settings.getConfig();
 
@@ -55,6 +56,7 @@ public class BankCommandManager implements CommandExecutor {
 
                         try {
                             if(getSubCommands().get(i).perform(player, args)) {
+                                contains = true;
                                 Main.debugPrinting.sendInfo("MainSubCommand " + Arrays.toString(args) + " successfully executed by " + player.getName());
                             }
 
@@ -71,6 +73,12 @@ public class BankCommandManager implements CommandExecutor {
                 }
 
                 Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
+                return false;
+            }
+
+            if(!contains) {
+                Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath()
+                        .replace("#command#", "/le help"));
                 return false;
             }
         }

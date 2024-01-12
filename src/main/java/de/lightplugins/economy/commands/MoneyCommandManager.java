@@ -43,17 +43,20 @@ public class MoneyCommandManager implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
 
+            boolean contains = false;
+
             if (args.length > 0) {
                 for(int i = 0; i < subCommands.size(); i++) {
                     if(args[0].equalsIgnoreCase(getSubCommands().get(i).getName())) {
 
                         try {
                             if(getSubCommands().get(i).perform(player, args)) {
+                                contains = true;
                                 Main.debugPrinting.sendInfo("MainSubCommand " + Arrays.toString(args) + " successfully executed by " + player.getName());
                             }
 
                         } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException("Something went wrong while executing MoneycommandManager", e);
                         }
                     }
                 }
@@ -71,6 +74,14 @@ public class MoneyCommandManager implements CommandExecutor {
                     }
 
                 });
+
+                return false;
+            }
+
+            if(!contains) {
+                Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath()
+                        .replace("#command#", "/le help"));
+                return false;
             }
         }
         return false;

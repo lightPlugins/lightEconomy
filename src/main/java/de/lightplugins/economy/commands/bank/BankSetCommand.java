@@ -97,7 +97,8 @@ public class BankSetCommand extends SubCommand {
                 return false;
             }
         }
-        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                .replace("#command#", getSyntax()));
         return false;
 
     }

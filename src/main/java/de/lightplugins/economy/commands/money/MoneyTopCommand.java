@@ -110,7 +110,8 @@ public class MoneyTopCommand extends SubCommand {
 
 
         } else {
-            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                    .replace("#command#", getSyntax()));
             return false;
         }
 

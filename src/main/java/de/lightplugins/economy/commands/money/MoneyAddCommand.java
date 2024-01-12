@@ -38,7 +38,8 @@ public class MoneyAddCommand extends SubCommand {
         double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
 
         if(args.length != 3) {
-            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                    .replace("#command#", getSyntax()));
             return true;
         }
 

@@ -55,7 +55,8 @@ public class MainCommandManager implements CommandExecutor {
                 }
             } else {
 
-                Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+                Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                        .replace("#command#", "/le help"));
             }
         }
 

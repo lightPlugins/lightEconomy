@@ -28,7 +28,7 @@ public class MoneySetCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/money set [playername]";
+        return "/money set [playername] [amount]";
     }
 
     @Override
@@ -43,7 +43,8 @@ public class MoneySetCommand extends SubCommand {
         }
 
         if(args.length != 3) {
-            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                    .replace("#command#", getSyntax()));
             return true;
         }
 

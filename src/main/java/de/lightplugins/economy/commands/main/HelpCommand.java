@@ -42,8 +42,11 @@ public class HelpCommand extends SubCommand {
             for(String s : messages.getStringList("helpCommandPlayer")) {
                 player.sendMessage(Main.colorTranslation.hexTranslation(s));
             }
+
+            return false;
         }
-        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                .replace("#command#", getSyntax()));
         return false;
     }
 }

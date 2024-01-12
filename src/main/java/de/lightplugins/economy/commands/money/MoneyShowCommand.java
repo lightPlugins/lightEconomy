@@ -34,7 +34,8 @@ public class MoneyShowCommand extends SubCommand {
         }
 
         if(args.length != 2) {
-            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                    .replace("#command#", getSyntax()));
             return true;
         }
 

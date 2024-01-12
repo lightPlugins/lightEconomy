@@ -35,7 +35,8 @@ public class MoneyAddAllCommand extends SubCommand {
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
         if(args.length != 2) {
-            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+            Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                    .replace("#command#", getSyntax()));
             return true;
         }
 

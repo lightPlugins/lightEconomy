@@ -90,7 +90,8 @@ public class BankShowCommand extends SubCommand {
 
         }
 
-        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath());
+        Main.util.sendMessage(player, MessagePath.WrongCommand.getPath()
+                .replace("#command#", getSyntax()));
         return false;
     }
 }
