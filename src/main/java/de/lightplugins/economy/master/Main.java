@@ -210,7 +210,7 @@ public class Main extends JavaPlugin {
         /*  Closing Database connection  */
 
         try {
-            if(ds != null) {
+            if(ds != null && !ds.isClosed()) {
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Status of Database: " + ds.getConnection());
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Lets try to shutdown the database");
                 Bukkit.getConsoleSender().sendMessage( consolePrefix + "§cHint: §4Never 'relaod' the server!");
