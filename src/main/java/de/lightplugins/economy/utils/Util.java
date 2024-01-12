@@ -61,7 +61,7 @@ public class Util {
         }
     }
 
-    public static String formatDouble(double numberToFormat) {
+    public String formatDouble(double numberToFormat) {
 
         boolean internationalDecimals = Main.settings.getConfig().getBoolean("settings.internationalDecimals");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY);
