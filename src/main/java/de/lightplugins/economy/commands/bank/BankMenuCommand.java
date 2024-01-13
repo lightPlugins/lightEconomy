@@ -23,7 +23,7 @@ public class BankMenuCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank open [player]";
+        return "/bank open " + Main.util.languagePlayer();
     }
 
     @Override

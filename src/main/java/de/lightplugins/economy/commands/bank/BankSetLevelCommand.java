@@ -27,7 +27,7 @@ public class BankSetLevelCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank level set target 5";
+        return "/bank level set " + Main.util.languageTarget() + " " + Main.util.languageAmount();
     }
 
     @Override

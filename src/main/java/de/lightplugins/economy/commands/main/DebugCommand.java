@@ -42,10 +42,12 @@ public class DebugCommand extends SubCommand {
 
             FileConfiguration settings = Main.settings.getConfig();
 
-            String databaseSource = "sqlite";
+            String databaseSource;
 
             if(settings.getBoolean("mysql.enable")) {
                 databaseSource = "mysql";
+            } else {
+                databaseSource = "sqlite";
             }
 
             if(!Main.getInstance.ds.isRunning()) {
@@ -79,18 +81,22 @@ public class DebugCommand extends SubCommand {
 
             if(Main.economyImplementer.hasAccount(player.getName())) {
                 List<String> messageList = new ArrayList<>();
-                messageList.add("&7&m-----&r&c●&7&m-----&r &c&l&olight&7Economy &7&m-----&r&c●&7&m-----&r");
-                messageList.add(" ");
-                messageList.add("&8● &7Database is &asuccessfully &7connected to &c" + databaseSource);
-                messageList.add("  &8- &7Total Connections: &c" + totalConnections);
-                messageList.add("  &8- &7Active Connections: &c" + activeConnections);
-                messageList.add("  &8- &7Pending Connections: &c" + pendingThreads);
-                messageList.add("  &8- &7Users in Database: &c" + tableSize + " &7(took &c" + queryDuration +"&7ms)");
-                messageList.add("&8● &7Bukkit Version: &c" + Main.getInstance.getServer().getBukkitVersion());
-                messageList.add("&8● &7Economy Version: &c" + Main.getInstance.getDescription().getVersion());
-                messageList.add(" ");
-                messageList.add("&7&m-----&r&c●&7&m-----&r &7&m-----&r&c●&7⏺&c●&7&m-----&r &7&m-----&r&c●&7&m-----&r");
+
+                Main.messages.getConfig().getStringList("debugMessage").forEach(singleLine -> {
+                    singleLine = singleLine
+                            .replace("#databaseSource#", databaseSource)
+                            .replace("#totalConnections#", String.valueOf(totalConnections))
+                            .replace("#activeConnections#", String.valueOf(activeConnections))
+                            .replace("#pendingThreads#", String.valueOf(pendingThreads))
+                            .replace("#tableSize#", String.valueOf(tableSize))
+                            .replace("#queryDuration#", String.valueOf(queryDuration))
+                            .replace("#bukkitVersion#", Main.getInstance.getServer().getBukkitVersion())
+                            .replace("#ecoVersion#", Main.getInstance.getDescription().getVersion());
+                    messageList.add(singleLine);
+                });
+
                 Main.util.sendMessageList(player, messageList);
+
                 return false;
             }
 

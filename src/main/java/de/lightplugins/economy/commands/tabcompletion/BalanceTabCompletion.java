@@ -26,7 +26,6 @@ public class BalanceTabCompletion implements TabCompleter {
         if(args.length == 1) {
 
             if(!player.hasPermission(PermissionPath.MoneyOther.getPerm())) {
-                Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
                 return null;
             }
 

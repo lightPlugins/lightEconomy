@@ -1,5 +1,6 @@
 package de.lightplugins.economy.commands.tabcompletion;
 
+import de.lightplugins.economy.enums.PermissionPath;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -14,13 +15,13 @@ public class MoneyTabCompletion implements TabCompleter {
 
         if(args.length == 1) {
             List<String> arguments = new ArrayList<>();
-            arguments.add("add");
-            arguments.add("addall");
-            arguments.add("remove");
-            arguments.add("set");
-            arguments.add("top");
-            arguments.add("show");
-            arguments.add("voucher create");
+            if(sender.hasPermission(PermissionPath.MoneyAdd.getPerm())) { arguments.add("add"); }
+            if(sender.hasPermission(PermissionPath.MoneyAddAll.getPerm())) { arguments.add("addall"); }
+            if(sender.hasPermission(PermissionPath.MoneyRemove.getPerm())) { arguments.add("remove"); }
+            if(sender.hasPermission(PermissionPath.MoneySet.getPerm())) { arguments.add("set"); }
+            if(sender.hasPermission(PermissionPath.MoneyTop.getPerm())) { arguments.add("top");  }
+            if(sender.hasPermission(PermissionPath.MoneyOther.getPerm())) { arguments.add("show"); }
+            if(sender.hasPermission(PermissionPath.CreateVoucher.getPerm())) { arguments.add("voucher create"); }
 
             return arguments;
         }

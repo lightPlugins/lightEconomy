@@ -28,7 +28,7 @@ public class MoneyAddAllCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/money addall [AMOUNT]";
+        return "/money addall " + Main.util.languageAmount();
     }
 
     @Override

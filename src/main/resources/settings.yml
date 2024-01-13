@@ -103,3 +103,8 @@ settings:
   # In English, the point and comma for numbers are used in exactly the opposite way as in German.
   # If you're hosting a German server, disable the internationalDecimals: false.
   internationalDecimals: true
+  # Change here the language for your wrong command syntax #commands#
+  commandSyntaxTranslation:
+    player: 'player'
+    target: 'target'
+    amount: 'amount'

@@ -44,7 +44,7 @@ public class BalanceCommandManager implements CommandExecutor {
                             }
 
                         } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
+                           throw new RuntimeException("", e);
                         }
                     }
                 }
@@ -74,10 +74,10 @@ public class BalanceCommandManager implements CommandExecutor {
                 MoneyTableAsync moneyTableAsync = new MoneyTableAsync(plugin);
                 moneyTableAsync.playerBalance(args[0]).thenAccept(balance -> {
                     if(balance != null) {
-                        double currentBalance = balance;
-                        Main.util.sendMessage(player, MessagePath.MoneyBalance.getPath()
-                                .replace("#balance#", Main.util.finalFormatDouble(currentBalance))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                        Main.util.sendMessage(player, MessagePath.MoneyBalanceOther.getPath()
+                                .replace("#target#", args[0])
+                                .replace("#balance#", Main.util.finalFormatDouble(balance))
+                                .replace("#currency#", Main.util.getCurrency(balance)));
                     } else {
                         player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
                                 + MessagePath.PlayerNotFound.getPath()));

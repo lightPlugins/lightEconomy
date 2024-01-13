@@ -21,6 +21,18 @@ import java.util.logging.Level;
 
 public class Util {
 
+    public String languagePlayer() {
+        return Main.settings.getConfig().getString("settings.commandSyntaxTranslation.player");
+    }
+
+    public String languageAmount() {
+        return Main.settings.getConfig().getString("settings.commandSyntaxTranslation.amount");
+    }
+
+    public String languageTarget() {
+        return Main.settings.getConfig().getString("settings.commandSyntaxTranslation.amount");
+    }
+
     public String getCurrency(double amount) {
 
         if(amount == 1) {

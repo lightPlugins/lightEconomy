@@ -75,12 +75,6 @@ public class BankCommandManager implements CommandExecutor {
                 Main.util.sendMessage(player, MessagePath.NoPermission.getPath());
                 return false;
             }
-
-            if(!contains) {
-                Main.util.sendMessage((Player) sender, MessagePath.WrongCommand.getPath()
-                        .replace("#command#", "/le help"));
-                return false;
-            }
         }
 
         return false;

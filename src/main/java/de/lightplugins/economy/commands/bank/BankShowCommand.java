@@ -31,7 +31,7 @@ public class BankShowCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank show <player>";
+        return "/bank show " + Main.util.languagePlayer();
     }
 
     @Override

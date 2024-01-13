@@ -27,7 +27,7 @@ public class BankRemoveCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank remove <player> <amount>";
+        return "/bank remove " + Main.util.languagePlayer() + " " + Main.util.languageAmount();
     }
 
     @Override

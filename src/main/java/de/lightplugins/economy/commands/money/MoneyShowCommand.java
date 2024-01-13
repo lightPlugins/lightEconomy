@@ -22,7 +22,7 @@ public class MoneyShowCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/money show [playername]";
+        return "/money show " + Main.util.languagePlayer();
     }
 
     @Override

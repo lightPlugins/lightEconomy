@@ -156,3 +156,15 @@ helpCommandPlayer:
 # ●
 npcCreateWrongRankID: '&cPlease use numbers from &41 &cto &410'
 timeRewardMoney: 'You got #amount# #currency# for playing #intervallMinutes# minutes.'
+debugMessage:
+  - '&7&m-----&r&c●&7&m-----&r &c&l&olight&7Economy &7&m-----&r&c●&7&m-----&r'
+  - ' '
+  - ' &8● &7Database is &asuccessfully &7connected to &c#databaseSource#'
+  - '  &8- &7Total Connections: &c#totalConnections#'
+  - '  &8- &7Active Connections: &c#activeConnections#'
+  - '  &8- &7Pending Connections: &c#pendingThreads#'
+  - '  &8- &7Users in Database: &c#tableSize# &7(took &c#queryDuration# &7ms)'
+  - '&8● &7Bukkit Version: &c#bukkitVersion#'
+  - '&8● &7Economy Version: &c#ecoVersion#'
+  - ' '
+  - '&7&m-----&r&c●&7&m-----&r &7&m-----&r&c●&7⏺&c●&7&m-----&r &7&m-----&r&c●&7&m-----&r'

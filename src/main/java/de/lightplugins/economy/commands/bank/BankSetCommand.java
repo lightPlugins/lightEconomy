@@ -27,7 +27,7 @@ public class BankSetCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank set <targetPlayer> <amount>";
+        return "/bank set " + Main.util.languagePlayer() + " " + Main.util.languageAmount();
     }
 
     @Override

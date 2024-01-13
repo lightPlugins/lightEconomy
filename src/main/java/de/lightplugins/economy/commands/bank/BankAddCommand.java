@@ -15,6 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class BankAddCommand extends SubCommand {
+
+
     @Override
     public String getName() {
         return "add";
@@ -27,7 +29,7 @@ public class BankAddCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/bank add <targetName> <amount>";
+        return "/bank add " + Main.util.languagePlayer() + " " + Main.util.languageAmount();
     }
 
     @Override

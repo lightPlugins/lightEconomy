@@ -28,7 +28,7 @@ public class MoneyAddCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/money add [PlayerName] [Amount]";
+        return "/money add " + Main.util.languagePlayer() + " " + Main.util.languageAmount();
     }
 
     @Override
