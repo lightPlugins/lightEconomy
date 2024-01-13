@@ -287,6 +287,8 @@ public class MoneyTableAsync {
     }
 
     private void logInfo(String message) {
-        logger.info(message);
+        if(Main.settings.getConfig().getBoolean("settings.debug")) {
+            logger.info(message);
+        }
     }
 }
