@@ -51,6 +51,8 @@ settings:
   currency-name-singular: 'EUR'
   # the max possible money amount. If a player reach this value, he cant get any more money
   max-pocket-balance: 999999999999.99
+  # if this is true, numbers from all output messages and lores shows now without decimal places
+  currencyWithoutDeciamlPlaces: false
   # the number of players in the baltop command and the baltop placeholders
   baltop-amount-of-players: 10
   # en or disable the players change name update feature

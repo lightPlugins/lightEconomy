@@ -60,6 +60,7 @@ public class Util {
     }
 
     public double fixDouble(double numberToFix) {
+
         BigDecimal bd = new BigDecimal(numberToFix).setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
@@ -78,15 +79,29 @@ public class Util {
         boolean internationalDecimals = Main.settings.getConfig().getBoolean("settings.internationalDecimals");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY);
 
+        FileConfiguration config = Main.settings.getConfig();
+
         if(internationalDecimals) {
             symbols = new DecimalFormatSymbols(Locale.US);
+        }
+
+        if(config.getBoolean("settings.currencyWithoutDeciamlPlaces")) {
+            // return double without decimal places
+            BigDecimal bd = new BigDecimal(numberToFormat).setScale(0, RoundingMode.DOWN);
+            bd = bd.stripTrailingZeros();
+            DecimalFormat decimalFormat = new DecimalFormat("#,###", symbols);
+
+            return decimalFormat.format(bd);
+
         }
 
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
         return decimalFormat.format(numberToFormat);
     }
 
-    public String finalFormatDouble(double numberToRound) { return formatDouble(fixDouble(numberToRound));
+    public String finalFormatDouble(double numberToRound) {
+
+        return formatDouble(fixDouble(numberToRound));
     }
 
     /*  Count Animation with title for withdraw and deposit  */
@@ -97,6 +112,7 @@ public class Util {
         double startValue = endValue * 0.05;
 
         FileConfiguration config = Main.settings.getConfig();
+
 
         Sound countUpSound = Sound.valueOf(
                 Objects.requireNonNull(config.getString("settings.count-up-sound")).toUpperCase());

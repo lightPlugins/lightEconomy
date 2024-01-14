@@ -1,6 +1,6 @@
 name: lightEconomy
 author: lightPlugins
-version: 5.4.4.beta-4
+version: 5.4.4.beta-5
 main: de.lightplugins.economy.master.Main
 api-version: 1.17
 depend: [Vault, ]

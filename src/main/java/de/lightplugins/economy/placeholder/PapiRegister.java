@@ -226,7 +226,7 @@ public class PapiRegister extends PlaceholderExpansion {
             }
 
             if(amount < 1000) {
-                return String.valueOf(amount);
+                return Main.util.finalFormatDouble(amount);
             }
 
             String configFormatting = settings.getString("settings.shortPlaceholderFormat");
@@ -272,7 +272,7 @@ public class PapiRegister extends PlaceholderExpansion {
                 }
 
                 if(amount < 1000) {
-                    return String.valueOf(amount);
+                    return Main.util.finalFormatDouble(amount);
                 }
 
                 String configFormatting = settings.getString("settings.shortPlaceholderFormat");
@@ -304,6 +304,12 @@ public class PapiRegister extends PlaceholderExpansion {
                 throw new RuntimeException(e);
             }
         }
+        if(params.equalsIgnoreCase("money_decimals")) {
+
+
+
+        }
+
 
         return null; // Placeholder is unknown by the Expansion
     }

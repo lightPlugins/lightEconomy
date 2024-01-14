@@ -127,7 +127,9 @@ public class BankMainMenu implements InventoryProvider {
                         .replace("%bank_level%", String.valueOf(level))
                         .replace("%bank_level_max%", String.valueOf(maxLevelViaConfig))
                         .replace("%level_based_max_value%", Main.util.finalFormatDouble(limit))
-                        .replace("%pocket_balance%", Main.util.finalFormatDouble(pocketBalance));
+                        .replace("%pocket_balance%", Main.util.finalFormatDouble(pocketBalance))
+                        .replace("%currencyBank%", Main.util.getCurrency(bankBalance))
+                        .replace("%currencyPocket%", Main.util.getCurrency(pocketBalance));
 
                 lore.add(Main.colorTranslation.hexTranslation(finalLine));
             }
