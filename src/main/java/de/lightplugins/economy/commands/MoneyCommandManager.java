@@ -67,7 +67,7 @@ public class MoneyCommandManager implements CommandExecutor {
                         double currentBalance = balance;
                         Main.util.sendMessage(player, MessagePath.MoneyBalance.getPath()
                                 .replace("#balance#", Main.util.finalFormatDouble(currentBalance))
-                                .replace("#currency#", Main.economyImplementer.currencyNameSingular()));
+                                .replace("#currency#", Main.util.getCurrency(currentBalance)));
                     } else {
                         player.sendMessage(Main.colorTranslation.hexTranslation(MessagePath.Prefix.getPath()
                                 + MessagePath.PlayerNotFound.getPath()));
