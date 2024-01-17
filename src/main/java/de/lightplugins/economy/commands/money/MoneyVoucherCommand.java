@@ -8,6 +8,9 @@ import de.lightplugins.economy.utils.SubCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.concurrent.ExecutionException;
 
@@ -48,71 +51,78 @@ public class MoneyVoucherCommand extends SubCommand {
 
         if(args[1].equalsIgnoreCase("create")) {
 
-            double playerBalance = Main.economyImplementer.getBalance(player.getName());
-            double minValue = Main.voucher.getConfig().getDouble("voucher.min-value");
-            double maxValue = Main.voucher.getConfig().getDouble("voucher.max-value");
 
-            try {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
 
-                double itemValue = Double.parseDouble(args[2]);
+                    double playerBalance = Main.economyImplementer.getBalance(player.getName());
+                    double minValue = Main.voucher.getConfig().getDouble("voucher.min-value");
+                    double maxValue = Main.voucher.getConfig().getDouble("voucher.max-value");
 
-                if(itemValue < 0) {
-                    Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
-                    return false;
+                    try {
+
+                        double itemValue = Double.parseDouble(args[2]);
+
+                        if(itemValue < 0) {
+                            Main.util.sendMessage(player, MessagePath.OnlyPositivNumbers.getPath());
+                            return;
+                        }
+
+                        if(itemValue > maxValue) {
+                            Main.util.sendMessage(player, MessagePath.VoucherMaxValue.getPath()
+                                    .replace("#max-value#", String.valueOf(maxValue))
+                                    .replace("#currency#", Main.util.getCurrency(maxValue)));
+                            return;
+                        }
+
+                        if(itemValue < minValue) {
+                            Main.util.sendMessage(player, MessagePath.VoucherMinValue.getPath()
+                                    .replace("#min-value#", String.valueOf(minValue))
+                                    .replace("#currency#", Main.util.getCurrency(minValue)));
+                            return;
+                        }
+
+                        if(itemValue > playerBalance) {
+                            Main.util.sendMessage(player, MessagePath.NotEnoughtMoney.getPath());
+                            return;
+                        }
+
+                        EconomyResponse economyResponse = Main.economyImplementer.withdrawPlayer(player.getName(), itemValue);
+                        if(!economyResponse.transactionSuccess()) {
+                            Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
+                                    .replace("#reason#", economyResponse.errorMessage));
+                            return;
+                        }
+
+                        Voucher voucher = new Voucher();
+
+                        if(Main.util.isInventoryEmpty(player)) {
+                            player.getInventory().addItem(voucher.createVoucher(itemValue, player.getName()));
+                            Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath()
+                                    .replace("#amount#", String.valueOf(itemValue))
+                                    .replace("#currency#", Main.util.getCurrency(itemValue)));
+                            return;
+                        }
+
+                        Item item = player.getWorld().dropItem(player.getLocation(),
+                                voucher.createVoucher(itemValue, player.getName()));
+
+                        item.setCustomName(Main.colorTranslation.hexTranslation(
+                                        Main.voucher.getConfig().getString("voucher.name"))
+                                .replace("#amount#", args[2])
+                                .replace("#currency#", Main.util.getCurrency(itemValue)));
+
+                        item.setCustomNameVisible(true);
+                        Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath());
+
+                    } catch (NumberFormatException ex) {
+                        Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
+                    }
+
+
                 }
-
-                if(itemValue > maxValue) {
-                    Main.util.sendMessage(player, MessagePath.VoucherMaxValue.getPath()
-                            .replace("#max-value#", String.valueOf(maxValue))
-                            .replace("#currency#", Main.util.getCurrency(maxValue)));
-                    return false;
-                }
-
-                if(itemValue < minValue) {
-                    Main.util.sendMessage(player, MessagePath.VoucherMinValue.getPath()
-                            .replace("#min-value#", String.valueOf(minValue))
-                            .replace("#currency#", Main.util.getCurrency(minValue)));
-                    return false;
-                }
-
-                if(itemValue > playerBalance) {
-                    Main.util.sendMessage(player, MessagePath.NotEnoughtMoney.getPath());
-                    return false;
-                }
-
-                EconomyResponse economyResponse = Main.economyImplementer.withdrawPlayer(player.getName(), itemValue);
-                if(!economyResponse.transactionSuccess()) {
-                    Main.util.sendMessage(player, MessagePath.TransactionFailed.getPath()
-                            .replace("#reason#", economyResponse.errorMessage));
-                    return false;
-                }
-
-                Voucher voucher = new Voucher();
-
-                if(Main.util.isInventoryEmpty(player)) {
-                    player.getInventory().addItem(voucher.createVoucher(itemValue, player.getName()));
-                    Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath()
-                            .replace("#amount#", String.valueOf(itemValue))
-                            .replace("#currency#", Main.util.getCurrency(itemValue)));
-                    return true;
-                }
-
-                Item item = player.getWorld().dropItem(player.getLocation(),
-                        voucher.createVoucher(itemValue, player.getName()));
-
-                item.setCustomName(Main.colorTranslation.hexTranslation(
-                        Main.voucher.getConfig().getString("voucher.name"))
-                        .replace("#amount#", args[2])
-                        .replace("#currency#", Main.util.getCurrency(itemValue)));
-
-                item.setCustomNameVisible(true);
-                Main.util.sendMessage(player, MessagePath.VoucherCreate.getPath());
-                return true;
-
-            } catch (NumberFormatException ex) {
-                Main.util.sendMessage(player, MessagePath.NotANumber.getPath());
-                return false;
-            }
+            }.runTaskLater(Main.getInstance, 10);
         }
 
         return false;

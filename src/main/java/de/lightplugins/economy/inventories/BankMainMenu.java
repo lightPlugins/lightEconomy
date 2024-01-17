@@ -275,7 +275,9 @@ public class BankMainMenu implements InventoryProvider {
 
                         if(completableFuture.get()  && completableFuture1.get()) {
 
-                            Main.util.sendMessage(player, MessagePath.BankWithdrawAll.getPath());
+                            Main.util.sendMessage(player, MessagePath.BankWithdrawAll.getPath()
+                                    .replace("#amount#", Main.util.finalFormatDouble(finalBankBalance))
+                                    .replace("#currency#", Main.util.getCurrency(finalBankBalance)));
                             sounds.soundOnSuccess(player);
                             player.closeInventory();
                             return;
