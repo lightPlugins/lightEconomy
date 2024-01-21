@@ -8,6 +8,7 @@ import de.lightplugins.economy.utils.BankLevelSystem;
 import de.lightplugins.economy.utils.Sounds;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -21,7 +22,7 @@ public class BankListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onChatBankWithdraw(AsyncPlayerChatEvent e) {
 
         Player chatter = e.getPlayer();
@@ -105,7 +106,7 @@ public class BankListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onChatBankDeposit(AsyncPlayerChatEvent e) {
 
         Player chatter = e.getPlayer();
