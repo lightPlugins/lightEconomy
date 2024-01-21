@@ -22,7 +22,7 @@ public class BankListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     private void onChatBankWithdraw(AsyncPlayerChatEvent e) {
 
         Player chatter = e.getPlayer();
@@ -106,7 +106,7 @@ public class BankListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     private void onChatBankDeposit(AsyncPlayerChatEvent e) {
 
         Player chatter = e.getPlayer();
