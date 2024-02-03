@@ -4,6 +4,7 @@ import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.enums.PermissionPath;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.SubCommand;
+import fr.minuskube.inv.InventoryManager;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ExecutionException;

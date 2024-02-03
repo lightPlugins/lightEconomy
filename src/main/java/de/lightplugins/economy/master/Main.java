@@ -14,6 +14,7 @@ import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
+import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.listener.TimeReward;

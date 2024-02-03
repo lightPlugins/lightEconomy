@@ -25,19 +25,19 @@ import java.util.concurrent.ExecutionException;
 
 public class BankMainMenu implements InventoryProvider {
 
-    public static final FileConfiguration bankMenu = Main.bankMenu.getConfig();
-
     public static final SmartInventory INVENTORY = SmartInventory.builder()
             .id("BANK_MAIN_MENU")
             .provider(new BankMainMenu())
-            .size(bankMenu.getInt("bank.main.size"),9)
-            .title(Main.colorTranslation.hexTranslation(bankMenu.getString("bank.main.title")))
+            .size(Main.bankMenu.getConfig().getInt("bank.main.size"),9)
+            .title(Main.colorTranslation.hexTranslation(Main.bankMenu.getConfig().getString("bank.main.title")))
             .manager(Main.bankMenuInventoryManager)
             .build();
 
 
     @Override
     public void init(Player player, InventoryContents contents) {
+
+        FileConfiguration bankMenu = Main.bankMenu.getConfig();
 
         int state = contents.property("state", 0);
         contents.setProperty("state", state + 1);
