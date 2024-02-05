@@ -7,12 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 
-public class MoneyAddConsole extends SubCommand {
+public class MoneyGiveConsole extends SubCommand {
     @Override
     public String getName() {
-        return "add";
+        return "give";
     }
 
     @Override
@@ -29,7 +28,7 @@ public class MoneyAddConsole extends SubCommand {
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
 
         if(args.length == 3) {
-            if(args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
+            if(args[0].equalsIgnoreCase("give")) {
                 String target = args[1];
                 try {
                     double amount = Double.parseDouble(args[2]);
