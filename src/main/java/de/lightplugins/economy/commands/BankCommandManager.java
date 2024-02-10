@@ -33,6 +33,7 @@ public class BankCommandManager implements CommandExecutor {
         subCommands.add(new BankSetLevelCommand());
         subCommands.add(new BankRemoveCommand());
         subCommands.add(new BankShowCommand());
+        subCommands.add(new BankTopCommand());
     }
 
     @Override
