@@ -58,6 +58,7 @@ public class MoneyTopCommand extends SubCommand {
                 for(String playername : exclude) {
                     map.remove(playername);
                 }
+
                 TreeMap<String, Double> list = (new Sorter(map)).get();
 
                 CompletableFuture<HashMap<String, Double>> test = moneyTableAsync.getPlayersBalanceList();
