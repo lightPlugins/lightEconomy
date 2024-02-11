@@ -1,16 +1,23 @@
 package de.lightplugins.economy.inventories;
 
 
+import com.google.common.collect.Lists;
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.MessagePath;
+import de.lightplugins.economy.implementer.EconomyImplementer;
 import de.lightplugins.economy.master.Main;
 import de.lightplugins.economy.utils.BankLevelSystem;
+import de.lightplugins.economy.utils.SignPackets;
 import de.lightplugins.economy.utils.Sounds;
+import de.lightplugins.economy.utils.Util;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -18,10 +25,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 public class BankMainMenu implements InventoryProvider {
 
@@ -251,7 +260,101 @@ public class BankMainMenu implements InventoryProvider {
                         throw new RuntimeException(ex);
                     }
                 }
+
+                FileConfiguration settings = Main.settings.getConfig();
+
                 if(input.equalsIgnoreCase("withdraw-value")) {
+
+
+                    String line2 = Main.colorTranslation.hexTranslation(
+                            settings.getString("settings.bankInputViaSign.bankSignLine2"));
+                    String line3 = Main.colorTranslation.hexTranslation(
+                            settings.getString("settings.bankInputViaSign.bankSignLine3"));
+                    String line4 = Main.colorTranslation.hexTranslation(
+                            settings.getString("settings.bankInputViaSign.bankSignLine4"));
+
+                    //player.closeInventory();
+
+                    Bukkit.getLogger().log(Level.WARNING, "TEST 1 + " + line2 + line3 + line4);
+
+                    player.closeInventory();
+
+
+                    SignPackets.Menu menu = Main.getInstance.signGui
+                            .newMenu(Arrays.asList("", "This", "is a", "test"))
+                            .reopenIfFail(true)
+                            .response((target, lines) -> {
+
+                                Bukkit.getLogger().log(Level.WARNING, "TEST 2 + " + Arrays.toString(lines));
+
+                                if(Main.util.isNumber(lines[0])) {
+                                    double signInput = Double.parseDouble(lines[0]);
+                                    double currentBankBalance = 0;
+
+                                    BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+                                    CompletableFuture<Double> currentBank =
+                                            bankTableAsync.playerBankBalance(target.getName());
+
+                                    try {
+                                        currentBankBalance = currentBank.get();
+                                    } catch (Exception ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+
+                                    if(signInput < 0) {
+                                        Main.util.sendMessage(target, MessagePath.OnlyPositivNumbers.getPath());
+                                        sounds.soundOnFailure(target);
+                                        return true;
+                                    }
+
+                                    if(signInput == 0) {
+                                        return true;
+                                    }
+
+                                    if(signInput > currentBankBalance) {
+                                        Main.util.sendMessage(target, MessagePath.BankWithdrawNotEnough.getPath());
+                                        sounds.soundOnFailure(target);
+                                        return true;
+                                    }
+
+                                    if(signInput <= currentBankBalance) {
+
+                                        try {
+
+                                            CompletableFuture<Boolean> completableFuture1 =
+                                                    bankTable.setBankMoney(target.getName(),
+                                                            currentBankBalance - signInput);
+
+                                            EconomyResponse economyResponse = Main.economyImplementer.
+                                                    depositPlayer(target, (currentBankBalance - signInput));
+
+                                            if(economyResponse.transactionSuccess() && completableFuture1.get()) {
+
+                                                Main.util.sendMessage(target, MessagePath.BankWithdrawSuccessfully.getPath()
+                                                        .replace("#amount#", String.valueOf(signInput))
+                                                        .replace("#currency#", Main.util.getCurrency(signInput)));
+                                                sounds.soundOnSuccess(target);
+                                                return true;
+
+
+                                            }
+
+                                        } catch (Exception ex) {
+                                            throw new RuntimeException("BankMainMenu", ex);
+                                        }
+                                    }
+                                }
+
+
+                                return true;
+                            });
+
+                            menu.open(player);
+
+
+
+                    /*
                     if(!Main.getInstance.bankWithdrawValue.contains(player)) {
 
                         Main.getInstance.bankWithdrawValue.add(player);
@@ -261,8 +364,16 @@ public class BankMainMenu implements InventoryProvider {
                         player.closeInventory();
                         sounds.soundOnSuccess(player);
                         return;
+
+
                     }
+                     */
                 }
+
+
+
+
+
                 if(input.equalsIgnoreCase("withdraw-all")) {
 
                     CompletableFuture<Boolean> completableFuture =

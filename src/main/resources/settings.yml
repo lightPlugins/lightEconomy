@@ -110,3 +110,13 @@ settings:
     player: 'player'
     target: 'target'
     amount: 'amount'
+  # Should players type his value to withdraw/deposit into a fake sign instead of the chat ?
+  # Only for the bank gui
+  # Requires the latest version of Protocolib
+  bankInputViaSign:
+    enable: false
+    # The first line of the sign is the value input to withdraw/deposit
+    # Here you can use all colors inlcuding hexcolor with #dc143d or &#dc143d
+    bankSignLine2: '^^^^^^^^^^'
+    bankSignLine3: 'Enter Amount'
+    bankSignLine4: '0 for cancel'

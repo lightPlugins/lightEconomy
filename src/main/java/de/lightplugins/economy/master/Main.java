@@ -8,13 +8,11 @@ import de.lightplugins.economy.commands.tabcompletion.MainTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.MoneyTabCompletion;
 import de.lightplugins.economy.database.DatabaseConnection;
 import de.lightplugins.economy.database.tables.CreateTable;
-import de.lightplugins.economy.bungeecord.BungeePluginMessageListener;
 import de.lightplugins.economy.events.ClaimVoucher;
 import de.lightplugins.economy.events.NewPlayer;
 import de.lightplugins.economy.files.FileManager;
 import de.lightplugins.economy.hooks.VaultHook;
 import de.lightplugins.economy.implementer.EconomyImplementer;
-import de.lightplugins.economy.inventories.BankMainMenu;
 import de.lightplugins.economy.listener.BankListener;
 import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.listener.TimeReward;
@@ -24,7 +22,6 @@ import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +30,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class Main extends JavaPlugin {
 
@@ -64,6 +60,7 @@ public class Main extends JavaPlugin {
     public static FileManager bankLevelMenu;
     public static FileManager lose;
     public static FileManager discord;
+    public SignPackets signGui;
 
 
     public static List<String> payToggle = new ArrayList<>();
@@ -127,6 +124,37 @@ public class Main extends JavaPlugin {
         enableBStats();
         debugPrinting.sendInfo("bStats successfully registered.");
 
+        /*  Check if PlaceholderAPI is installed  */
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            Bukkit.getConsoleSender().sendMessage("\n\n    §4ERROR\n\n" +
+                    "    §cCould not find §4PlaceholderAPI \n" +
+                    "    §rLighteconomy will §cnot run §rwithout PlaceholderAPI. Please download\n" +
+                    "    the latest version of PAPI \n" +
+                    "    §chttps://www.spigotmc.org/resources/placeholderapi.6245/ \n\n\n");
+            onDisable();
+            return;
+        } else {
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully hooked into §cPlaceholderAPI");
+            new PapiRegister().register(); // initial lightEconomy placeholder
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully registered lightEconomy placeholders");
+        }
+
+        /*  Check if ProtocoLib is installed  */
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
+            if(settings.getConfig().getBoolean("settings.bankInputViaSign.enable")) {
+                Bukkit.getConsoleSender().sendMessage("\n\n    §4ERROR\n\n" +
+                        "    §cCould not find §4ProtocolLib\n" +
+                        "    §rYou enabled bankInputViaSign while ProtocolLib is not installed on this Server.\n" +
+                        "    §rDownload the latest version or change §cbankInputViaSign §7to §cfalse!\n" +
+                        "    §chttps://ci.dmulloy2.net/job/ProtocolLib/\n\n\n");
+                onDisable();
+                return;
+            }
+        } else {
+            this.signGui = new SignPackets(this);
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully hooked into §cProtocolLib");
+        }
+
         /*  Initalize Database and connect driver  */
 
         this.hikari = new DatabaseConnection(this);
@@ -136,19 +164,6 @@ public class Main extends JavaPlugin {
         } else {
             hikari.connectToDatabaseViaSQLite();
         }
-
-        /*  Check if PlaceholderAPI installed  */
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            Bukkit.getConsoleSender().sendMessage("\n\n" +
-                    "    §cCould not find §4PlaceholderAPI \n" +
-                    "    §rLighteconomy will §cnot run §rwithout PlaceholderAPI. Please download\n" +
-                    "    the latest version of PAPI \n" +
-                    "    §chttps://www.spigotmc.org/resources/placeholderapi.6245/ \n");
-            onDisable();
-            return;
-        }
-        new PapiRegister().register(); // initial lightEconomy placeholder
-        Bukkit.getConsoleSender().sendMessage(consolePrefix + "Hooked into PlaceholderAPI");
 
         /*  Creating needed Database-Tables  */
 
