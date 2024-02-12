@@ -13,12 +13,28 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class BankTableAsync {
 
     public Main plugin;
     private final String tableName = "BankTable";
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
+     *  ReetrantLock is locking the current thread, befor a second call have access to this methodes
+     *  This function is preventing duplication glitches and database write failures.
+     */
+
+    private final Lock playerBalanceLock = new ReentrantLock();
+    private final Lock playerCurrentBankLevelLock = new ReentrantLock();
+    private final Lock createBankAccountLock = new ReentrantLock();
+    private final Lock updatePlayerNameLock = new ReentrantLock();
+    private final Lock setBankMoney = new ReentrantLock();
+    private final Lock getPlayersBalanceListLock = new ReentrantLock();
+    private final Lock setBankLevelLock = new ReentrantLock();
+
 
     public BankTableAsync(Main plugin) {
         this.plugin = plugin;
@@ -32,6 +48,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Double> playerBankBalance(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            playerBalanceLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareBankBalanceQuery(playerName, connection)) {
 
@@ -45,6 +62,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while retrieving player's bank balance for " + playerName, e);
                 return null;
+            } finally {
+                playerBalanceLock.unlock();
             }
         });
     }
@@ -57,6 +76,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Integer> playerCurrentBankLevel(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            playerCurrentBankLevelLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareBankLevelQuery(playerName, connection)) {
 
@@ -70,6 +90,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while retrieving the bank level for player: " + playerName, e);
                 return null;
+            } finally {
+                playerCurrentBankLevelLock.unlock();
             }
         });
     }
@@ -82,6 +104,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Boolean> createBankAccount(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            createBankAccountLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareNewBankAccountInsert(playerName, connection)) {
 
@@ -91,6 +114,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while creating a new bank account for " + playerName, e);
                 return null;
+            } finally {
+                createBankAccountLock.unlock();
             }
         });
     }
@@ -103,6 +128,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Boolean> updatePlayerBankName(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            updatePlayerNameLock.lock();
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
             if (offlinePlayer == null) {
                 return false;
@@ -117,6 +143,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while updating the name of the bank account holder: " + playerName, e);
                 return null;
+            } finally {
+                updatePlayerNameLock.unlock();
             }
         });
     }
@@ -130,6 +158,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Boolean> setBankLevel(String playerName, int level) {
         return CompletableFuture.supplyAsync(() -> {
+            setBankLevelLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareBankLevelUpdate(playerName, level, connection)) {
 
@@ -139,6 +168,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while setting the bank level of player: " + playerName, e);
                 return null;
+            } finally {
+                setBankLevelLock.unlock();
             }
         });
     }
@@ -152,6 +183,7 @@ public class BankTableAsync {
      */
     public CompletableFuture<Boolean> setBankMoney(String playerName, double amount) {
         return CompletableFuture.supplyAsync(() -> {
+            setBankMoney.lock();
             double fixedAmount = Main.util.fixDouble(amount);
 
             try (Connection connection = plugin.ds.getConnection();
@@ -163,12 +195,15 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while setting the bank balance of player: " + playerName, e);
                 return null;
+            } finally {
+                setBankMoney.lock();
             }
         });
     }
 
     public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
         return CompletableFuture.supplyAsync(() -> {
+            getPlayersBalanceListLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = preparePlayersBalanceListQuery(connection)) {
 
@@ -177,6 +212,8 @@ public class BankTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while retrieving player balances.", e);
                 return null;
+            } finally {
+                getPlayersBalanceListLock.unlock();
             }
         });
     }
