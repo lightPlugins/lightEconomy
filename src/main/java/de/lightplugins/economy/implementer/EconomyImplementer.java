@@ -331,9 +331,17 @@ public class EconomyImplementer implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
 
+        /**
+         *  TODO: not using of get() function due to freeze the main thread. Instead use .thenAccept()
+         */
+
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         FileConfiguration settings = Main.settings.getConfig();
         double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
+
+        moneyTableAsync.playerBalance("TEST").thenAccept(result -> {
+
+        });
 
         if(!hasAccount(s)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
