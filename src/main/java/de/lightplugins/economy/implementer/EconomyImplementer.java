@@ -339,10 +339,6 @@ public class EconomyImplementer implements Economy {
         FileConfiguration settings = Main.settings.getConfig();
         double maxPocketBalance = settings.getDouble("settings.max-pocket-balance");
 
-        moneyTableAsync.playerBalance("TEST").thenAccept(result -> {
-
-        });
-
         if(!hasAccount(s)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The Player does not have an account");
