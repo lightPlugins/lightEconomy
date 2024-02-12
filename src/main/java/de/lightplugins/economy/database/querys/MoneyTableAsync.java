@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*
  * ----------------------------------------------------------------------------
@@ -46,6 +48,19 @@ public class MoneyTableAsync {
     private final String tableName = "MoneyTable";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     *  ReetrantLock is locking the current thread, befor a second call have access to this methodes
+     *  This function is preventing duplication glitches and database write failures.
+     */
+
+    private final Lock playerBalanceLock = new ReentrantLock();
+    private final Lock getPlayersBalanceListLock = new ReentrantLock();
+    private final Lock createNewPlayerLock = new ReentrantLock();
+    private final Lock updatePlayerNameLock = new ReentrantLock();
+    private final Lock setMoneyLock = new ReentrantLock();
+    private final Lock deleteAccountLock = new ReentrantLock();
+    private final Lock isPlayerAccountLock = new ReentrantLock();
+
     public MoneyTableAsync(Main plugin) {
         this.plugin = plugin;
     }
@@ -58,6 +73,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<Double> playerBalance(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            playerBalanceLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = preparePlayerBalanceQuery(playerName, connection)) {
 
@@ -71,6 +87,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while retrieving player balance for " + playerName, e);
                 return null;
+            } finally {
+                playerBalanceLock.unlock();
             }
         });
     }
@@ -82,6 +100,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
         return CompletableFuture.supplyAsync(() -> {
+            getPlayersBalanceListLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = preparePlayersBalanceListQuery(connection)) {
 
@@ -90,6 +109,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while retrieving player balances.", e);
                 return null;
+            } finally {
+                getPlayersBalanceListLock.unlock();
             }
         });
     }
@@ -102,6 +123,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<Boolean> createNewPlayer(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            createNewPlayerLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareNewPlayerInsert(playerName, connection)) {
 
@@ -111,6 +133,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while creating a new player entry for " + playerName, e);
                 return null;
+            } finally {
+                createNewPlayerLock.unlock();
             }
         });
     }
@@ -123,6 +147,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<Boolean> updatePlayerName(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            updatePlayerNameLock.lock();
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
             if (offlinePlayer == null) {
                 return false;
@@ -137,6 +162,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while updating the name of player: " + playerName, e);
                 return null;
+            } finally {
+                updatePlayerNameLock.unlock();
             }
         });
     }
@@ -150,6 +177,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<Boolean> setMoney(String playerName, double amount) {
         return CompletableFuture.supplyAsync(() -> {
+            setMoneyLock.lock();
             double fixedAmount = Main.util.fixDouble(amount);
 
             try (Connection connection = plugin.ds.getConnection();
@@ -161,6 +189,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while setting the balance of player: " + playerName, e);
                 return null;
+            } finally {
+                setMoneyLock.unlock();
             }
         });
     }
@@ -173,6 +203,7 @@ public class MoneyTableAsync {
      */
     public CompletableFuture<Boolean> deleteAccount(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            deleteAccountLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareDeleteAccount(playerName, connection)) {
 
@@ -182,12 +213,15 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while deleting the account of player: " + playerName, e);
                 return false;
+            } finally {
+                deleteAccountLock.unlock();
             }
         });
     }
 
     public CompletableFuture<Boolean> isPlayerAccount(String playerName) {
         return CompletableFuture.supplyAsync(() -> {
+            isPlayerAccountLock.lock();
             try (Connection connection = plugin.ds.getConnection();
                  PreparedStatement ps = prepareIsPlayerAccount(playerName, connection)) {
 
@@ -196,6 +230,8 @@ public class MoneyTableAsync {
             } catch (SQLException e) {
                 logError("An error occurred while deleting the account of player: " + playerName, e);
                 return false;
+            } finally {
+                isPlayerAccountLock.unlock();
             }
         });
     }
