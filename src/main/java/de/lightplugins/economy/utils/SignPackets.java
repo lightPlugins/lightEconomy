@@ -83,30 +83,42 @@ public class SignPackets {
             return this;
         }
 
+        /**
+         * Open the sign GUI for the player
+         *
+         * @param player the player to open the sign GUI for
+         */
         public void open(Player player) {
+            // Ensure player is not null
             Objects.requireNonNull(player, "player");
+
+            // Return if the player is not online
             if (!player.isOnline()) {
                 return;
             }
-            location = player.getLocation();
-            location.setY(location.getBlockY() - 4);
 
+            // Set the location of the sign
+            location = player.getLocation();
+            location.setY(location.getBlockY() - 4);  //  -4 offset because the sign should under the player
+
+            // Create and send the sign block change
             player.sendBlockChange(location, Material.OAK_SIGN.createBlockData());
 
-            player.sendSignChange(
-                    // for testing harcoded sign line inputs
-                    location, new String[]{" ", "B", "C", "D"}
-                    //text.stream().map(this::color).toList().toArray(new String[3])
-            );
+            // Set the text for the sign
+            String[] signText = new String[4];  // maybe String[3] is working ?!
+            for (int i = 0; i < 3; i++) {
+                signText[i] = color(text.get(i)); // Assuming color method is defined elsewhere
+            }
+            player.sendSignChange(location, signText);
 
+            // Create and send the packet to open the sign editor
             PacketContainer openSign = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.OPEN_SIGN_EDITOR);
             BlockPosition position = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
             openSign.getBlockPositionModifier().write(0, position);
             ProtocolLibrary.getProtocolManager().sendServerPacket(player, openSign);
 
+            // Add the player and this sign to the inputs map
             inputs.put(player, this);
-
-
         }
 
         public void close(Player player, boolean force) {

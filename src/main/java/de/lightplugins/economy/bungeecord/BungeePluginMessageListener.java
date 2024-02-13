@@ -1,33 +1,27 @@
 package de.lightplugins.economy.bungeecord;
 
+
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 
 public class BungeePluginMessageListener implements PluginMessageListener {
 
 
     @Override
-    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (!channel.equals("BungeeCord")) {
-            return;
-        }
+    public void onPluginMessageReceived(String channel, @NotNull Player player, byte[] message) {
 
-        if (player == null) {
-            // Nachricht wurde von der Konsole gesendet
-            // Verarbeite die Nachricht entsprechend
-        } else {
-            // Nachricht wurde von einem Spieler gesendet
-            // Verarbeite die Nachricht entsprechend
-        }
+        ByteArrayDataInput input = ByteStreams.newDataInput(message);
+        String command = input.readUTF();
+        String args1 = input.readUTF();
 
-        ByteArrayDataInput in = ByteStreams.newDataInput(message);
-        String messageType = in.readUTF();
-        String data = in.readUTF();
+        player.sendMessage("SUCCESS: " + args1);
 
-        // Hier verarbeite die empfangene Nachricht
-        // Beispiel: System.out.println("Nachrichtentyp: " + messageType + ", Daten: " + data);
+        Bukkit.getConsoleSender().sendMessage("Pluginmessage empfangen: CMD:" + command + " Arg1:" + args1);
+
+
     }
-
 }

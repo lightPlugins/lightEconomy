@@ -1,6 +1,7 @@
 package de.lightplugins.economy.master;
 
 import com.zaxxer.hikari.HikariDataSource;
+import de.lightplugins.economy.bungeecord.BungeePluginMessageListener;
 import de.lightplugins.economy.commands.*;
 import de.lightplugins.economy.commands.tabcompletion.BalanceTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.BankTabCompletion;
@@ -42,6 +43,7 @@ public class Main extends JavaPlugin {
     private VaultHook vaultHook;
     public static boolean isCitizens = false;
     public Economy econ;    // current null!!!
+    public boolean isBungee = true; //  create config in settings.yml
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
@@ -205,6 +207,13 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new ClaimVoucher(), this);
         pluginManager.registerEvents(new BankListener(this), this);
         pluginManager.registerEvents(new LoseMoney(), this);
+
+        if(isBungee) {
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Enable Bungeecord Channel Messaging ...");
+            this.getServer().getMessenger().registerOutgoingPluginChannel(
+                    this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "lighteconomy:messages", new BungeePluginMessageListener());
+        }
 
         bankMenuInventoryManager = new InventoryManager(this);
         bankMenuInventoryManager.init();

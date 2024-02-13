@@ -68,7 +68,7 @@ public class PayCommandMaster implements CommandExecutor {
                     Main.util.sendMessage((Player) sender, MessagePath.PlayerNotExists.getPath());
                     return false;
                 }
-                if(target.equalsIgnoreCase(sender.getName())) {
+                if(!target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
                     return false;
                 }
@@ -92,18 +92,29 @@ public class PayCommandMaster implements CommandExecutor {
                 EconomyResponse depositTarget = Main.economyImplementer.depositPlayer(target, amount);
 
                 if(withdrawExecutor.transactionSuccess() && depositTarget.transactionSuccess()) {
-                    OfflinePlayer targetPlayer = Bukkit.getPlayer(target);
+
                     Main.util.sendMessage((Player) sender, MessagePath.PaySenderSuccess.getPath()
                             .replace("#amount#", Main.util.formatDouble(amount))
                             .replace("#currency#", Main.economyImplementer.currencyNameSingular())
                             .replace("#target#", target));
-                    if(targetPlayer != null && targetPlayer.isOnline()) {
-                        Main.util.sendMessage(Objects.requireNonNull(targetPlayer.getPlayer()),
-                                MessagePath.PayTargetSuccess.getPath()
-                                        .replace("#amount#", Main.util.formatDouble(amount))
-                                        .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                        .replace("#sender#", sender.getName()));
+
+                    if(Main.getInstance.isBungee) {
+                        Main.util.sendMessageThrowBungeeNetwork((Player) sender, target, MessagePath.PayTargetSuccess.getPath()
+                                .replace("#amount#", Main.util.formatDouble(amount))
+                                .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                                .replace("#sender#", sender.getName()));
+                    } else {
+                        OfflinePlayer targetPlayer = Bukkit.getPlayer(target);
+                        if(targetPlayer != null && targetPlayer.isOnline()) {
+                            Main.util.sendMessage(Objects.requireNonNull(targetPlayer.getPlayer()),
+                                    MessagePath.PayTargetSuccess.getPath()
+                                            .replace("#amount#", Main.util.formatDouble(amount))
+                                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                                            .replace("#sender#", sender.getName()));
+                        }
                     }
+
+
 
                     cooldown.add(sender.getName());
 

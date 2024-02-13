@@ -1,4 +1,6 @@
 package de.lightplugins.economy.utils;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import de.lightplugins.economy.enums.MessagePath;
 import de.lightplugins.economy.master.Main;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -182,5 +184,28 @@ public class Util {
         Random random = new Random();
         double randomPercent = random.nextDouble() * 100;
         return randomPercent <= percent;
+    }
+
+    /**
+     * Sends a message through the Bungee network.
+     *
+     * @param sender the player who is sending the message
+     * @param message the message to be sent
+     */
+    public void sendMessageThrowBungeeNetwork(Player sender, String targetName, String message) {
+
+        // Create a new data output stream
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        // Write the channel type, player name, and message to the data output stream
+        out.writeUTF("lighteconomy:message");
+        out.writeUTF(targetName);
+        out.writeUTF(Main.colorTranslation.hexTranslation(message));
+
+        // Send the plugin message through the BungeeCord channel
+        Bukkit.getLogger().log(Level.WARNING, "SENDING: " + targetName + " - " + message);
+        sender.sendPluginMessage(Main.getInstance,
+                "BungeeCord", out.toByteArray());
+
     }
 }
