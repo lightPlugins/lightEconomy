@@ -11,8 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 public class BankAddCommand extends SubCommand {
 
@@ -34,7 +36,6 @@ public class BankAddCommand extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) throws ExecutionException, InterruptedException {
-
 
         if(args.length == 3) {
 

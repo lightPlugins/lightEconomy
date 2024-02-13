@@ -1,7 +1,8 @@
 package de.lightplugins.economy.master;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.lightplugins.economy.bungeecord.BungeePluginMessageListener;
+import de.lightplugins.economy.enums.PluginMessagePath;
+import de.lightplugins.economy.utils.PluginMessageListener;
 import de.lightplugins.economy.commands.*;
 import de.lightplugins.economy.commands.tabcompletion.BalanceTabCompletion;
 import de.lightplugins.economy.commands.tabcompletion.BankTabCompletion;
@@ -43,7 +44,7 @@ public class Main extends JavaPlugin {
     private VaultHook vaultHook;
     public static boolean isCitizens = false;
     public Economy econ;    // current null!!!
-    public boolean isBungee = true; //  create config in settings.yml
+    public boolean isBungee; //  create config in settings.yml
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
@@ -102,7 +103,6 @@ public class Main extends JavaPlugin {
         currencyName = settings.getConfig().getString("settings.currency-name");
 
         sounds = new Sounds();
-
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully loaded " + this.getName());
 
     }
@@ -208,11 +208,13 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new BankListener(this), this);
         pluginManager.registerEvents(new LoseMoney(), this);
 
+        isBungee = settings.getConfig().getBoolean("settings.bungeecord");
+
         if(isBungee) {
-            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Enable Bungeecord Channel Messaging ...");
+            Bukkit.getConsoleSender().sendMessage(consolePrefix + "Enable Bungeecord features ...");
             this.getServer().getMessenger().registerOutgoingPluginChannel(
                     this, "BungeeCord");
-            this.getServer().getMessenger().registerIncomingPluginChannel(this, "lighteconomy:messages", new BungeePluginMessageListener());
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, PluginMessagePath.PAY.getType(), new PluginMessageListener());
         }
 
         bankMenuInventoryManager = new InventoryManager(this);

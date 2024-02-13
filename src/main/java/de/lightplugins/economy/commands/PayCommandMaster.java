@@ -68,7 +68,7 @@ public class PayCommandMaster implements CommandExecutor {
                     Main.util.sendMessage((Player) sender, MessagePath.PlayerNotExists.getPath());
                     return false;
                 }
-                if(!target.equalsIgnoreCase(sender.getName())) {
+                if(target.equalsIgnoreCase(sender.getName())) {
                     Main.util.sendMessage((Player) sender, MessagePath.NotYourself.getPath());
                     return false;
                 }
@@ -113,8 +113,6 @@ public class PayCommandMaster implements CommandExecutor {
                                             .replace("#sender#", sender.getName()));
                         }
                     }
-
-
 
                     cooldown.add(sender.getName());
 
