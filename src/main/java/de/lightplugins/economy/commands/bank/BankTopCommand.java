@@ -90,7 +90,7 @@ public class BankTopCommand extends SubCommand {
                     player.sendMessage(Main.colorTranslation.hexTranslation(finalMessage));
 
                 } catch (Exception e) {
-                   throw new RuntimeException("Something went wrong on bank top map", e);
+                   //throw new RuntimeException("Something went wrong on bank top map", e);
                 }
             }
 

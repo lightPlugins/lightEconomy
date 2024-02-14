@@ -14,8 +14,6 @@ public class ChannelListener implements Listener {
 
     @EventHandler
     public void receivePayMessageChannel(PluginMessageEvent e){
-
-        System.out.println(new String(e.getData()));
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(e.getData()));
 
         try {
