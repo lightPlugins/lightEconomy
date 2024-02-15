@@ -15,7 +15,7 @@
 #               Plugin version 5.0
 #               Developer: lightPlugins
 #
-version: 5.4
+version: 5.5
 mysql:
   # if disabled, the plugin will use automatically sqlite for single server setup
   enable: false

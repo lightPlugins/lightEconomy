@@ -246,7 +246,7 @@ public class BankMainMenu implements InventoryProvider {
                                         return true;
                                     }
 
-                                    if(currentBankBalance + signInput >= bankLevelSystem.getLimitByLevel(player.getUniqueId())) {
+                                    if(currentBankBalance + signInput > bankLevelSystem.getLimitByLevel(player.getUniqueId())) {
                                         Main.util.sendMessage(player, MessagePath.BankDepositOverLimit.getPath());
                                         sounds.soundOnFailure(player);
                                         Main.getInstance.bankDepositValue.remove(player);
