@@ -6,7 +6,7 @@
 
     <groupId>de.lightplugins.economy.master.Main</groupId>
     <artifactId>lightEconomyV5</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>5.5.1-SNAPSHOT</version>
 
     <repositories>
 

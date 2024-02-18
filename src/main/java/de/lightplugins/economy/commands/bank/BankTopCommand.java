@@ -52,6 +52,7 @@ public class BankTopCommand extends SubCommand {
 
             HashMap<String, Double> map = futureMap.get();
 
+
             for(String playername : exclude) {
                 map.remove(playername);
             }

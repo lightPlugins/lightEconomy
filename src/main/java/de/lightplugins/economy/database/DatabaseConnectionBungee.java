@@ -17,7 +17,7 @@ public class DatabaseConnectionBungee {
         Configuration config = Bungee.database.getConfig();
 
         String host = config.getString("mysql.host");
-        String port = config.getString("mysql.port");
+        int port = config.getInt("mysql.port");
         String database = config.getString("mysql.database");
         String user = config.getString("mysql.user");
         String password = config.getString("mysql.password");

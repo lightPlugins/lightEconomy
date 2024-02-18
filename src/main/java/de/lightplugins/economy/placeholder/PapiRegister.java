@@ -42,6 +42,14 @@ public class PapiRegister extends PlaceholderExpansion {
         return true; // This is required or else PlaceholderAPI will unregister the Expansion on reload
     }
 
+    /**
+     * A description of the entire Java function.
+     *
+     * @param  player   OfflinePlayer object representing the player
+     * @param  params   String containing parameters for the function
+     * @return          String containing the result of the function
+     *
+     */
     @Override
     public String onRequest(OfflinePlayer player, String params) {
 
@@ -92,6 +100,79 @@ public class PapiRegister extends PlaceholderExpansion {
                                 .replace("#name#", empty != null ? empty : "-")
                                 .replace("#amount#", "0.00")
                                 .replace("#currency#", Main.util.getCurrency(0.00));
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(params.contains("moneytopname_")) {
+
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = moneyTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
+                }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
+
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        String name = top.getKey();
+
+                        if(params.equalsIgnoreCase("moneytopname_" + (i + 1))) {
+
+                            return name;
+
+                        }
+                    } catch (Exception e) {
+                        String empty = Main.settings.getConfig().getString("settings.top-placeholder-not-set");
+                        return empty != null ? empty : "-";
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(params.contains("moneytopvalue_")) {
+
+            MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
+
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = moneyTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
+                }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
+
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        if(params.equalsIgnoreCase("moneytopvalue_" + (i + 1))) {
+
+                            return String.valueOf(Main.util.fixDouble(top.getValue()));
+
+                        }
+                    } catch (Exception e) {
+                        return "0";
                     }
                 }
 
@@ -153,7 +234,84 @@ public class PapiRegister extends PlaceholderExpansion {
             }
         }
 
+        if(params.contains("banktopname_")) {
 
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = bankTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
+                }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
+
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        String name = top.getKey();
+
+                        if(params.equalsIgnoreCase("banktopname_" + (i + 1))) {
+
+                            return name;
+
+                        }
+                    } catch (Exception e) {
+                        String empty = Main.settings.getConfig().getString("settings.top-placeholder-not-set");
+                        return empty != null ? empty : "-";
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(params.contains("banktopvalue_")) {
+
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
+            List<String> exclude = new ArrayList<>(Main.settings.getConfig().getStringList("settings.baltop-exclude"));
+            CompletableFuture<HashMap<String, Double>> futureMap = bankTableAsync.getPlayersBalanceList();
+            try {
+                HashMap<String, Double> map = futureMap.get();
+                for(String playername : exclude) {
+                    map.remove(playername);
+                }
+                TreeMap<String, Double> list = (new Sorter(map)).get();
+
+                int baltopAmount = Main.settings.getConfig().getInt("settings.baltop-amount-of-players");
+
+                for (int i = 0; i < baltopAmount; i++) {
+
+                    try {
+                        Map.Entry<String, Double> top = list.pollFirstEntry();
+
+                        if(params.equalsIgnoreCase("banktopvalue_" + (i + 1))) {
+
+                            return String.valueOf(Main.util.fixDouble(top.getValue()));
+
+                        }
+                    } catch (Exception e) {
+                        return "0";
+                    }
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        if(params.equalsIgnoreCase("money_raw")) {
+            double amount = Main.util.fixDouble(Main.economyImplementer.getBalance(player.getName()));
+            return String.valueOf(amount);
+        }
         if(params.equalsIgnoreCase("money")) {
             double amount = Main.util.fixDouble(Main.economyImplementer.getBalance(player.getName()));
             return Main.util.formatDouble(amount);
@@ -170,6 +328,16 @@ public class PapiRegister extends PlaceholderExpansion {
 
             try {
                 return Main.util.finalFormatDouble(completableFuture.get());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(params.equalsIgnoreCase("bank_balance_raw")) {
+            BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+            CompletableFuture<Double> completableFuture = bankTableAsync.playerBankBalance(player.getName());
+
+            try {
+                return String.valueOf(Main.util.fixDouble(completableFuture.get()));
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
@@ -303,11 +471,6 @@ public class PapiRegister extends PlaceholderExpansion {
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
-        }
-        if(params.equalsIgnoreCase("money_decimals")) {
-
-
-
         }
 
 

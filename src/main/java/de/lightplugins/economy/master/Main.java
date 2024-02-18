@@ -119,7 +119,7 @@ public class Main extends JavaPlugin {
                 " §r| |____ _| || |__| | |  | |  | |  §c| |___| |___| |__| | |\\  | |__| | |  | |  | |   \n" +
                 " §r|______|_____\\_____|_|  |_|  |_|  §c|______\\_____\\____/|_| \\_|\\____/|_|  |_|  |_|" +
                 "\n\n" + ChatColor.RESET +
-                "      Version: §c5.5.0   §rAuthor: §clightPlugins\n" +
+                "      Version: §c5.5.1   §rAuthor: §clightPlugins\n" +
                 "      §rThank you for using lightEconomy. If you came in trouble feel free to join\n" +
                 "      my §cDiscord §rserver: https://discord.gg/G2EuzmSW\n");
 
