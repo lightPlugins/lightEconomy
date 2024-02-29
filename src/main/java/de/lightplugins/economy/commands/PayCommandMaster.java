@@ -104,14 +104,12 @@ public class PayCommandMaster implements CommandExecutor {
                                 .replace("#currency#", Main.economyImplementer.currencyNameSingular())
                                 .replace("#sender#", sender.getName()));
                     } else {
-                        OfflinePlayer targetPlayer = Bukkit.getPlayer(target);
-                        if(targetPlayer != null && targetPlayer.isOnline()) {
-                            Main.util.sendMessage(Objects.requireNonNull(targetPlayer.getPlayer()),
-                                    MessagePath.PayTargetSuccess.getPath()
-                                            .replace("#amount#", Main.util.formatDouble(amount))
-                                            .replace("#currency#", Main.economyImplementer.currencyNameSingular())
-                                            .replace("#sender#", sender.getName()));
-                        }
+                        Player targetPlayer = Bukkit.getPlayer(target);
+                        Main.util.sendMessage(Objects.requireNonNull(targetPlayer),
+                                MessagePath.PayTargetSuccess.getPath()
+                                        .replace("#amount#", Main.util.formatDouble(amount))
+                                        .replace("#currency#", Main.economyImplementer.currencyNameSingular())
+                                        .replace("#sender#", sender.getName()));
                     }
 
                     cooldown.add(sender.getName());

@@ -16,7 +16,7 @@ public enum PermissionPath {
     BankAdd("lighteconomy.admin.command.bankadd"),
     BankOpenOther("lighteconomy.admin.command.bankopenother"),
     BankSet("lighteconomy.admin.command.bankset"),
-    BankRemove("lighteconomy.admin.comand.bankremove"),
+    BankRemove("lighteconomy.admin.command.bankremove"),
     BankSetLevel("lighteconomy.admin.command.banksetlevel"),
     BankShow("lighteconomy.admin.command.bankshow"),
     HelpCommandAdmin("lighteconomy.admin.command.helpadmin"),

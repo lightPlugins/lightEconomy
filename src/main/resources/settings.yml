@@ -122,4 +122,6 @@ settings:
     bankSignLine4: '0 for cancel'
   # Cross proxy messaging. Players on different Servers will now receive the messages
   # require to install lightEconomy.jar on your Bungeecord/Waterfall proxy
-  bungeecord: true
+  bungeecord: false
+
+

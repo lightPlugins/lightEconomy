@@ -1,5 +1,7 @@
 package de.lightplugins.economy.implementer;
 
+import de.lightplugins.economy.api.enums.TransactionStatus;
+import de.lightplugins.economy.api.events.EconomyWithdrawPocketEvent;
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.master.Main;
@@ -192,6 +194,16 @@ public class EconomyImplementer implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
 
+        EconomyWithdrawPocketEvent economyWithdrawPocketEvent = new EconomyWithdrawPocketEvent(s, v);
+        Bukkit.getServer().getPluginManager().callEvent(economyWithdrawPocketEvent);
+
+        v = economyWithdrawPocketEvent.getAmount();
+
+        if(economyWithdrawPocketEvent.isCancelled()) {
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
+                    "[lightEconomy] Event was cancelled by another plugin");
+        }
+
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
 
@@ -221,16 +233,19 @@ public class EconomyImplementer implements Economy {
                 titles.getString("titles.withdraw-wallet.final.lower-line"));
 
         if(!hasAccount(s)) {
+            economyWithdrawPocketEvent.setTransactionStatus(TransactionStatus.NO_ACCOUNT);
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The Player does not have an account");
         }
 
         if(!has(s, v)) {
+            economyWithdrawPocketEvent.setTransactionStatus(TransactionStatus.NOT_ENOUGH_MONEY);
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] The Player has not enough money");
         }
 
         if(v < 0.0) {
+            economyWithdrawPocketEvent.setTransactionStatus(TransactionStatus.NEGATIVE_VALUE);
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] Cant withdraw negative numbers");
         }
@@ -256,6 +271,8 @@ public class EconomyImplementer implements Economy {
 
                         if(withdrawFromBank.get() && withdrawFromPocket.get()) {
 
+
+
                             OfflinePlayer offlinePlayer = Bukkit.getPlayer(s);
 
                             if(offlinePlayer != null && offlinePlayer.isOnline()) {
@@ -269,12 +286,16 @@ public class EconomyImplementer implements Economy {
                                 }
                             }
 
+                            economyWithdrawPocketEvent.setTransactionStatus(TransactionStatus.SUCCESS);
+
                             return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.SUCCESS,
                                     "[lightEconomy] Successfully withdraw the missing money from lightEconomy bank");
 
 
                         }
                     }
+
+                economyWithdrawPocketEvent.setTransactionStatus(TransactionStatus.FAILED);
 
                 return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.FAILURE,
                         "[lightEconomy] Something went wrong on withdraw with option bankAsPocket");
@@ -307,7 +328,7 @@ public class EconomyImplementer implements Economy {
             return new EconomyResponse(v, currentBalance, EconomyResponse.ResponseType.FAILURE,
                     "[lightEconomy] Something went wrong on withdraw");
 
-        }catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException("Something went wrong due to bankAsPocket funtion", e);
         }
 

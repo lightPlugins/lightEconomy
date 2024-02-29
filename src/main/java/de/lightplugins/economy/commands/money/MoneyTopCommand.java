@@ -78,9 +78,6 @@ public class MoneyTopCommand extends SubCommand {
 
                 }
 
-
-
-
                 int baltopAmount = settings.getInt("settings.baltop-amount-of-players");
 
                 for (int i = 0; i < baltopAmount; i++) {
