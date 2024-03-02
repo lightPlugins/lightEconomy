@@ -1,3 +1,0 @@
-- added 1.20.1 support
-- added new message for a wrong usage of the /pay command
-- added new admin command to test the current database conenction
