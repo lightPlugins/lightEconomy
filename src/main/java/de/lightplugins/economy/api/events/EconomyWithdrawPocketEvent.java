@@ -49,8 +49,8 @@ public class EconomyWithdrawPocketEvent extends Event {
         return amount = newAmount;
     }
 
-    public TransactionStatus setTransactionStatus(TransactionStatus transactionStatus) {
-        return this.transactionStatus = transactionStatus;
+    public void setTransactionStatus(TransactionStatus transactionStatus) {
+        this.transactionStatus = transactionStatus;
     }
 
     /**

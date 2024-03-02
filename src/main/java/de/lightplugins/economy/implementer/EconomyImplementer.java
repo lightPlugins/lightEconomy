@@ -271,8 +271,6 @@ public class EconomyImplementer implements Economy {
 
                         if(withdrawFromBank.get() && withdrawFromPocket.get()) {
 
-
-
                             OfflinePlayer offlinePlayer = Bukkit.getPlayer(s);
 
                             if(offlinePlayer != null && offlinePlayer.isOnline()) {
