@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.lightplugins.economy.master.Main</groupId>
-    <artifactId>lightEconomyV5</artifactId>
-    <version>5.5.1-SNAPSHOT</version>
+    <artifactId>lightEconomy</artifactId>
+    <version>5.5.1</version>
 
     <repositories>
 
