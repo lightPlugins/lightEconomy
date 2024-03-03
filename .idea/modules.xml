@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lightEconomyV5.iml" filepath="$PROJECT_DIR$/lightEconomyV5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lightEconomy.iml" filepath="$PROJECT_DIR$/lightEconomy.iml" />
     </modules>
   </component>
 </project>

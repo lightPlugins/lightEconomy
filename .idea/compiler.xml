@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="lightEconomyV5" />
+        <module name="lightEconomy" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="lightEconomy" target="1.8" />
+      <module name="lightEconomyV5" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

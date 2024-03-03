@@ -1,6 +1,9 @@
 package de.lightplugins.economy.master;
 
 import com.zaxxer.hikari.HikariDataSource;
+import de.lightplugins.economy.api.LightEconomyAPI;
+import de.lightplugins.economy.database.querys.BankTableAsync;
+import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.enums.PluginMessagePath;
 import de.lightplugins.economy.utils.PluginMessageListener;
 import de.lightplugins.economy.commands.*;
@@ -48,12 +51,16 @@ public class Main extends JavaPlugin {
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
+    public MoneyTableAsync moneyTable;
+    public BankTableAsync bankTable;
 
     public static ColorTranslation colorTranslation;
     public static ProgressionBar progressionBar;
     public static Util util;
     public static Sounds sounds;
     public static DebugPrinting debugPrinting;
+
+    public static LightEconomyAPI lightEconomy;
 
     public static FileManager settings;
     public static FileManager messages;
@@ -81,6 +88,8 @@ public class Main extends JavaPlugin {
         /*  Setup Economy Implemention & hook Vault  */
 
         economyImplementer = new EconomyImplementer();
+        lightEconomy = new LightEconomyAPI();
+
         vaultHook = new VaultHook();
         vaultHook.hook();
 
@@ -167,6 +176,9 @@ public class Main extends JavaPlugin {
             hikari.connectToDatabaseViaSQLite();
         }
 
+        this.moneyTable = new MoneyTableAsync(this);
+        this.bankTable = new BankTableAsync(this);
+
         /*  Creating needed Database-Tables  */
 
         Bukkit.getConsoleSender().sendMessage(consolePrefix + "Creating Database ...");
@@ -207,6 +219,7 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new ClaimVoucher(), this);
         pluginManager.registerEvents(new BankListener(this), this);
         pluginManager.registerEvents(new LoseMoney(), this);
+        pluginManager.registerEvents(new TestEvent(), this);
 
         isBungee = settings.getConfig().getBoolean("settings.bungeecord");
 

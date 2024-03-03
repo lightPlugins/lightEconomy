@@ -68,6 +68,28 @@ public class BankTableAsync {
         });
     }
 
+    public CompletableFuture<Double> playerBankBalance(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            playerBalanceLock.lock();
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareBankBalanceQuery(uuid, connection)) {
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getDouble("money");
+                }
+
+                return null;
+            } catch (SQLException e) {
+                logError("An error occurred while retrieving player's bank balance for " + uuid, e);
+                return null;
+            } finally {
+                playerBalanceLock.unlock();
+            }
+        });
+    }
+
     /**
      * Retrieves the current bank level of a player by their name.
      *
@@ -113,6 +135,24 @@ public class BankTableAsync {
                 return true;
             } catch (SQLException e) {
                 logError("An error occurred while creating a new bank account for " + playerName, e);
+                return null;
+            } finally {
+                createBankAccountLock.unlock();
+            }
+        });
+    }
+
+    public CompletableFuture<Boolean> createBankAccount(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            createBankAccountLock.lock();
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareNewBankAccountInsert(uuid, connection)) {
+
+                ps.execute();
+                logInfo("Successfully created a new bank account for " + uuid);
+                return true;
+            } catch (SQLException e) {
+                logError("An error occurred while creating a new bank account for " + uuid, e);
                 return null;
             } finally {
                 createBankAccountLock.unlock();
@@ -201,6 +241,26 @@ public class BankTableAsync {
         });
     }
 
+    public CompletableFuture<Boolean> setBankMoney(UUID uuid, double amount) {
+        return CompletableFuture.supplyAsync(() -> {
+            setBankMoney.lock();
+            double fixedAmount = Main.util.fixDouble(amount);
+
+            try (Connection connection = plugin.ds.getConnection();
+                 PreparedStatement ps = prepareBankBalanceUpdate(uuid, fixedAmount, connection)) {
+
+                ps.execute();
+                logInfo("Successfully set the bank balance of player: " + uuid + " to " + fixedAmount);
+                return true;
+            } catch (SQLException e) {
+                logError("An error occurred while setting the bank balance of player: " + uuid, e);
+                return null;
+            } finally {
+                setBankMoney.lock();
+            }
+        });
+    }
+
     public CompletableFuture<HashMap<String, Double>> getPlayersBalanceList() {
         return CompletableFuture.supplyAsync(() -> {
             getPlayersBalanceListLock.lock();
@@ -231,6 +291,13 @@ public class BankTableAsync {
         return ps;
     }
 
+    private PreparedStatement prepareBankBalanceQuery(UUID uuid, Connection connection) throws SQLException {
+        PreparedStatement ps;
+        ps = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE uuid = ?");
+        ps.setString(1, uuid.toString());
+        return ps;
+    }
+
     private PreparedStatement prepareBankLevelQuery(String playerName, Connection connection) throws SQLException {
         OfflinePlayer offlinePlayer = Bukkit.getPlayer(playerName);
         PreparedStatement ps;
@@ -258,6 +325,24 @@ public class BankTableAsync {
             ps.setString(1, uuid.toString());
         }
         ps.setString(2, playerName);
+        ps.setDouble(3, 0.0);
+        ps.setInt(4, 1);
+        return ps;
+    }
+
+    private PreparedStatement prepareNewBankAccountInsert(
+            UUID uuid, Connection connection) throws SQLException {
+
+        OfflinePlayer offlinePlayer = Bukkit.getPlayer(uuid);
+
+        if(offlinePlayer == null) {
+            return null;
+        }
+
+        PreparedStatement ps = connection.prepareStatement(
+                "INSERT INTO " + tableName + " (uuid, name, money, level) VALUES (?, ?, ?, ?)");
+        ps.setString(1, uuid.toString());
+        ps.setString(2, offlinePlayer.getName());
         ps.setDouble(3, 0.0);
         ps.setInt(4, 1);
         return ps;
@@ -307,6 +392,15 @@ public class BankTableAsync {
         ps.setDouble(1, amount);
         return ps;
     }
+    private PreparedStatement prepareBankBalanceUpdate(
+            UUID uuid, double amount, Connection connection) throws SQLException {
+        PreparedStatement ps;
+        ps = connection.prepareStatement("UPDATE " + tableName + " SET money = ? WHERE uuid = ?");
+        ps.setString(2, uuid.toString());
+        ps.setDouble(1, amount);
+        return ps;
+    }
+
 
     private void logError(String message, Throwable e) {
         logger.error(message, e);
