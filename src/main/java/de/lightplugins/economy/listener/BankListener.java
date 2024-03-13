@@ -103,6 +103,7 @@ public class BankListener implements Listener {
         } catch (NumberFormatException ex) {
             Main.util.sendMessage(chatter, MessagePath.NotANumber.getPath());
             sounds.soundOnFailure(chatter);
+            throw new RuntimeException("Not a Number Exception: Please send this error to lightPlugins", ex);
         }
     }
 
@@ -217,7 +218,7 @@ public class BankListener implements Listener {
         } catch (NumberFormatException exception) {
             Main.util.sendMessage(chatter, MessagePath.NotANumber.getPath());
             //plugin.bankDepositValue.remove(chatter);
-
+            throw new RuntimeException("Not a Number Exception: Please send this error to lightPlugins", exception);
         }
     }
 }
