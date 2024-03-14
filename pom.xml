@@ -133,7 +133,7 @@
                                     <shadedPattern>de.lightplugins.economy.database</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>C:/Users/Philipp/Desktop/minecraft-server/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
+                            <outputFile>C:/Users/phili/Desktop/minecraft-server/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
