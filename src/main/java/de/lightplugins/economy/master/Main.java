@@ -23,11 +23,11 @@ import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.listener.TimeReward;
 import de.lightplugins.economy.placeholder.PapiRegister;
 import de.lightplugins.economy.utils.*;
-import de.lightplugins.light.Light;
-import de.lightplugins.light.api.LightAPI;
-import de.lightplugins.light.api.creators.FutureCreator;
-import de.lightplugins.light.api.creators.PreparedCreator;
-import de.lightplugins.light.api.creators.StatementCreator;
+//import de.lightplugins.light.Light;
+//import de.lightplugins.light.api.LightAPI;
+//import de.lightplugins.light.api.creators.FutureCreator;
+//import de.lightplugins.light.api.creators.PreparedCreator;
+//import de.lightplugins.light.api.creators.StatementCreator;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -56,7 +56,7 @@ public class Main extends JavaPlugin {
     public static boolean isCitizens = false;
     public Economy econ;    // current null!!!
     public boolean isBungee; //  create config in settings.yml
-    public static LightAPI lightAPI;
+//    public static LightAPI lightAPI;
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
@@ -94,7 +94,7 @@ public class Main extends JavaPlugin {
 
         getInstance = this;
 
-        lightAPI = new LightAPI(Light.getInstance);
+//        lightAPI = new LightAPI(Light.getInstance);
 
         //testDataBase();
 
@@ -105,7 +105,6 @@ public class Main extends JavaPlugin {
 
         vaultHook = new VaultHook();
         vaultHook.hook();
-
 
         /*  Utility setup like FileManager & Color Translation  */
 
@@ -282,27 +281,26 @@ public class Main extends JavaPlugin {
         Metrics metrics = new Metrics(this, pluginId);
     }
 
-    public void testDataBase() {
-        String query = lightAPI.getStatementCreator().createTableStatement(
-                "myTable", "id", "player TEXT", "balance REAL");
 
-
-        try (PreparedStatement ps = new PreparedCreator().preparedStatement(query)) {
-            // Führen Sie hier Ihre Operationen mit dem PreparedStatement aus
-            FutureCreator futureCreator = new FutureCreator();
-            CompletableFuture<Integer> test = futureCreator.executeUpdate(ps);
-
-            test.thenApplyAsync(result -> {
-                lightAPI.getDebugPrinting().print("database result: " + result);
-                return result;
-            }).thenAcceptAsync(result -> {
-                lightAPI.getDebugPrinting().print("Async processing completed with result: " + result);
-            }).join();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Something went wrong on creating table!", e);
-        }
-
-
-    }
+//    public void testDataBase() {
+//        String query = lightAPI.getStatementCreator().createTableStatement(
+//                "myTable", "id", "player TEXT", "balance REAL");
+//
+//
+//        try (PreparedStatement ps = new PreparedCreator().preparedStatement(query)) {
+//            // Führen Sie hier Ihre Operationen mit dem PreparedStatement aus
+//            FutureCreator futureCreator = new FutureCreator();
+//            CompletableFuture<Integer> test = futureCreator.executeUpdate(ps);
+//
+//            test.thenApplyAsync(result -> {
+//                lightAPI.getDebugPrinting().print("database result: " + result);
+//                return result;
+//            }).thenAcceptAsync(result -> {
+//                lightAPI.getDebugPrinting().print("Async processing completed with result: " + result);
+//            }).join();
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Something went wrong on creating table!", e);
+//        }
+//    }
 }
