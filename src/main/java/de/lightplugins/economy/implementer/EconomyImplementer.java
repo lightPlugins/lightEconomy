@@ -1,5 +1,6 @@
 package de.lightplugins.economy.implementer;
 
+import com.comphenix.protocol.PacketType;
 import de.lightplugins.economy.api.enums.TransactionStatus;
 import de.lightplugins.economy.api.events.EconomyDepositPocketEvent;
 import de.lightplugins.economy.api.events.EconomyWithdrawPocketEvent;
@@ -13,12 +14,12 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
-
 
     /*
 
@@ -74,17 +75,19 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean hasAccount(String s) {
-
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
-        CompletableFuture<Double> balanceFuture = moneyTableAsync.playerBalance(s);
 
-        try {
-            Double balance = balanceFuture.get();
-            return balance != null;
+        CompletableFuture<Boolean> result = moneyTableAsync.playerBalance(s).thenComposeAsync(currentBalance -> {
+            if (currentBalance == null) {
+                return moneyTableAsync.createNewPlayer(s)
+                        .thenComposeAsync(newBalance -> moneyTableAsync.playerBalance(s)
+                                .thenApply(Objects::nonNull));
+            } else {
+                return CompletableFuture.completedFuture(true);
+            }
+        });
 
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException("Something went wrong", e);
-        }
+        return result.join();
     }
 
     @Override
@@ -107,23 +110,22 @@ public class EconomyImplementer implements Economy {
 
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
+
         CompletableFuture<Double> balance = moneyTableAsync.playerBalance(s);
         CompletableFuture<Boolean> isPlayer = moneyTableAsync.isPlayerAccount(s);
 
         FileConfiguration settings = Main.settings.getConfig();
         boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
 
-        try {
+        double balanceValue = balance.join(); // Ergebnis von playerBalance abrufen
+        double bankBalanceValue = 0.0;
 
-            if(bankAsPocket && isPlayer.get()) {
-                CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
-                return balance.get() + bankBalance.get(); }
-
-            return balance.get();
-
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+        if (bankAsPocket && isPlayer.join()) {
+            CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
+            bankBalanceValue = bankBalance.join(); // Ergebnis von playerBankBalance abrufen
         }
+
+        return balanceValue + bankBalanceValue;
     }
 
     @Override
@@ -153,38 +155,31 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean has(String s, double v) {
-
         BankTableAsync bankTableAsync = new BankTableAsync(Main.getInstance);
         MoneyTableAsync moneyTableAsync = new MoneyTableAsync(Main.getInstance);
 
-        CompletableFuture<Double> bankBalance = bankTableAsync.playerBankBalance(s);
-        CompletableFuture<Boolean> isPlayer = moneyTableAsync.isPlayerAccount(s);
+        CompletableFuture<Double> bankBalanceFuture = bankTableAsync.playerBankBalance(s);
+        CompletableFuture<Boolean> isPlayerFuture = moneyTableAsync.isPlayerAccount(s);
 
         FileConfiguration settings = Main.settings.getConfig();
         boolean bankAsPocket = settings.getBoolean("settings.bankAsPocket");
 
-        if(!bankAsPocket && getBalance(s) >= v) {
+        double currentBalance = getBalance(s);
+
+        if(!bankAsPocket && currentBalance >= v) {
             return true;
         }
 
-        try {
-
-            double currentBankBalance = 0;
-
-            if(isPlayer.get()) {
-                currentBankBalance = bankBalance.get();
+        return isPlayerFuture.thenComposeAsync(isPlayer -> {
+            if (isPlayer) {
+                return bankBalanceFuture.thenApplyAsync(currentBankBalance -> {
+                    double missingAmount = v - currentBalance;
+                    return currentBankBalance >= missingAmount;
+                });
+            } else {
+                return CompletableFuture.completedFuture(false);
             }
-
-            double missingAmount = v - getBalance(s);
-
-            if(currentBankBalance >= missingAmount) { return true; }
-
-
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Something went wrong due to bankAsPocket funtion", e);
-        }
-
-        return false;
+        }).join();
     }
 
     @Override
@@ -362,7 +357,12 @@ public class EconomyImplementer implements Economy {
          */
 
         EconomyDepositPocketEvent economyDepositPocketEvent = new EconomyDepositPocketEvent(s, v);
-        Bukkit.getServer().getPluginManager().callEvent(economyDepositPocketEvent);
+
+        // this must be done on synchronized because of prisons and other plugins.
+
+        Bukkit.getScheduler().runTask(Main.getInstance, ()-> {
+            Bukkit.getServer().getPluginManager().callEvent(economyDepositPocketEvent);
+        });
 
         v = economyDepositPocketEvent.getAmount();
 
@@ -451,7 +451,9 @@ public class EconomyImplementer implements Economy {
                 }
 
                 economyDepositPocketEvent.setTransactionStatus(TransactionStatus.SUCCESS);
-                Bukkit.getServer().getPluginManager().callEvent(economyDepositPocketEvent);
+                Bukkit.getScheduler().runTask(Main.getInstance, ()-> {
+                    Bukkit.getServer().getPluginManager().callEvent(economyDepositPocketEvent);
+                });
                 return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.SUCCESS,
                         "[lightEconomy] Successfully deposit");
             }

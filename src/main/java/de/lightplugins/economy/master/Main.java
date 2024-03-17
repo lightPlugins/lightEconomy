@@ -23,6 +23,11 @@ import de.lightplugins.economy.listener.LoseMoney;
 import de.lightplugins.economy.listener.TimeReward;
 import de.lightplugins.economy.placeholder.PapiRegister;
 import de.lightplugins.economy.utils.*;
+import de.lightplugins.light.Light;
+import de.lightplugins.light.api.LightAPI;
+import de.lightplugins.light.api.creators.FutureCreator;
+import de.lightplugins.light.api.creators.PreparedCreator;
+import de.lightplugins.light.api.creators.StatementCreator;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -31,10 +36,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class Main extends JavaPlugin {
 
@@ -48,6 +56,7 @@ public class Main extends JavaPlugin {
     public static boolean isCitizens = false;
     public Economy econ;    // current null!!!
     public boolean isBungee; //  create config in settings.yml
+    public static LightAPI lightAPI;
 
     public HikariDataSource ds;
     public DatabaseConnection hikari;
@@ -84,6 +93,10 @@ public class Main extends JavaPlugin {
         /*  Initialize the Plugins instance  */
 
         getInstance = this;
+
+        lightAPI = new LightAPI(Light.getInstance);
+
+        //testDataBase();
 
         /*  Setup Economy Implemention & hook Vault  */
 
@@ -267,5 +280,29 @@ public class Main extends JavaPlugin {
     private void enableBStats() {
         int pluginId = 18401;
         Metrics metrics = new Metrics(this, pluginId);
+    }
+
+    public void testDataBase() {
+        String query = lightAPI.getStatementCreator().createTableStatement(
+                "myTable", "id", "player TEXT", "balance REAL");
+
+
+        try (PreparedStatement ps = new PreparedCreator().preparedStatement(query)) {
+            // Führen Sie hier Ihre Operationen mit dem PreparedStatement aus
+            FutureCreator futureCreator = new FutureCreator();
+            CompletableFuture<Integer> test = futureCreator.executeUpdate(ps);
+
+            test.thenApplyAsync(result -> {
+                lightAPI.getDebugPrinting().print("database result: " + result);
+                return result;
+            }).thenAcceptAsync(result -> {
+                lightAPI.getDebugPrinting().print("Async processing completed with result: " + result);
+            }).join();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Something went wrong on creating table!", e);
+        }
+
+
     }
 }

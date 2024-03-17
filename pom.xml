@@ -51,6 +51,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.github.lightPlugins</groupId>
+            <artifactId>light</artifactId>
+            <version>0.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>5.0.0-beta.13</version>
@@ -133,7 +139,7 @@
                                     <shadedPattern>de.lightplugins.economy.database</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>C:/Users/phili/Desktop/minecraft-server/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
+                            <outputFile>C:/Users/phili/Desktop/minecraft-server/old/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
