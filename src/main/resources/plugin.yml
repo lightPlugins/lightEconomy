@@ -3,7 +3,7 @@ author: lightPlugins
 version: 5.5.1
 main: de.lightplugins.economy.master.Main
 api-version: 1.17
-depend: [Vault, light]
+depend: [Vault]
 softdepend: [PlaceholderAPI, TheNewEconomy, ProtocolLib]
 loadbefore: [Essentials, Towny]
 libraries:
