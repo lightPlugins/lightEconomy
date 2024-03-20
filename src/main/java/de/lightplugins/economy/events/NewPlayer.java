@@ -1,18 +1,13 @@
 package de.lightplugins.economy.events;
 
-import de.lightplugins.economy.api.enums.TransactionStatus;
-import de.lightplugins.economy.api.events.EconomyWithdrawPocketEvent;
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
-import de.lightplugins.economy.database.querys.PlayerTable;
 import de.lightplugins.economy.master.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;

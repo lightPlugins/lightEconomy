@@ -1,7 +1,7 @@
 package de.lightplugins.economy.utils;
 
 import de.lightplugins.economy.api.enums.TransactionStatus;
-import de.lightplugins.economy.api.events.EconomyWithdrawPocketEvent;
+import de.lightplugins.economy.api.events.LightEcoWithdrawPocketEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ import java.util.logging.Level;
 public class TestEvent implements Listener {
 
     @EventHandler
-    public void onTest(EconomyWithdrawPocketEvent event) {
+    public void onTest(LightEcoWithdrawPocketEvent event) {
 
         Bukkit.getLogger().log(Level.INFO, "Accountname: " + event.getTargetAccountName());
         Bukkit.getLogger().log(Level.INFO, "Amount: " + event.getAmount());

@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class EconomyDepositPocketEvent extends Event implements Cancellable {
+public class LightEcoDepositPocketEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private final String target;
@@ -18,7 +18,7 @@ public class EconomyDepositPocketEvent extends Event implements Cancellable {
         return HANDLERS;
     }
 
-    public EconomyDepositPocketEvent(String target, double amount) {
+    public LightEcoDepositPocketEvent(String target, double amount) {
         this.target = target;
         this.amount = amount;
         this.transactionStatus = TransactionStatus.PENDING;

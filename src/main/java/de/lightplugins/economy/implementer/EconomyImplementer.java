@@ -1,9 +1,8 @@
 package de.lightplugins.economy.implementer;
 
-import com.comphenix.protocol.PacketType;
 import de.lightplugins.economy.api.enums.TransactionStatus;
-import de.lightplugins.economy.api.events.EconomyDepositPocketEvent;
-import de.lightplugins.economy.api.events.EconomyWithdrawPocketEvent;
+import de.lightplugins.economy.api.events.LightEcoDepositPocketEvent;
+import de.lightplugins.economy.api.events.LightEcoWithdrawPocketEvent;
 import de.lightplugins.economy.database.querys.BankTableAsync;
 import de.lightplugins.economy.database.querys.MoneyTableAsync;
 import de.lightplugins.economy.master.Main;
@@ -18,8 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Level;
 
     /*
 
@@ -190,7 +187,7 @@ public class EconomyImplementer implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
 
-        EconomyWithdrawPocketEvent economyWithdrawPocketEvent = new EconomyWithdrawPocketEvent(s, v);
+        LightEcoWithdrawPocketEvent economyWithdrawPocketEvent = new LightEcoWithdrawPocketEvent(s, v);
         Bukkit.getServer().getPluginManager().callEvent(economyWithdrawPocketEvent);
 
         v = economyWithdrawPocketEvent.getAmount();
@@ -356,7 +353,7 @@ public class EconomyImplementer implements Economy {
          *  TODO: not using of get() function due to freeze the main thread. Instead use .thenAccept()
          */
 
-        EconomyDepositPocketEvent economyDepositPocketEvent = new EconomyDepositPocketEvent(s, v);
+        LightEcoDepositPocketEvent economyDepositPocketEvent = new LightEcoDepositPocketEvent(s, v);
 
         // this must be done on synchronized because of prisons and other plugins.
 
