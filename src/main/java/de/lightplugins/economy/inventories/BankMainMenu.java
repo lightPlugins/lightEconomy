@@ -95,14 +95,26 @@ public class BankMainMenu implements InventoryProvider {
 
         if(state % 5 != 0) { return; }
 
-        //short durability = (short) random.nextInt(15);
-        ItemStack glass  = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
-        ItemMeta glassMeta = glass.getItemMeta();
-        assert glassMeta != null;
-        glassMeta.setDisplayName(" ");
-        glass.setItemMeta(glassMeta);
+        ItemStack fillItem = new ItemStack(Material.valueOf(
+                bankMenu.getString("bank.main.content.fillItem.material")), 1);
 
-        contents.fill(ClickableItem.empty(glass));
+        ItemMeta fillItemMeta = fillItem.getItemMeta();
+
+        if(fillItemMeta == null) {
+            fillItem.setType(Material.BLACK_STAINED_GLASS_PANE);
+            return;
+        }
+
+        fillItemMeta.setDisplayName(bankMenu.getString("bank.main.content.fillItem.displayname"));
+
+        if(fillItemMeta.getLore() != null) {
+            fillItemMeta.getLore().clear();
+
+        }
+
+        fillItem.setItemMeta(fillItemMeta);
+
+        contents.fill(ClickableItem.empty(fillItem));
 
         for(String input :
                 Objects.requireNonNull(bankMenu.getConfigurationSection("bank.main.content")).getKeys(false)) {
