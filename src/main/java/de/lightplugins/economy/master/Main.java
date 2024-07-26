@@ -265,7 +265,7 @@ public class Main extends JavaPlugin {
             if(ds != null && !ds.isClosed()) {
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Status of Database: " + ds.getConnection());
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Lets try to shutdown the database");
-                Bukkit.getConsoleSender().sendMessage( consolePrefix + "§cHint: §4Never 'relaod' the server!");
+                Bukkit.getConsoleSender().sendMessage( consolePrefix + "§cHint: §4Never 'reload' the server!");
                 ds.close();
                 Bukkit.getConsoleSender().sendMessage(consolePrefix + "Successfully disconnected Database!");
             }
