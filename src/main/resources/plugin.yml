@@ -8,7 +8,7 @@ softdepend: [PlaceholderAPI, TheNewEconomy, ProtocolLib]
 loadbefore: [Essentials, Towny]
 libraries:
   - org.mariadb.jdbc:mariadb-java-client:2.7.4
-#  - com.zaxxer:HikariCP:5.1.0
+##  - com.zaxxer:HikariCP:5.1.0
 commands:
   le:
     description: The root command for administrated things
