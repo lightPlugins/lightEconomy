@@ -70,4 +70,5 @@ bank:
       fillItem:
         material: GRAY_STAINED_GLASS_PANE
         displayname: ' '
+        customModelData: 1234
         lore: []

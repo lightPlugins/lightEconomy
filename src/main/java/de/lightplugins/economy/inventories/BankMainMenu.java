@@ -98,11 +98,17 @@ public class BankMainMenu implements InventoryProvider {
         ItemStack fillItem = new ItemStack(Material.valueOf(
                 bankMenu.getString("bank.main.content.fillItem.material")), 1);
 
+        int customModelData = bankMenu.getInt("bank.main.content.fillItem.customModelData");
+
         ItemMeta fillItemMeta = fillItem.getItemMeta();
 
         if(fillItemMeta == null) {
-            fillItem.setType(Material.BLACK_STAINED_GLASS_PANE);
+            fillItem.setType(Material.STONE);
             return;
+        }
+
+        if(customModelData != 0) {
+            fillItemMeta.setCustomModelData(customModelData);
         }
 
         fillItemMeta.setDisplayName(bankMenu.getString("bank.main.content.fillItem.displayname"));
@@ -190,7 +196,7 @@ public class BankMainMenu implements InventoryProvider {
                         settings.getString("settings.bankInputViaSign.bankSignLine4"));
 
 
-                if(input.equalsIgnoreCase("deposit-value")) {
+                if(input.contains("deposit-value")) {
 
                     if(!settings.getBoolean("settings.bankInputViaSign.enable")) {
                         if(!Main.getInstance.bankDepositValue.contains(player)) {
@@ -299,7 +305,7 @@ public class BankMainMenu implements InventoryProvider {
                     menu.open(player);
 
                 }
-                if(input.equalsIgnoreCase("deposit-all")) {
+                if(input.contains("deposit-all")) {
 
                     double currentPocketBalance;
 
@@ -383,7 +389,7 @@ public class BankMainMenu implements InventoryProvider {
 
 
 
-                if(input.equalsIgnoreCase("withdraw-value")) {
+                if(input.contains("withdraw-value")) {
 
                     //player.closeInventory();
 
@@ -476,7 +482,7 @@ public class BankMainMenu implements InventoryProvider {
                             menu.open(player);
                 }
 
-                if(input.equalsIgnoreCase("withdraw-all")) {
+                if(input.contains("withdraw-all")) {
 
                     CompletableFuture<Boolean> completableFuture =
                             moneyTable.setMoney(player.getName(), finalPocketBalance + finalBankBalance);
@@ -506,14 +512,14 @@ public class BankMainMenu implements InventoryProvider {
                     //BankManageMenu.INVENTORY.open(player);
 
                 }
-                if(input.equalsIgnoreCase("bank-informations")) {
+                if(input.contains("bank-informations")) {
                     BankLevelMenu.INVENTORY.open(player);
 
                 }
                 if(input.equalsIgnoreCase("friends")) {
 
                 }
-                if(input.equalsIgnoreCase("back-button")) {
+                if(input.contains("back-button")) {
                     player.closeInventory();
                 }
 
