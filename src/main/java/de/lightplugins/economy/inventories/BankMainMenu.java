@@ -164,7 +164,15 @@ public class BankMainMenu implements InventoryProvider {
             ItemStack itemStack = new ItemStack(material, 1);
             ItemMeta itemMeta = itemStack.getItemMeta();
 
-            assert itemMeta != null;
+            if(itemMeta == null) {
+                itemStack.setType(Material.STONE);
+                return;
+            }
+
+            if(bankMenu.getInt("bank.main.content." + input + ".customModelData") != 0) {
+                itemMeta.setCustomModelData(bankMenu.getInt("bank.main.content." + input + ".customModelData"));
+            }
+
             itemMeta.setDisplayName(Main.colorTranslation.hexTranslation(displayName));
 
             if(itemMeta.hasLore()) {
