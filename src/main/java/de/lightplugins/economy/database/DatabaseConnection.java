@@ -48,6 +48,7 @@ public class DatabaseConnection {
         hikariConfig.addDataSourceProperty("cachePrepStmts", cachePrepStmts);
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", prepStmtCacheSize);
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", prepStmtCacheSqlLimit);
+        hikariConfig.addDataSourceProperty("allowPublicKeyRetrieval", true);
 
         plugin.ds = new HikariDataSource(hikariConfig);
 

@@ -16,6 +16,11 @@
         </repository>
 
         <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -138,7 +143,7 @@
                                     <shadedPattern>de.lightplugins.economy.database</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>C:/Users/phili/Desktop/minecraft-server/old/plugins/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
+                            <outputFile>C:/Users/philipp/Desktop/mc/${project.artifactId}-${project.version}-SNAPSHOT.jar</outputFile>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
